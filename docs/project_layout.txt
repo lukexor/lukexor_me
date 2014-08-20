@@ -1,0 +1,43 @@
+.                                       # HOME PATH
+`-- lukexor_me							# SITE PATH
+    |-- README.md							- site readme
+ 	|-- apple-touch-icon-precomposed.png
+    |-- assets								- design files, psds, mockups
+    |-- bin									- 3rd party binaries/scripts
+ 	|-- crossdomain.xml
+    |-- docs								- markdown files, text, documentation
+    |-- etc									- config files: apache, etc
+    |-- fabfile.py							- fabric deployment
+ 	|-- favicon.ico
+  	|-- humans.txt
+ 	|-- lib									- custom libraries outside Django/Python
+ 	|-- media								- uploaded media - MEDIA_ROOT
+ 	|-- robots.txt
+ 	|-- static								- css/js/images - STATIC_ROOT - collectstatic
+    `-- src                             # PROJECT PATH (Django files)
+ 		|-- lib								- Custom django libraries/packages
+        |-- manage.py
+        |-- requirements.txt
+        |-- static							- static file home used by contrib.staticfiles for collection in STATIC_ROOT
+        |-- templates
+        |-- utils							- one-off functions that don't fit elsewhere
+        |-- appX 							- third-party django apps 
+        |   |-- __init__.py
+        |   |-- admin.py
+        |   |-- forms.py
+        |   |-- models.py
+        |   `-- urls.py
+        `-- lukexor_me						- the python package for the site
+            |-- __init__.py
+            |-- admin.py
+            |-- forms.py
+            |-- models.py
+            |-- urls.py
+            |-- wsgi.py
+            |-- settings
+            |   |-- __init__.py
+            |   |-- development.py			- imports production and modifies settings
+            |   `-- production.py			- main settings
+			|-- migrations					- South DB migration files
+				|-- __init__.py
+				`-- 0001_initial.py
