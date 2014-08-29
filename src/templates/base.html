@@ -1,17 +1,32 @@
+{% load static from staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 	<head>
-		<title>
-			Lucas Petherbridge
-		</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="./assets/styles/normalize.css" type="text/css">
-		<link rel="stylesheet" href="./assets/styles/bootstrap.min.css" type="text/css">
-		<link rel="stylesheet" href="./assets/styles/main.css" type="text/css">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<title>
+			Lucas Petherbridge :: Things of my 4 Dimensions
+		</title>
+		<meta name="description" content="Personal blog and portfolio of Lucas Petherbridge. Developer, Blogger, Philosophy & Technology Enthusiast.">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="{% static 'styles/normalize.css' %}">
+		<link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
+		<link rel="stylesheet" href="{% static 'styles/main.css' %}">
+
+		<script src="{% static 'scripts/vendor/modernizr-2.6.2.min.js' %}"></script>
+		<script src="{% static 'scripts/vendor/bootstrap.min.js' %}"></script>
 	</head>
 	<body>
 		<main>
+			<!--[if lt IE 7]>
+				<p class="browsehappy">This website was designed with a modern browser in mind. You are currently using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">use a modern browser</a> to experience this website in its intended form.</p>
+			<![endif]-->
+
 			<nav>
 				<div class="container">
 					<ul class="pull-left nav nav-tabs">
@@ -21,7 +36,10 @@
 					</ul>
 					<ul class="pull-right nav nav-tabs">
 						<li class="active">
-							<a href="#">Blog</a>
+							<a href="#">Articles</a>
+						</li>
+						<li>
+							<a href="#">Portfolio</a>
 						</li>
 						<li>
 							<a href="#">About</a>
@@ -32,13 +50,48 @@
 					</ul>
 				</div>
 			</nav>
-			<div class="header">
-				<div id="container">
-					<p>
-						Some text
-					</p>
+
+			<section>
+				<div class="header">
+					<div class="container">
+						<p>
+							Some text
+						</p>
+					</div>
 				</div>
-			</div>
+			</section>
+
+			<nav>
+				<div class="container">
+					<ul class="pull-left">
+						Copyright (c) 2014 - Lucas Petherbridge
+					</ul>
+					<ul class="pull-right nav nav-pills">
+						<li>
+							<a href="#">Contact</a>
+						</li>
+						<li>
+							<a href="#">Subscribe</a>
+						</li>
+					</ul>
+				</div>
+
+			</nav>
 		</main>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="{% static "scripts/vendor/jquery-1.10.2.min.js" %}"><\/script>')</script>
+		<script src="{% static 'scripts/vendor/plugins.js' %}"></script>
+		<script src="{% static 'scripts/main.js' %}"></script>
+
+		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+		<script>
+			(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+			function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+			e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+			e.src='//www.google-analytics.com/analytics.js';
+			r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+			ga('create','UA-XXXXX-X');ga('send','pageview');
+		</script>
 	</body>
 </html>

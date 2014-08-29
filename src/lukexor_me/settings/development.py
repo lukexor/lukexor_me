@@ -17,9 +17,16 @@ from lukexor_me.settings.production import *
 DEBUG = True
 TEMPLATE_DEBUG = True
 
+ALLOWED_HOSTS = [
+	'localhost'
+]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'tmp/db.sqlite3'),
     }
 }
+
+STATIC_ROOT = '../static/' # Static files will be collected to here
+MEDIA_ROOT = '../media/' # Uploaded media files will end up here

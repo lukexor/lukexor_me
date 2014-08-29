@@ -1,0 +1,42 @@
+Pages:
+	- Home
+	- Articles
+	- Portfolio
+	- About
+	- Contact
+Links:
+	- Subscribe (RSS, Atom, etc)
+	- Facebook
+	- LinkedIn
+	- Twitter
+
+Features:
+	- Home
+		- Name with professional sub-headline
+		- Large professional photo on left
+		- Brief bio
+		- Latest articles
+	- Articles:
+		- Screen-width image spanning top of page
+		- Read time in minutes
+		- Publish date
+		- Author
+	- Portfolio:
+		- Github project links
+		- Links to other projects (e.g. mindtask.me)
+	- About:
+		- Large professional photo on left
+		- Interests, hobbies, awards, photo
+		- Resume links
+	- Contact:
+		- Web email form
+		- Social network links
+
+
+Plans:
+- Start with one blog entry a month and increase more frequently over time
+
+Todo:
+- Modify resume to not contain personal contact info
+- Define full requirements for each page
+- Draw mockups for each page
