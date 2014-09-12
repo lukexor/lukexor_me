@@ -97,6 +97,21 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+/* Site-wide styles */
+.site-title,
+.site-subtitle,
+a {
+	font-family: "Courier New", Courier, monospace;
+}
+
+.site-subtitle,
+#main-nav a,
+#main-nav a:visited,
+footer {
+	color: #9E792F;
+}
+
+
 /* Site Format/Layout */
 
 body {
@@ -111,18 +126,15 @@ body {
 }
 
 .site-title {
-	margin-top: 15px;
 	margin-bottom: 0px;
 	font-size: 2.5em;
 }
 
 .site-subtitle {
-	font-family: "Courier New", Courier, monospace;
 	font-size: 1.1em;
-	color: #9E792F;
 }
 
-.site-nav {
+.site-title, .site-nav {
 	margin-top: 15px;
 }
 
@@ -139,7 +151,6 @@ section p {
 }
 
 footer {
-	color: #9E792F;
 	font-size: .9em;
 }
 
@@ -147,36 +158,24 @@ footer {
 
 a {
 	color: #9EC3C2;
-	font-family: "Courier New", Courier, monospace;
 }
 
 a:visited {
 	color: #1D605E;
 }
 
-a:hover {
+a:hover,
+#main-nav a:hover {
 	color: #F7D9A0;
 }
 
-.site-title a {
+.site-title a,
+.site-title a:hover {
 	color: #CAA65F;
 }
 
 .site-title a:hover {
-	color: #CAA65F;
 	text-decoration: none;
-}
-
-#main-nav a {
-	color: #9E792F;
-}
-
-#main-nav a:visited {
-	color: #9E792F;
-}
-
-#main-nav a:hover {
-	color: #F7D9A0;
 }
 
 .nav-inline li {
