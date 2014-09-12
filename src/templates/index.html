@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section id="main-section">
+	<div class="container">
+		<div id="index-background" onmousedown="return false">
+			<p class="greeting">
+				Hello. I'm Luke.
+			</p>
+		</div>
+		<p>
+			I love code. This site is a tribute to code and a portfolio of my projects. It's where I write
+			about things that intrigue and inspire me. Excellence in everything is rare and it is my
+			hope that this site might inspire others to excellence.
+		</p>
+		<p>
+			I'm still working on site functionality, but feel free to reach out using the
+			social media links at the top-right of the page.
+		</p>
+	</div>
+	<script type="text/javascript" charset="utf-8">
+		$("#index-background").backstretch("/static/images/header-bg/code-bg.png");
+	</script>
+</section>
+{% endblock %}

@@ -97,21 +97,169 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+/* Site Format/Layout */
 
+body {
+	font-family: Verdana, Helvetica, sans-serif;
+	background-color: #222222;
+	color: #FFEECE;
+}
 
+.site-header {
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
 
+.site-title {
+	margin-top: 15px;
+	margin-bottom: 0px;
+	font-size: 2.5em;
+}
 
+.site-subtitle {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 1.1em;
+	color: #9E792F;
+}
 
+.site-nav {
+	margin-top: 15px;
+}
 
+.copyright {
+	list-style: none;
+}
 
+section p {
+	font-size: 1.2em;
+}
 
+.site-footer {
+	margin-top: 30px;
+}
 
+footer {
+	color: #9E792F;
+	font-size: .9em;
+}
 
+/* Links/Nav */
 
+a {
+	color: #9EC3C2;
+	font-family: "Courier New", Courier, monospace;
+}
 
+a:visited {
+	color: #1D605E;
+}
 
+a:hover {
+	color: #F7D9A0;
+}
 
+.site-title a {
+	color: #CAA65F;
+}
 
+.site-title a:hover {
+	color: #CAA65F;
+	text-decoration: none;
+}
+
+#main-nav a {
+	color: #9E792F;
+}
+
+#main-nav a:visited {
+	color: #9E792F;
+}
+
+#main-nav a:hover {
+	color: #F7D9A0;
+}
+
+.nav-inline li {
+	list-style: none;
+	display: inline;
+	padding: 0px 10px;
+}
+
+.nav-tabs {
+	border-bottom: 1px solid #F7D9A0;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  background-color: #333;
+}
+
+.nav-tabs > li > a:hover,
+.nav-pills > li > a:hover {
+	border-color: #F7D9A0 #F7D9A0 #F7D9A0;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus,
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+	color: #FFE4CE !important;
+	background-color: #6C4B0B;
+	border: 1px solid #F7D9A0;
+}
+
+.social-icons {
+	margin-top: 10px;
+}
+
+.social-icons a {
+	display: block;
+	width: 32px;
+	height: 32px;
+}
+
+.social-icons a.facebook {
+	background: url("/static/images/social_icons/facebook.png");
+}
+
+.social-icons a.twitter {
+	background: url("/static/images/social_icons/twitter.png");
+}
+
+.social-icons a.linkedin {
+	background: url("/static/images/social_icons/linkedin.png");
+}
+
+.social-icons a.subscribe {
+	background: url("/static/images/social_icons/rss.png");
+}
+
+.social-icons a span {
+	display: none;
+}
+
+/* Content */
+
+#index-background {
+	height: 300px;
+	margin-bottom: 30px;
+	pointer-events: none;
+}
+
+.greeting {
+	font-size: 3.0em;
+	padding-top: 80px;
+	text-align: center;
+}
+
+/* Utilities */
+
+.clear {
+	clear: both;
+}
 
 /* ==========================================================================
    Helper classes

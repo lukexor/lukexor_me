@@ -1,0 +1,8 @@
+- Take picture programming on mac
+- Take a variety of head shots
+- Update social icons to be more code-like and have transparent letters (to be able to customize text-color with CSS)
+- Research how to set up RSS feed
+- Define models for blog
+- Define models for projects
+- Define about me content
+- Set up Contact form
