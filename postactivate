@@ -1,0 +1,4 @@
+#!/bin/bash
+export DJANGO_SETTINGS_MODULE="lukexor_me.settings"
+
+screen -s lukexor_me -DR
