@@ -3,11 +3,18 @@
 {% block content %}
 <section id="main-section">
 	<div class="container">
-		<div id="index-background" onmousedown="return false">
-			<p class="greeting">
-				Hello. I'm Luke.
-			</p>
-		</div>
+		<style type="text/css">
+			.site-header-background {
+				background-image: url("/static/images/header-bg/code-bg.png");
+			}
+		</style>
+		<header class="site-header-outer">
+			<div class="site-header-background">
+				<p class="greeting">
+					Hello. I'm Luke.
+				</p>
+			</div>
+		</header>
 		<p>
 			I love code. This site is a tribute to code and a portfolio of my projects. It's where I write
 			about things that intrigue and inspire me. Excellence in everything is rare and it is my
@@ -18,8 +25,5 @@
 			social media links at the top-right of the page.
 		</p>
 	</div>
-	<script type="text/javascript" charset="utf-8">
-		$("#index-background").backstretch("/static/images/header-bg/code-bg.png");
-	</script>
 </section>
 {% endblock %}

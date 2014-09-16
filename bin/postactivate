@@ -1,4 +1,4 @@
 #!/bin/bash
-export DJANGO_SETTINGS_MODULE="lukexor_me.settings"
+export DJANGO_SETTINGS_MODULE="lukexor_me.settings_dev"
 cdproject
 screen -s lukexor_me -d -R

@@ -138,6 +138,25 @@ body {
 	margin-top: 15px;
 }
 
+.site-header-outer {
+	height: 250px;
+	margin-bottom: 15px;
+	border: 2px solid #333333;
+}
+
+.site-header-background {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	z-index: 2;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	-webkit-background-size: cover;
+	background-size: cover;
+}
+
 .copyright {
 	list-style: none;
 }
@@ -210,8 +229,14 @@ a:hover,
 	border: 1px solid #F7D9A0;
 }
 
-.social-icons {
+div.social-icons {
 	margin-top: 10px;
+}
+
+ul.social-icons {
+	background-color: #333;
+	border: 2px solid #333;
+	border-radius: 5px;
 }
 
 .social-icons a {
