@@ -272,11 +272,12 @@ ul.social-icons {
 	pointer-events: none;
 }
 
-#index-header-background {
+.index-header-background {
 	background-image: url("/static/images/header-bg/code-bg.jpg");
 }
 
 .greeting {
+	margin-top: 0px;
 	font-size: 3.0em;
 	padding-top: 80px;
 	text-align: center;
