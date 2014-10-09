@@ -6,3 +6,5 @@
 - Define models for projects
 - Define about me content
 - Set up Contact form
+- Put icons into CSS sprite
+- Research fluid vs resolution based layouts

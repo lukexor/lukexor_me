@@ -146,8 +146,7 @@ body {
 
 .site-header-background {
 	position: relative;
-	width: 100%;
-	height: 100%;
+	height: 250px;
 	background-repeat: no-repeat;
 	background-position: center;
 	z-index: 2;
@@ -271,6 +270,10 @@ ul.social-icons {
 	height: 300px;
 	margin-bottom: 30px;
 	pointer-events: none;
+}
+
+#index-header-background {
+	background-image: url("/static/images/header-bg/code-bg.jpg");
 }
 
 .greeting {
