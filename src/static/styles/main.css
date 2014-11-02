@@ -1,11 +1,9 @@
 /*! HTML5 Boilerplate v4.3.0 | MIT License | http://h5bp.com/ */
-
 /*
  * What follows is the result of much research on cross-browser styling.
  * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
  * Kroc Camen, and the H5BP dev community and team.
  */
-
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
@@ -15,14 +13,12 @@ button,
 input,
 select,
 textarea {
-	color: #222;
+    color: #222;
 }
-
 html {
-	font-size: 1em;
-	line-height: 1.4;
+    font-size: 1em;
+    line-height: 1.4;
 }
-
 /*
  * Remove text-shadow in selection highlight: h5bp.com/i
  * These selection rule sets have to be separate.
@@ -30,28 +26,25 @@ html {
  */
 
 ::-moz-selection {
-	background: #b3d4fc;
-	text-shadow: none;
+    background: #b3d4fc;
+    text-shadow: none;
 }
-
 ::selection {
-	background: #b3d4fc;
-	text-shadow: none;
+    background: #b3d4fc;
+    text-shadow: none;
 }
-
 /*
  * A better looking default horizontal rule
  */
 
 hr {
-	display: block;
-	height: 1px;
-	border: 0;
-	border-top: 1px solid #ccc;
-	margin: 1em 0;
-	padding: 0;
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
 }
-
 /*
  * Remove the gap between images, videos, audio and canvas and the bottom of
  * their containers: h5bp.com/i/440
@@ -61,282 +54,239 @@ audio,
 canvas,
 img,
 video {
-	vertical-align: middle;
+    vertical-align: middle;
 }
-
 /*
  * Remove default fieldset styles.
  */
 
 fieldset {
-	border: 0;
-	margin: 0;
-	padding: 0;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
-
 /*
  * Allow only vertical resizing of textareas.
  */
 
 textarea {
-	resize: vertical;
+    resize: vertical;
 }
-
 /* ==========================================================================
    Browse Happy prompt
    ========================================================================== */
 
 .browsehappy {
-	margin: 0.2em 0;
-	background: #ccc;
-	color: #000;
-	padding: 0.2em 0;
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
 }
-
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
-
 /* Site-wide styles */
+
 .site-title,
 .site-subtitle,
 a {
-	font-family: "Courier New", Courier, monospace;
+    font-family: "Courier New", Courier, monospace;
 }
-
 .site-subtitle,
 #main-nav a,
 #main-nav a:visited,
 footer {
-	color: #9E792F;
+    color: #9E792F;
 }
-
-
 /* Site Format/Layout */
 
 body {
-	font-family: Verdana, Helvetica, sans-serif;
-	background-color: #222222;
-	color: #FFEECE;
+    font-family: Verdana, Helvetica, sans-serif;
+    background-color: #222222;
+    color: #FFEECE;
 }
-
 .site-header {
-	margin-top: 10px;
-	margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
-
 .site-title {
-	margin-bottom: 0px;
-	font-size: 2.5em;
+    margin-bottom: 0px;
+    font-size: 2.5em;
 }
-
 .site-subtitle {
-	font-size: 1.1em;
+    font-size: 1.1em;
 }
-
-.site-title, .site-nav {
-	margin-top: 15px;
+.site-title,
+.site-nav {
+    margin-top: 15px;
 }
-
 .site-header-outer {
-	height: 250px;
-	margin-bottom: 15px;
-	border: 2px solid #333333;
+    height: 250px;
+    margin-bottom: 15px;
+    border: 2px solid #333333;
 }
-
 .site-header-background {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	background-repeat: no-repeat;
-	background-position: center;
-	z-index: 2;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	-webkit-background-size: cover;
-	background-size: cover;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 2;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
 }
-
 .copyright {
-	list-style: none;
+    list-style: none;
 }
-
 section p {
-	font-size: 1.2em;
+    font-size: 1.2em;
 }
-
 .site-footer {
-	margin-top: 30px;
+    margin-top: 30px;
 }
-
 footer {
-	font-size: .9em;
+    font-size: .9em;
 }
-
 /* Links/Nav */
 
 a {
-	color: #9EC3C2;
+    color: #9EC3C2;
 }
-
 a:visited {
-	color: #1D605E;
+    color: #1D605E;
 }
-
 a:hover,
 #main-nav a:hover {
-	color: #F7D9A0;
+    color: #F7D9A0;
 }
-
 .site-title a,
 .site-title a:hover {
-	color: #CAA65F;
+    color: #CAA65F;
 }
-
 .site-title a:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
-
 .nav-inline li {
-	list-style: none;
-	display: inline;
-	padding: 0px 10px;
+    list-style: none;
+    display: inline;
+    padding: 0px 10px;
 }
-
 .nav-tabs {
-	border-bottom: 1px solid #F7D9A0;
+    border-bottom: 1px solid #F7D9A0;
 }
-
 .nav > li > a:hover,
 .nav > li > a:focus {
-  text-decoration: none;
-  background-color: #333;
+    text-decoration: none;
+    background-color: #333;
 }
-
 .nav-tabs > li > a:hover,
 .nav-pills > li > a:hover {
-	border-color: #F7D9A0 #F7D9A0 #F7D9A0;
+    border-color: #F7D9A0 #F7D9A0 #F7D9A0;
 }
-
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus,
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-	color: #FFE4CE !important;
-	background-color: #6C4B0B;
-	border: 1px solid #F7D9A0;
+    color: #FFE4CE !important;
+    background-color: #6C4B0B;
+    border: 1px solid #F7D9A0;
 }
-
 div.social-icons {
-	margin-top: 10px;
+    margin-top: 10px;
 }
-
 ul.social-icons {
-	background-color: #333;
-	border: 2px solid #333;
-	border-radius: 5px;
+    background-color: #333;
+    border: 2px solid #333;
+    border-radius: 5px;
 }
-
 .social-icons a {
-	display: block;
-	width: 32px;
-	height: 32px;
+    display: block;
+    width: 32px;
+    height: 32px;
 }
-
 .social-icons a.facebook {
-	background: url("/static/images/social_icons/facebook.png");
+    background: url("/static/images/social_icons/facebook.png");
 }
-
 .social-icons a.twitter {
-	background: url("/static/images/social_icons/twitter.png");
+    background: url("/static/images/social_icons/twitter.png");
 }
-
 .social-icons a.linkedin {
-	background: url("/static/images/social_icons/linkedin.png");
+    background: url("/static/images/social_icons/linkedin.png");
 }
-
 .social-icons a.subscribe {
-	background: url("/static/images/social_icons/rss.png");
+    background: url("/static/images/social_icons/rss.png");
 }
-
 .social-icons a span {
-	display: none;
+    display: none;
 }
-
 /* Content */
 
 #index-background {
-	height: 300px;
-	margin-bottom: 30px;
-	pointer-events: none;
+    height: 300px;
+    margin-bottom: 30px;
+    pointer-events: none;
 }
-
 .index-header-background {
-	background-image: url("/static/images/header-bg/code-bg.jpg");
+    background-image: url("/static/images/header-bg/code-bg.jpg");
 }
-
 .greeting {
-	margin-top: 0px;
-	font-size: 3.0em;
-	padding-top: 80px;
-	text-align: center;
+    margin-top: 0px;
+    font-size: 3.0em;
+    padding-top: 80px;
+    text-align: center;
 }
-
 /* Utilities */
 
 .clear {
-	clear: both;
+    clear: both;
 }
-
 /* ==========================================================================
    Helper classes
    ========================================================================== */
-
 /*
  * Image replacement
  */
 
 .ir {
-	background-color: transparent;
-	border: 0;
-	overflow: hidden;
-	/* IE 6/7 fallback */
-	*text-indent: -9999px;
-}
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    /* IE 6/7 fallback */
 
+    *text-indent: -9999px;
+}
 .ir:before {
-	content: "";
-	display: block;
-	width: 0;
-	height: 150%;
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
 }
-
 /*
  * Hide from both screenreaders and browsers: h5bp.com/u
  */
 
 .hidden {
-	display: none !important;
-	visibility: hidden;
+    display: none !important;
+    visibility: hidden;
 }
-
 /*
  * Hide only visually, but have it available for screenreaders: h5bp.com/v
  */
 
 .visuallyhidden {
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
 }
-
 /*
  * Extends the .visuallyhidden class to allow the element to be focusable
  * when navigated to via the keyboard: h5bp.com/p
@@ -344,22 +294,20 @@ ul.social-icons {
 
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
-	clip: auto;
-	height: auto;
-	margin: 0;
-	overflow: visible;
-	position: static;
-	width: auto;
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
 }
-
 /*
  * Hide visually and from screenreaders, but maintain layout
  */
 
 .invisible {
-	visibility: hidden;
+    visibility: hidden;
 }
-
 /*
  * Clearfix: contain floats
  *
@@ -374,23 +322,23 @@ ul.social-icons {
 
 .clearfix:before,
 .clearfix:after {
-	content: " "; /* 1 */
-	display: table; /* 2 */
-}
+    content: " ";
+    /* 1 */
 
+    display: table;
+    /* 2 */
+}
 .clearfix:after {
-	clear: both;
+    clear: both;
 }
-
 /*
  * For IE 6/7 only
  * Include this rule to trigger hasLayout and contain floats.
  */
 
 .clearfix {
-	*zoom: 1;
+    *zoom: 1;
 }
-
 /* ==========================================================================
    EXAMPLE Media Queries for Responsive Design.
    These examples override the primary ('mobile first') styles.
@@ -398,84 +346,74 @@ ul.social-icons {
    ========================================================================== */
 
 @media only screen and (min-width: 35em) {
-	/* Style adjustments for viewports that meet the condition */
+    /* Style adjustments for viewports that meet the condition */
 }
-
 @media print,
-	   (-o-min-device-pixel-ratio: 5/4),
-	   (-webkit-min-device-pixel-ratio: 1.25),
-	   (min-resolution: 120dpi) {
-	/* Style adjustments for high resolution devices */
+(-o-min-device-pixel-ratio: 5/4),
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
 }
-
 /* ==========================================================================
    Print styles.
    Inlined to avoid required HTTP connection: h5bp.com/r
    ========================================================================== */
 
 @media print {
-	* {
-		background: transparent !important;
-		color: #000 !important; /* Black prints faster: h5bp.com/s */
-		box-shadow: none !important;
-		text-shadow: none !important;
-	}
+    * {
+        background: transparent !important;
+        color: #000 !important;
+        /* Black prints faster: h5bp.com/s */
 
-	a,
-	a:visited {
-		text-decoration: underline;
-	}
-
-	a[href]:after {
-		content: " (" attr(href) ")";
-	}
-
-	abbr[title]:after {
-		content: " (" attr(title) ")";
-	}
-
-	/*
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+    /*
 	 * Don't show links for images, or javascript/internal links
 	 */
 
-	.ir a:after,
-	a[href^="javascript:"]:after,
-	a[href^="#"]:after {
-		content: "";
-	}
-
-	pre,
-	blockquote {
-		border: 1px solid #999;
-		page-break-inside: avoid;
-	}
-
-	thead {
-		display: table-header-group; /* h5bp.com/t */
-	}
-
-	tr,
-	img {
-		page-break-inside: avoid;
-	}
-
-	img {
-		max-width: 100% !important;
-	}
-
-	@page {
-		margin: 0.5cm;
-	}
-
-	p,
-	h2,
-	h3 {
-		orphans: 3;
-		widows: 3;
-	}
-
-	h2,
-	h3 {
-		page-break-after: avoid;
-	}
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+    thead {
+        display: table-header-group;
+        /* h5bp.com/t */
+    }
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+    img {
+        max-width: 100% !important;
+    }
+    @page {
+        margin: 0.5cm;
+    }
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
 }
