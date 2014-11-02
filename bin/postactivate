@@ -1,4 +1,17 @@
 #!/bin/bash
-export DJANGO_SETTINGS_MODULE="lukexor_me.settings_dev"
+
+# Settings to load after loading virtualenv
+
+if [[ $(current_branch) == 'develop' ]]; then
+    SETTING='settings_dev'
+else
+    SETTING='settings'
+fi
+
+export DJANGO_SETTINGS_MODULE="lukexor_me.${SETTING}"
+
 cdproject
-screen -s lukexor_me -d -R
+
+if [[ ! $TERM =~ screen ]]; then
+    screen -s lukexor_me -d -R
+fi
