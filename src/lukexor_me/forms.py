@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from lukexor_me.models import CustomUser
+from .models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -73,6 +73,7 @@ class ContactForm(forms.Form):
             attrs={
                 'class': 'contact_message form-control',
                 'placeholder': 'Message',
+                'rows': 9,
             }
         ),
     )
