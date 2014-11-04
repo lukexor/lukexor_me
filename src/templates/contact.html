@@ -1,11 +1,50 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section id="main-section">
+<section class="main-section">
 	<div class="container">
-		<p>
-			Contact.
-		</p>
+		<h1 class="send-a-message">Send a message</h1>
+
+		<form action="{% url 'contact' %}" method="post">
+		    {% csrf_token %}
+			{{ form.non_field_errors }}
+			<div class="form_container">
+				<div class="contact_fields">
+					<div class="form-group {% if form.name.errors %} has-error has-feedback{% endif %}">
+						{{ form.name.errors }}
+						{{ form.name }}
+					</div>
+
+					<div class="form-group{% if form.email.errors %} has-error has-feedback{% endif %}">
+						{{ form.email.errors }}
+						{{ form.email }}
+					</div>
+
+					<div class="form-group{% if form.phone.errors %} has-error has-feedback{% endif %}">
+						{{ form.phone.errors }}
+						{{ form.phone }}
+					</div>
+				</div>
+				<div class="message_fields">
+					<div class="form-group{% if form.message.errors %} has-error{% endif %}">
+						{{ form.message.errors }}
+						{{ form.message }}
+					</div>
+
+					<button type="submit" class="send_message btn btn-primary" disabled="disabled">Send</button>
+				</div>
+			</div>
+		</form>
+
+		<div class="alternate_contact">
+			<h2 class="alternate_contact_heading">Don't care for forms?</h2>
+			<ul>
+				<li><strong>Email :</strong>
+					<span class="rtl">{{ STRINGS.reverse_email }}</span>
+				</li>
+				<li><strong>Twitter :</strong> <a href="{{ URLS.twitter }}">{{ STRINGS.twitter }}<a></li>
+			</ul>
+		</div>
 	</div>
 </section>
 {% endblock %}
