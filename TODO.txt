@@ -1,11 +1,16 @@
+- Look up JS form validation to enable submit button when all forms are filled out
+- Fix HTTP 405 error when submitting contact form
+- Finish contact form submit and email receipt
+
 - Take picture programming on mac
 - Take a variety of head shots
 - Update social icons to be more code-like and have transparent letters (to be able to customize text-color with CSS)
 - Research how to set up RSS feed
-- Define models for blog
-- Define models for projects
 - Define about me content
-- Set up Contact form
+- Design article page
+- Design project page
+- Add articles
+- Add projects
 - Put icons into CSS sprite
 - http://www.woorank.com/en/www/lukexor.me
 - https://support.google.com/business/answer/4569085?hl=en&rd=1
