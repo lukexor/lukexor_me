@@ -11,7 +11,7 @@
     <meta charset="utf-8">
 
     <title>
-        Lucas Petherbridge :: {{ SITE_SUBTITLE }}
+        Lucas Petherbridge :: {{ STRINGS.site_subtitle }}
     </title>
     <meta name="description" content="Articles and projects of Lucas Petherbridge. {{ SITE_SUBTITLE }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,19 +41,24 @@
 
     <main>
         <!--[if lt IE 7]>
-				<p class="browsehappy">This website was designed with a modern browser in mind. You are currently using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">use a modern browser</a> to experience this website in its intended form.</p>
+				<p class="browsehappy">This website was designed with a modern
+                browser in mind. You are currently using an <strong>outdated</strong>
+                browser. Please <a href="http://browsehappy.com/">use a modern
+                browser</a> to experience this website in its intended form.</p>
 			<![endif]-->
 
         <div class="container site-header">
             <header>
                 <div class="site-masthead pull-left">
                     <h1 class="site-title">
-							<a class="home" href="{% url 'home' %}">Lucas Petherbridge</a>
+							<a class="home" href="{% url 'home' %}">
+                                Lucas Petherbridge
+                            </a>
 						</h1>
-                    <p class="site-subtitle">{{ SITE_SUBTITLE }}</p>
+                    <p class="site-subtitle">{{ STRINGS.site_subtitle }}</p>
                 </div>
 
-                <nav id="main-nav" class="site-nav pull-right">
+                <nav class="main-nav site-nav pull-right">
                     <ul class="nav nav-tabs">
                         <li class="articles">
                             <a href="{% url 'articles' %}">Articles</a>
@@ -102,10 +107,13 @@
         <div class="container site-footer">
             <footer>
                 <p class="pull-left">
-                    Copyright &copy; 2014 - Lucas Petherbridge
+                    &copy; Copyright 2014 -
+                    <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
+                        Lucas Petherbridge
+                    </a>
                 </p>
 
-                <nav id="footer-nav" class="site-nav">
+                <nav class="footer-nav site-nav">
                     <ul class="nav-inline pull-right">
                         <li class="contact">
                             <a href="{% url 'contact' %}">Contact</a>
