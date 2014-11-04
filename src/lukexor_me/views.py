@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic import View
-from django.core.mail import send_mail
-from lukexor_me.forms import ContactForm
+from django.core.mail import EmailMessage
+from django.conf import settings
+from .forms import ContactForm
+import logging
 
+logger = logging.getLogger(__name__)
 
 class HomeView(View):
 
@@ -41,22 +44,34 @@ class AboutView(View):
 
 class ContactView(View):
 
-    def get(self, request):
-        if request.method == 'POST':
-            form = ContactForm(request.POST)
+    def post(self, request):
+        form = ContactForm(request.POST)
 
-            if form.is_valid():
-                name = form.cleaned_data['name']
-                sender = form.cleaned_data['email']
-                message = form.cleaned_data['message']
-                recipients = ['lukexor@gmail.com']
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            sender = "%s <%s>" % (name, form.cleaned_data['email'])
+            message = form.cleaned_data['message']
+            recipients = [settings.STRINGS['admin_email']]
 
-                subject = "New message from %s on lukexor.me" % (name)
+            subject = "New message from %s on lukexor.me" % (name)
 
-                send_mail(subject, message, sender, recipients)
+            email = EmailMessage(subject, message, settings.STRINGS['no_reply_email'],
+                recipients, headers = {'Reply-To': sender})
 
-                return HttpResponseRedirect('/thanks/')
+            email.send()
+
+            return HttpResponseRedirect('/thanks/')
         else:
-            form = ContactForm()
+            return render(request, "contact.html", {'form': form})
+
+    def get(self, request):
+
+        form = ContactForm()
 
         return render(request, "contact.html", {'form': form})
+
+
+class ThanksView(View):
+
+    def get(self, request):
+        return render(request, "thanks.html")

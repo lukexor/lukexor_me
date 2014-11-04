@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-from lukexor_me.views import HomeView, ArticlesView, ProjectsView, AboutView, ContactView, TitleView
+from .views import *
 
 admin.autodiscover()
 
@@ -12,6 +12,7 @@ urlpatterns = patterns(
     url(r'^projects/$', ProjectsView.as_view(), name='projects'),
     url(r'^about/$', AboutView.as_view(), name='about'),
     url(r'^contact/$', ContactView.as_view(), name='contact'),
+    url(r'^thanks/$', ThanksView.as_view(), name='thanks'),
     url(r'^subscribe/$', HomeView.as_view(), name='subscribe'),
     url(r'^articles/(?P<year>\d{4})/$', HomeView.as_view()),
     url(r'^(?P<title>\w+)/$', TitleView.as_view(), name='permalink'),

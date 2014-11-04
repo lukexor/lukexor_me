@@ -91,6 +91,7 @@ textarea {
 
 .site-title,
 .site-subtitle,
+.copyright,
 a {
     font-family: "Courier New", Courier, monospace;
 }
@@ -151,6 +152,9 @@ section p {
 }
 footer {
     font-size: .9em;
+}
+h2 {
+    color: #CAA65F;
 }
 
 /* Links/Nav */
@@ -254,8 +258,8 @@ ul.social-icons {
 .form_container {
     height: 300px;
 }
-button, input, textarea, .alternate_contact p {
-    margin: 10px;
+input, textarea, .alternate_contact p {
+    margin: 37px 0;
 }
 .form_container, .alternate_contact {
     width: 80%;
@@ -267,11 +271,10 @@ button, input, textarea, .alternate_contact p {
 .contact_name, .contact_email, .contact_phone {
     width: 95%;
     height: 40px;
-    margin-bottom: 20px;
-    float: right;
 }
 .contact_message {
     width: 95%;
+    float: right;
 }
 .contact_fields {
     width: 50%;
@@ -284,6 +287,14 @@ button, input, textarea, .alternate_contact p {
 .send_message {
     width: 150px;
     float: right;
+}
+
+/* Thanks */
+.thanks_wrapper {
+    text-align: center;
+}
+.thanks {
+    font-size: 2em;
 }
 
 /* Utilities */
