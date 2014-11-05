@@ -8,22 +8,26 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def build_page_title(title):
+    return '%s :: %s' % (title, settings.STRINGS['full_name'])
+
+
 class HomeView(View):
 
     def get(self, request):
-        return render(request, "index.html")
+        return render(request, "index.html", {'page_title': build_page_title(settings.STRINGS['site_subtitle'])})
 
 
 class ArticlesView(View):
 
     def get(self, request):
-        return render(request, "articles.html")
+        return render(request, "articles.html", {'page_title': build_page_title('Articles')})
 
 
 class ProjectsView(View):
 
     def get(self, request):
-        return render(request, "projects.html")
+        return render(request, "projects.html", {'page_title': build_page_title('Projects')})
 
 
 class TitleView(View):
@@ -31,7 +35,7 @@ class TitleView(View):
     def get(self, request, title=None):
         title=None
         if title:
-            return render(request, "%s.html" % (title))
+            return render(request, "%s.html" % (title), {'page_title': build_page_title(title)})
         else:
             raise Http404
 
@@ -39,7 +43,7 @@ class TitleView(View):
 class AboutView(View):
 
     def get(self, request):
-        return render(request, "about.html")
+        return render(request, "about.html", {'page_title': build_page_title('About')})
 
 
 class ContactView(View):
@@ -62,16 +66,16 @@ class ContactView(View):
 
             return HttpResponseRedirect('/thanks/')
         else:
-            return render(request, "contact.html", {'form': form})
+            return render(request, "contact.html", {'form': form, 'page_title': build_page_title('Contact')})
 
     def get(self, request):
 
         form = ContactForm()
 
-        return render(request, "contact.html", {'form': form})
+        return render(request, "contact.html", {'form': form, 'page_title': build_page_title('Contact')})
 
 
 class ThanksView(View):
 
     def get(self, request):
-        return render(request, "thanks.html")
+        return render(request, "thanks.html", {'page_title': build_page_title('Thanks')})
