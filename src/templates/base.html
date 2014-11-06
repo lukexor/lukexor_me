@@ -4,7 +4,7 @@
 <!--[if IE 7]>		   <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>		   <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js">
+<html class="no-js" lang="en">
 <!--<![endif]-->
 
 <head>
@@ -48,83 +48,87 @@
 			<![endif]-->
 
         <div class="container site-header">
-            <header>
-                <div class="site-masthead pull-left">
-                    <h1 class="site-title">
-							<a class="home" href="{% url 'home' %}">
-                                Lucas Petherbridge
-                            </a>
-						</h1>
-                    <p class="site-subtitle">{{ STRINGS.site_subtitle }}</p>
-                </div>
+            <div class="row">
+                <header class="col-md-12">
+                    <div class="site-masthead pull-left">
+                        <h1 class="site-title">
+    							<a class="home" href="{% url 'home' %}">
+                                    Lucas Petherbridge
+                                </a>
+    						</h1>
+                        <p class="site-subtitle">{{ STRINGS.site_subtitle }}</p>
+                    </div>
 
-                <nav class="main-nav site-nav pull-right">
-                    <ul class="nav nav-tabs">
-                        <li class="articles">
-                            <a href="{% url 'articles' %}">Articles</a>
-                        </li>
-                        <li class="projects">
-                            <a href="{% url 'projects' %}">Projects</a>
-                        </li>
-                        <li class="about">
-                            <a href="{% url 'about' %}">About</a>
-                        </li>
-                        <li class="contact">
-                            <a href="{% url 'contact' %}">Contact</a>
-                        </li>
-                    </ul>
-
-                    <div class="social-icons clear pull-right">
-                        <ul class="social-icons nav nav-pills">
-                            <li>
-                                <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
-                                    <span>LinkedIn</span>
-                                </a>
+                    <nav class="main-nav site-nav pull-right">
+                        <ul class="nav nav-tabs">
+                            <li class="articles">
+                                <a href="{% url 'articles' %}">Articles</a>
                             </li>
-                            <li>
-                                <a href="{{ URLS.facebook }}" title="Facebook" class="facebook">
-                                    <span>Facebook</span>
-                                </a>
+                            <li class="projects">
+                                <a href="{% url 'projects' %}">Projects</a>
                             </li>
-                            <li>
-                                <a href="{{ URLS.twitter }}" title="Twitter" class="twitter">
-                                    <span>Twitter</span>
-                                </a>
+                            <li class="about">
+                                <a href="{% url 'about' %}">About</a>
                             </li>
-                            <li>
-                                <a href="{% url 'subscribe' %}" title="Subscribe" class="subscribe">
-                                    <span>Subscribe</span>
-                                </a>
+                            <li class="contact">
+                                <a href="{% url 'contact' %}">Contact</a>
                             </li>
                         </ul>
-                    </div>
-                </nav>
-            </header>
-        </div>
+
+                        <div class="social-icons clear pull-right">
+                            <ul class="social-icons nav nav-pills">
+                                <li>
+                                    <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
+                                        <span>LinkedIn</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ URLS.facebook }}" title="Facebook" class="facebook">
+                                        <span>Facebook</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ URLS.twitter }}" title="Twitter" class="twitter">
+                                        <span>Twitter</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'subscribe' %}" title="Subscribe" class="subscribe">
+                                        <span>Subscribe</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+            </div><!-- end_row -->
+        </div><!-- end_container -->
 
         {% block content %}{% endblock %}
 
         <div class="container site-footer">
-            <footer>
-                <p class="pull-left copyright">
-                    &copy; Copyright 2014 -
-                    <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
-                        Lucas Petherbridge
-                    </a>
-                </p>
+            <div class="row">
+                <footer class="col-md-12">
+                    <p class="pull-left copyright">
+                        &copy; Copyright 2014 -
+                        <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
+                            Lucas Petherbridge
+                        </a>
+                    </p>
 
-                <nav class="footer-nav site-nav">
-                    <ul class="nav-inline pull-right">
-                        <li class="contact">
-                            <a href="{% url 'contact' %}">Contact</a>
-                        </li>
-                        <li class="subscribe">
-                            <a href="{% url 'subscribe' %}">Subscribe</a>
-                        </li>
-                    </ul>
-                </nav>
-            </footer>
-        </div>
+                    <nav class="footer-nav site-nav">
+                        <ul class="nav-inline pull-right">
+                            <li class="contact">
+                                <a href="{% url 'contact' %}">Contact</a>
+                            </li>
+                            <li class="subscribe">
+                                <a href="{% url 'subscribe' %}">Subscribe</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </footer>
+            </div><!-- end_row -->
+        </div><!-- end_container -->
     </main>
     {{ GA_CODE|safe }}
 </body>

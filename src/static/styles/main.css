@@ -83,6 +83,7 @@ textarea {
     color: #000;
     padding: 0.2em 0;
 }
+
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
@@ -110,8 +111,7 @@ body {
     color: #FFEECE;
 }
 .site-header {
-    margin-top: 10px;
-    margin-bottom: 30px;
+    margin: 20px auto;
 }
 .site-title {
     margin-bottom: 0;
@@ -153,8 +153,15 @@ section p {
 footer {
     font-size: .9em;
 }
-h2 {
+h1, h2, h3, h4, h5, h6 {
     color: #CAA65F;
+}
+h2 {
+    font-size: 1.9em;
+    margin-bottom: 20px;
+}
+h3 {
+    font-size: 1.3em;
 }
 
 /* Links/Nav */
@@ -251,50 +258,17 @@ ul.social-icons {
 
 /* Contact */
 
-.send-a-message {
-    text-align: center;
-    margin-bottom: 30px;
-}
-.form_container {
-    height: 300px;
-}
-input, textarea, .alternate_contact p {
-    margin: 37px 0;
-}
-.form_container, .alternate_contact {
-    width: 80%;
-    margin: 0 auto;
-}
-.alternate_contact_heading {
-    font-size: 1.3em;
-}
 .contact_name, .contact_email, .contact_phone {
     width: 95%;
     height: 40px;
 }
 .contact_message {
-    width: 95%;
-    float: right;
-}
-.contact_fields {
-    width: 50%;
-    float: left;
-}
-.message_fields {
-    width: 50%;
     float: right;
 }
 .send_message {
     width: 150px;
     float: right;
-}
-
-/* Thanks */
-.thanks_wrapper {
-    text-align: center;
-}
-.thanks {
-    font-size: 2em;
+    margin: 20px 0;
 }
 
 /* Utilities */
