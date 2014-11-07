@@ -9,6 +9,8 @@
    Base styles: opinionated defaults
    ========================================================================== */
 
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+
 html,
 button,
 input,
@@ -20,6 +22,7 @@ html {
     font-size: 1em;
     line-height: 1.4;
 }
+
 /*
  * Remove text-shadow in selection highlight: h5bp.com/i
  * These selection rule sets have to be separate.
@@ -34,6 +37,7 @@ html {
     background: #b3d4fc;
     text-shadow: none;
 }
+
 /*
  * A better looking default horizontal rule
  */
@@ -46,6 +50,7 @@ hr {
     margin: 1em 0;
     padding: 0;
 }
+
 /*
  * Remove the gap between images, videos, audio and canvas and the bottom of
  * their containers: h5bp.com/i/440
@@ -57,6 +62,7 @@ img,
 video {
     vertical-align: middle;
 }
+
 /*
  * Remove default fieldset styles.
  */
@@ -66,6 +72,7 @@ fieldset {
     margin: 0;
     padding: 0;
 }
+
 /*
  * Allow only vertical resizing of textareas.
  */
@@ -73,6 +80,7 @@ fieldset {
 textarea {
     resize: vertical;
 }
+
 /* ==========================================================================
    Browse Happy prompt
    ========================================================================== */
@@ -102,55 +110,14 @@ a {
 footer {
     color: #9E792F;
 }
-
-/* Site Format/Layout */
-
 body {
     font-family: Verdana, Helvetica, sans-serif;
     background-color: #222222;
     color: #FFEECE;
 }
-.site-header {
-    margin: 20px auto;
-}
-.site-title {
-    margin-bottom: 0;
-    font-size: 2.5em;
-}
-.site-subtitle {
-    font-size: 1.1em;
-}
-.site-title,
-.site-nav {
-    margin-top: 15px;
-}
-.site-header-outer {
-    height: 250px;
-    margin-bottom: 15px;
-    border: 2px solid #333333;
-}
-.site-header-background {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    z-index: 2;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    -webkit-background-size: cover;
-    background-size: cover;
-}
-.copyright {
-    list-style: none;
-}
-section p {
-    font-size: 1.2em;
-}
-.site-footer {
-    margin-top: 30px;
-}
 footer {
+    margin-top: 20px;
+    padding-top: 10px;
     font-size: .9em;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -162,6 +129,74 @@ h2 {
 }
 h3 {
     font-size: 1.3em;
+}
+input,textarea {
+    color: #F7C6A0 !important;
+    background-color: #222222 !important;
+}
+::-webkit-input-placeholder {
+   color: #555 !important;
+   opacity: 1;
+}
+:-moz-placeholder { /* Firefox 18- */
+   color: #555 !important;
+   opacity: 1;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #555 !important;
+}
+:-ms-input-placeholder {
+   color: #555 !important;
+}
+section p {
+    font-size: 1.2em;
+}
+
+/* Base */
+
+.site-header {
+    margin: 30px auto;
+}
+.site-title {
+    margin: 0;
+}
+.site-subtitle {
+    font-size: 1.1em;
+}
+.site-header-outer {
+    height: 250px;
+    margin-bottom: 20px;
+    border: 2px solid #333333;
+}
+.site-header-background {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+/* Search */
+.search {
+    position: relative;
+}
+.search input {
+    text-indent: 17px;
+    width: 200px;
+    margin-left: 20px;
+}
+.search .fa-search {
+  position: absolute;
+  top: 8px;
+  left: 30px;
+  font-size: 15px;
+}
+.search-count
+{
+    font-size: .9em;
 }
 
 /* Links/Nav */
@@ -176,44 +211,67 @@ a:hover,
 .main-nav a:hover {
     color: #F7D9A0;
 }
+a.disabled {
+    cursor: default;
+    color: #F7D9A0 !important;
+    text-decoration: none;
+}
 .site-title a,
 .site-title a:hover {
-    color: #CAA65F;
-}
-.site-title a:hover {
+    color: #CAA65F !important;
     text-decoration: none;
+}
+.navbar-right {
+    margin-right: 0;
+}
+.nav-inline {
+    padding: 0;
+}
+@media (min-width: 768px) {
+    .nav-inline {
+        float: right;
+    }
 }
 .nav-inline li {
     list-style: none;
     display: inline;
-    padding: 0 10px;
+    padding-right: 15px;
 }
-.nav-tabs {
-    border-bottom: 1px solid #F7D9A0;
+
+
+/* Bootstrap nav overrides */
+@media (min-width: 768px) {
+    .nav-tabs.nav-justified {
+        border-bottom: 1px solid #F7D9A0;
+    }
+    .nav-tabs.nav-justified > li > a {
+        border-bottom: 0;
+    }
 }
+
 .nav > li > a:hover,
 .nav > li > a:focus {
     text-decoration: none;
     background-color: #333;
 }
-.nav-tabs > li > a:hover,
-.nav-pills > li > a:hover {
+.nav-tabs > li > a:hover {
     border-color: #F7D9A0 #F7D9A0 #F7D9A0;
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
-.nav-tabs > li.active > a:focus,
-.nav-pills > li.active > a,
-.nav-pills > li.active > a:hover,
-.nav-pills > li.active > a:focus {
+.nav-tabs > li.active > a:focus {
     color: #FFE4CE !important;
     background-color: #6C4B0B;
-    border: 1px solid #F7D9A0;
+    border: 1px solid #F7D9A0 !important;
+    border-bottom: 0 !important;
 }
-div.social-icons {
+
+/* Sub Nav */
+
+.sub-nav {
     margin-top: 10px;
 }
-ul.social-icons {
+.social-icons {
     background-color: #333;
     border: 2px solid #333;
     border-radius: 5px;
@@ -235,37 +293,22 @@ ul.social-icons {
 .social-icons .subscribe {
     background: url("/static/images/social_icons/rss.png");
 }
-.social-icons a span {
-    display: none;
-}
 
-/* Content */
 
-.index-background {
-    height: 300px;
-    margin-bottom: 30px;
-    pointer-events: none;
-}
+/* Home */
+
 .index-header-background {
     background-image: url("/static/images/header-bg/code-bg.jpg");
 }
 .greeting {
-    margin-top: 0;
+    margin: 0;
     font-size: 3.0em;
     padding-top: 80px;
-    text-align: center;
 }
 
 /* Contact */
 
-.contact_name, .contact_email, .contact_phone {
-    width: 95%;
-    height: 40px;
-}
-.contact_message {
-    float: right;
-}
-.send_message {
+.btn-send {
     width: 150px;
     float: right;
     margin: 20px 0;
@@ -273,9 +316,6 @@ ul.social-icons {
 
 /* Utilities */
 
-.clear {
-    clear: both;
-}
 .rtl {
     unicode-bidi: bidi-override;
     direction: rtl;

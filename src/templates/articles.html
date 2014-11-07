@@ -4,8 +4,29 @@
 <section id="main-section">
 	<div class="container">
 		<div class="row">
-			<h2 class="col-md-12">Articles</h2>
+			<div class="col-md-12">
+			{% for article in articles %}
+				<h2>{{ article.title }}</h2>
+				<p>{{ article.body }}</p>
+				<p>Author: {{ article.author }}</p>
+				<p>Category: {{ article.category }}</p>
+				<p>Time to Read: {{ article.time_to_read }}</p>
+				<p>Created: {{ article.created }}</p>
+				<p>Comment Count: {{ article.comments.count }}</p>
+				<!-- TODO Tags, Comments -->
+			{% endfor %}
+			</div>
 		</div><!-- end_row -->
+		<div class="row">
+			{% if next_page %}
+				<a href="{% url 'articles' %}?p={{ next_page }}"><< Older Articles</a>
+			{% endif %}
+			{% if prev_page > 0 %}
+				<a href="{% url 'articles' %}?p={{ prev_page }}">Newer Articles >></a>
+			{% elif prev_page == 0 %}
+				<a href="{% url 'articles' %}">Newer Articles >></a>
+			{% endif %}
+		</div>
 	</div><!-- end_container -->
 </section>
 {% endblock %}

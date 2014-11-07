@@ -1,8 +1,50 @@
-// Set active tab
-var current_page = window.location.pathname;
+$(document).ready(function ()
+{
+    // Set active tab
+    var current_page = window.location.pathname;
+    $('.nav-tabs a[href="' + current_page + '"]').parent('li').addClass('active');
 
-// $(document).ready(function ()
-// {
-//     $('.nav-tabs a[href="' + current_page + '"]').parent('li').addClass('active');
-//     $('a:not(.linkedin, .facebook, .twitter)').bind('click', false);
-// });
+    if (window.location.search == '')
+    {
+        $('a[href="' + current_page + '"]').addClass('disabled');
+    }
+
+
+    // Contact form validation
+    $('#send_message').addClass('disabled'); // Set default to disabled
+
+    $('input').on('keyup change', function() { validate_contact_form() });
+    $('textarea').on('keyup change', function() { validate_contact_form() });
+
+    // Prevent disabled links from functioning
+    $('body').on('click', 'a.disabled', function(event) {
+        event.preventDefault();
+    });
+}); // end document.ready
+
+function validate_contact_form()
+{
+    var $input  = $('input.required'),
+        $text   = $('textarea.required'),
+        $button = $('#send_message');
+
+    var forms_valid = true;
+
+    $input.each(function()
+    {
+        if (!$(this).val())
+        {
+            console.log($(this).attr('value') + "is not valid.");
+            forms_valid = false;
+        }
+    });
+
+    if (forms_valid && $text.val())
+    {
+        $button.removeClass('disabled');
+    }
+    else
+    {
+        $button.addClass('disabled');
+    }
+}

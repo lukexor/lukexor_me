@@ -45,7 +45,7 @@ class ContactForm(forms.Form):
         max_length=45,
         widget=forms.TextInput(
             attrs={
-                'class': 'contact_name form-control',
+                'class': 'contact_name form-control required',
                 'placeholder': 'Name',
             }
         ),
@@ -54,7 +54,7 @@ class ContactForm(forms.Form):
         max_length=254,
         widget=forms.TextInput(
             attrs={
-                'class': 'contact_email form-control',
+                'class': 'contact_email form-control required',
                 'placeholder': 'Email',
             }
         ),
@@ -63,7 +63,7 @@ class ContactForm(forms.Form):
         max_length=15,
         widget=forms.TextInput(
             attrs={
-                'class': 'contact_phone form-control',
+                'class': 'contact_phone form-control required',
                 'placeholder': 'Phone',
             }
         ),
@@ -71,7 +71,7 @@ class ContactForm(forms.Form):
     message = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                'class': 'contact_message form-control',
+                'class': 'contact_message form-control required',
                 'placeholder': 'Message',
                 'rows': 9,
             }

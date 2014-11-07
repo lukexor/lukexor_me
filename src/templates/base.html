@@ -24,7 +24,7 @@
     <meta name="msapplication-TileImage" content="{% static 'images/icons/tileicon-144.png' %}">
 
     <link rel="stylesheet" href="{% static 'styles/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'styles/main.css' %}">
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -32,7 +32,7 @@
         window.jQuery || document.write('<script src="{% static "scripts/vendor/jquery-1.10.2.min.js" %}"><\/script>')
     </script>
     <script src="{% static 'scripts/vendor/modernizr-2.6.2.min.js' %}"></script>
-    <script src="{% static 'scripts/vendor/bootstrap.min.js' %}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="{% static 'scripts/vendor/plugins.js' %}"></script>
     <script src="{% static 'scripts/main.js' %}"></script>
 </head>
@@ -49,8 +49,8 @@
 
         <div class="container site-header">
             <div class="row">
-                <header class="col-md-12">
-                    <div class="site-masthead pull-left">
+                <header>
+                    <div class="navbar-left col-md-7">
                         <h1 class="site-title">
     							<a class="home" href="{% url 'home' %}">
                                     Lucas Petherbridge
@@ -59,42 +59,51 @@
                         <p class="site-subtitle">{{ STRINGS.site_subtitle }}</p>
                     </div>
 
-                    <nav class="main-nav site-nav pull-right">
-                        <ul class="nav nav-tabs">
-                            <li class="articles">
-                                <a href="{% url 'articles' %}">Articles</a>
-                            </li>
-                            <li class="projects">
-                                <a href="{% url 'projects' %}">Projects</a>
-                            </li>
-                            <li class="about">
-                                <a href="{% url 'about' %}">About</a>
-                            </li>
-                            <li class="contact">
-                                <a href="{% url 'contact' %}">Contact</a>
-                            </li>
-                        </ul>
+                    <nav class="site-nav navbar-right col-md-5" role="navigation">
+                        <div class="main-nav">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="articles">
+                                    <a href="{% url 'articles' %}">Articles</a>
+                                </li>
+                                <li class="projects">
+                                    <a href="{% url 'projects' %}">Projects</a>
+                                </li>
+                                <li class="about">
+                                    <a href="{% url 'about' %}">About</a>
+                                </li>
+                                <li class="contact">
+                                    <a href="{% url 'contact' %}">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
 
-                        <div class="social-icons clear pull-right">
-                            <ul class="social-icons nav nav-pills">
+                        <div class="sub-nav">
+                            <form action="/" method="get">
+                                <div class="search pull-right">
+                                    <span class="fa fa-search"></span>
+                                    <input type="search" name="q" class="form-control" placeholder="Search">
+                                </div>
+                            </form>
+
+                            <ul class="social-icons nav nav-pills pull-right">
                                 <li>
-                                    <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
-                                        <span>LinkedIn</span>
+                                    <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin text-hide">
+                                        LinkedIn
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ URLS.facebook }}" title="Facebook" class="facebook">
-                                        <span>Facebook</span>
+                                    <a href="{{ URLS.facebook }}" title="Facebook" class="facebook text-hide">
+                                        Facebook
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ URLS.twitter }}" title="Twitter" class="twitter">
-                                        <span>Twitter</span>
+                                    <a href="{{ URLS.twitter }}" title="Twitter" class="twitter text-hide">
+                                        Twitter
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'subscribe' %}" title="Subscribe" class="subscribe">
-                                        <span>Subscribe</span>
+                                    <a href="{% url 'subscribe' %}" title="Subscribe" class="subscribe text-hide">
+                                        Subscribe
                                     </a>
                                 </li>
                             </ul>
@@ -106,18 +115,18 @@
 
         {% block content %}{% endblock %}
 
-        <div class="container site-footer">
+        <div class="container">
             <div class="row">
-                <footer class="col-md-12">
-                    <p class="pull-left copyright">
+                <footer>
+                    <p class="copyright col-md-4">
                         &copy; Copyright 2014 -
                         <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
                             Lucas Petherbridge
                         </a>
                     </p>
 
-                    <nav class="footer-nav site-nav">
-                        <ul class="nav-inline pull-right">
+                    <nav class="footer-nav site-nav col-md-3 col-md-offset-5" role="navigation">
+                        <ul class="nav-inline">
                             <li class="contact">
                                 <a href="{% url 'contact' %}">Contact</a>
                             </li>
