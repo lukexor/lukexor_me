@@ -28,9 +28,10 @@ class ArticlesView(View):
         curr_page = 0
         prev_page = None
         next_page = None
-        articles = None
         offset = 0
         limit = settings.PAGE_LIMITS['articles']
+
+        articles = None
 
         if ('p' in request.GET) and request.GET['p'].strip():
             curr_page = int(request.GET['p'])
@@ -138,21 +139,34 @@ class HomeView(View):
 class ProjectsView(View):
 
     def get(self, request):
-        page = None
-        projects = None
+        curr_page = 0
+        next_page = None
+        prev_page = None
         offset = 0
         limit = settings.PAGE_LIMITS['projects']
 
+        projects = None
+
         if ('p' in request.GET) and request.GET['p'].strip():
-            page = request.GET['p']
+            curr_page = int(request.GET['p'])
 
-            offset = int(page) * limit
+            offset = curr_page * limit
 
-        projects = Project.objects.all().order_by('-created')[offset:offset + limit]
+        projects = Project.objects.all().order_by('-created')
+
+        if projects.count() > offset + limit:
+            next_page = curr_page + 1
+
+        if curr_page > 0:
+            prev_page = curr_page - 1
+
+        projects = projects[offset:offset + limit]
 
         return render(request, "projects.html", {
             'page_title': build_page_title('Projects'),
             'projects': projects,
+            'next_page': next_page,
+            'prev_page': prev_page,
         })
 
 

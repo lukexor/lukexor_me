@@ -17,16 +17,8 @@
 			{% endfor %}
 			</div>
 		</div><!-- end_row -->
-		<div class="row">
-			{% if next_page %}
-				<a href="{% url 'articles' %}?p={{ next_page }}"><< Older Articles</a>
-			{% endif %}
-			{% if prev_page > 0 %}
-				<a href="{% url 'articles' %}?p={{ prev_page }}">Newer Articles >></a>
-			{% elif prev_page == 0 %}
-				<a href="{% url 'articles' %}">Newer Articles >></a>
-			{% endif %}
-		</div>
+		{% url 'articles' as current_url %}
+		{% include 'pagination_footer.html' with page='articles' url=current_url %}
 	</div><!-- end_container -->
 </section>
 {% endblock %}
