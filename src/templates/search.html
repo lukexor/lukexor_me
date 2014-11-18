@@ -5,30 +5,38 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<h2>Search Results for <u>{{ query_string }}</u></h2>
-
+				<h2>
+					{% if search_string %}
+						Search Results for <u>{{ search_string }}</u>
+					{% elif category %}
+						Articles about {{ category }}
+					{% endif %}
+				</h2>
 			</div>
 		</div><!-- end_row -->
 		<div class="row">
 			<div class="col-md-12">
 				<p class="search-count">{{ count_string }}</p>
-				<hr>
+
 				<p>
+					<!-- TODO: Factor into project-short template -->
+					{% if search_string and projects %}<h3>Projects:</h3>{% endif %}
 					{% for project in projects %}
-						<h3>{{ project.title }}</h3>
-						<p>{{ project.description }}</p>
-						<p>Roles: {{ project.role }}</p>
-						<p>Client: {{ project.client }}</p>
-						<p>Started: {{ project.date_started }}</p>
-						<p>Completed: {{ project.date_completed }}</p>
+						<article>
+							<h4>{{ project.title }}</h4>
+							<p>{{ project.summary }}
+							<p>Client(s): {{ project.get_clients }}</p>
+						</article>
 					{% endfor %}
+					<!-- TODO: Factor into article-short template -->
+					{% if search_string and articles %}<h3>Articles:</h3>{% endif %}
 					{% for article in articles %}
-						<h3>{{ article.title }}</h3>
-						<p>{{ article.body }}</p>
-						<p>Author: {{ article.author }}</p>
-						<p>Category: {{ article.category }}</p>
-						<p>Time to Read: {{ article.time_to_read }}</p>
-						<!-- TODO Tags, Comments -->
+						<article>
+							<h4>{{ article.title }}</h4>
+							<p>{{ article.summary }}
+							<p>Time to Read: {{ article.time_to_read }}</p>
+							<!-- TODO Tags, Comments -->
+						</article>
 					{% endfor %}
 				</p>
 			</div>

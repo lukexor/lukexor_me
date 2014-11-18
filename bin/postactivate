@@ -11,3 +11,4 @@ fi
 export DJANGO_SETTINGS_MODULE="lukexor_me.${SETTING}"
 
 cdproject
+cd .

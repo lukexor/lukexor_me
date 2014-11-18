@@ -101,7 +101,7 @@ textarea {
 .site-title,
 .site-subtitle,
 .copyright,
-a {
+.main-nav {
     font-family: "Courier New", Courier, monospace;
 }
 .site-subtitle,
@@ -237,6 +237,12 @@ a.disabled {
     display: inline;
     padding-right: 15px;
 }
+.prev_page {
+    float: right;
+}
+.next_page {
+    float: left;
+}
 
 
 /* Bootstrap nav overrides */
@@ -306,6 +312,33 @@ a.disabled {
     padding-top: 80px;
 }
 
+/* Articles */
+.date_published {
+    margin-top: -1em;
+    margin-bottom: 2em;
+    font-size: 1em;
+    color: #9E792F;
+}
+.article_footer {
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    margin-top:5em;
+    padding:.5em 0;
+    font-size: 1em;
+    color: #9E792F;
+}
+.article_separator {
+    margin:3.5em 0;
+}
+.article_body p:first-letter {
+    float: left;
+    color: #3A7B78;
+    font-size: 5em;
+    line-height: .8em;
+    padding-right: .05em;
+    font-family: Georgia;
+}
+
 /* Contact */
 
 .btn-send {
@@ -319,6 +352,9 @@ a.disabled {
 .rtl {
     unicode-bidi: bidi-override;
     direction: rtl;
+}
+.spacer {
+    padding: 0 5px;
 }
 
 /* ==========================================================================
