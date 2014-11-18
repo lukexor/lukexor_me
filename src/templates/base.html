@@ -1,17 +1,17 @@
-{% load static from staticfiles %} {% load utility_filters %}
+{% load static from staticfiles %}
 <!DOCTYPE html>
 <!--[if lt IE 7]>	   <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>		   <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>		   <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js">
+<html class="no-js" lang="en">
 <!--<![endif]-->
 
 <head>
     <meta charset="utf-8">
 
     <title>
-        Lucas Petherbridge :: {{ SITE_SUBTITLE }}
+        {{ page_title }}
     </title>
     <meta name="description" content="Articles and projects of Lucas Petherbridge. {{ SITE_SUBTITLE }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,7 @@
     <meta name="msapplication-TileImage" content="{% static 'images/icons/tileicon-144.png' %}">
 
     <link rel="stylesheet" href="{% static 'styles/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'styles/main.css' %}">
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -32,7 +32,7 @@
         window.jQuery || document.write('<script src="{% static "scripts/vendor/jquery-1.10.2.min.js" %}"><\/script>')
     </script>
     <script src="{% static 'scripts/vendor/modernizr-2.6.2.min.js' %}"></script>
-    <script src="{% static 'scripts/vendor/bootstrap.min.js' %}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="{% static 'scripts/vendor/plugins.js' %}"></script>
     <script src="{% static 'scripts/main.js' %}"></script>
 </head>
@@ -41,82 +41,103 @@
 
     <main>
         <!--[if lt IE 7]>
-				<p class="browsehappy">This website was designed with a modern browser in mind. You are currently using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">use a modern browser</a> to experience this website in its intended form.</p>
+				<p class="browsehappy">This website was designed with a modern
+                browser in mind. You are currently using an <strong>outdated</strong>
+                browser. Please <a href="http://browsehappy.com/">use a modern
+                browser</a> to experience this website in its intended form.</p>
 			<![endif]-->
 
         <div class="container site-header">
-            <header>
-                <div class="site-masthead pull-left">
-                    <h1 class="site-title">
-							<a class="home" href="{% url 'home' %}">Lucas Petherbridge</a>
-						</h1>
-                    <p class="site-subtitle">{{ SITE_SUBTITLE }}</p>
-                </div>
-
-                <nav id="main-nav" class="site-nav pull-right">
-                    <ul class="nav nav-tabs">
-                        <li class="articles">
-                            <a href="{% url 'articles' %}">Articles</a>
-                        </li>
-                        <li class="projects">
-                            <a href="{% url 'projects' %}">Projects</a>
-                        </li>
-                        <li class="about">
-                            <a href="{% url 'about' %}">About</a>
-                        </li>
-                        <li class="contact">
-                            <a href="{% url 'contact' %}">Contact</a>
-                        </li>
-                    </ul>
-
-                    <div class="social-icons clear pull-right">
-                        <ul class="social-icons nav nav-pills">
-                            <li>
-                                <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
-                                    <span>LinkedIn</span>
+            <div class="row">
+                <header>
+                    <div class="navbar-left col-md-7">
+                        <h1 class="site-title">
+    							<a class="home" href="{% url 'home' %}">
+                                    Lucas Petherbridge
                                 </a>
-                            </li>
-                            <li>
-                                <a href="{{ URLS.facebook }}" title="Facebook" class="facebook">
-                                    <span>Facebook</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ URLS.twitter }}" title="Twitter" class="twitter">
-                                    <span>Twitter</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'subscribe' %}" title="Subscribe" class="subscribe">
-                                    <span>Subscribe</span>
-                                </a>
-                            </li>
-                        </ul>
+    						</h1>
+                        <p class="site-subtitle">{{ STRINGS.site_subtitle }}</p>
                     </div>
-                </nav>
-            </header>
-        </div>
+
+                    <nav class="site-nav navbar-right col-md-5" role="navigation">
+                        <div class="main-nav">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li class="articles">
+                                    <a href="{% url 'articles' %}">Articles</a>
+                                </li>
+                                <li class="projects">
+                                    <a href="{% url 'projects' %}">Projects</a>
+                                </li>
+                                <li class="about">
+                                    <a href="{% url 'about' %}">About</a>
+                                </li>
+                                <li class="contact">
+                                    <a href="{% url 'contact' %}">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="sub-nav">
+                            <form action="/" method="get">
+                                <div class="search pull-right">
+                                    <span class="fa fa-search"></span>
+                                    <input type="search" name="q" class="form-control" placeholder="Search">
+                                </div>
+                            </form>
+
+                            <ul class="social-icons nav nav-pills pull-right">
+                                <li>
+                                    <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin text-hide">
+                                        LinkedIn
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ URLS.facebook }}" title="Facebook" class="facebook text-hide">
+                                        Facebook
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ URLS.twitter }}" title="Twitter" class="twitter text-hide">
+                                        Twitter
+                                    </a>
+                                </li>
+                                <!--<li>
+                                    <a href="{% url 'subscribe' %}" title="Subscribe" class="subscribe text-hide">
+                                        Subscribe
+                                    </a>
+                                </li>-->
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+            </div><!-- end_row -->
+        </div><!-- end_container -->
 
         {% block content %}{% endblock %}
 
-        <div class="container site-footer">
-            <footer>
-                <p class="pull-left">
-                    Copyright &copy; 2014 - Lucas Petherbridge
-                </p>
+        <div class="container">
+            <div class="row">
+                <footer>
+                    <p class="copyright col-md-4">
+                        &copy; Copyright 2014 -
+                        <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
+                            Lucas Petherbridge
+                        </a>
+                    </p>
 
-                <nav id="footer-nav" class="site-nav">
-                    <ul class="nav-inline pull-right">
-                        <li class="contact">
-                            <a href="{% url 'contact' %}">Contact</a>
-                        </li>
-                        <li class="subscribe">
-                            <a href="{% url 'subscribe' %}">Subscribe</a>
-                        </li>
-                    </ul>
-                </nav>
-            </footer>
-        </div>
+                    <nav class="footer-nav site-nav col-md-3 col-md-offset-5" role="navigation">
+                        <ul class="nav-inline">
+                            <li class="contact">
+                                <a href="{% url 'contact' %}">Contact</a>
+                            </li>
+                            <!--<li class="subscribe">
+                                <a href="{% url 'subscribe' %}">Subscribe</a>
+                            </li>-->
+                        </ul>
+                    </nav>
+                </footer>
+            </div><!-- end_row -->
+        </div><!-- end_container -->
     </main>
     {{ GA_CODE|safe }}
 </body>

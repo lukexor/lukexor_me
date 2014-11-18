@@ -1,11 +1,11 @@
 Django==1.7
 Fabric==1.9.1
 MySQL-python==1.2.3
-South==1.0
 argparse==1.2.1
-distribute==0.6.24
+django-tinymce==1.5.3
 ecdsa==0.11
 paramiko==1.14.0
 pip-tools==0.3.5
 pycrypto==2.6.1
+pytz==2014.7
 wsgiref==0.1.2

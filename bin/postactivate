@@ -11,7 +11,4 @@ fi
 export DJANGO_SETTINGS_MODULE="lukexor_me.${SETTING}"
 
 cdproject
-
-if [[ ! $TERM =~ screen ]]; then
-    screen -s lukexor_me -d -R
-fi
+cd .

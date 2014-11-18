@@ -1,0 +1,8 @@
+<div class="row">
+    {% if next_page %}
+        <div class="next_page"><a href="{{ url }}?p={{ next_page }}"><< Older {{ page }}</a></div>
+    {% endif %}
+    {% if prev_page >= 0 %}
+        <div class="prev_page"><a href="{{ url }}{% if prev_page > 0 %}?p={{ prev_page }}{% endif %}">Newer {{ page }} >></a></div>
+    {% endif %}
+</div>
