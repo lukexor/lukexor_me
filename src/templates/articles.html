@@ -19,7 +19,7 @@
 
 					<p class="article_footer">
 						{% if comments_enabled %}<a href="{{ BASE_URL }}/{{ article.permalink_title }}#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a> <span class="spacer">|</span>{% endif %}
-						<span class="hover_text" title="{{ article.get_tags }}">Tags</span> <span class="spacer">|</span>
+                        {% if article.get_tags %}<span class="hover_text" title="{{ article.get_tags }}">Tags</span> <span class="spacer">|</span>{% endif %}
 						Share on <a href="{% create_share_url 'twitter' BASE_URL article.permalink_title article.title %}" title="Share on Twitter">Twitter</a>,
 						<a href="{% create_share_url 'facebook' BASE_URL article.permalink_title article.title %}" title="Share on Facebook">Facebook</a> or
 						<a href="{% create_share_url 'google' BASE_URL article.permalink_title article.title %}" title="Share on Google+">Google+</a> <span class="spacer">|</span>
