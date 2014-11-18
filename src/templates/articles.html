@@ -5,31 +5,82 @@
 <section id="main-section">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-8">
 			{% for article in articles %}
 				<article>
 					<h2>{{ article.title }}</h2>
 					<p class="date_published">
 						{{ article.created | date:'F j, Y' }} <span class="spacer">|</span>
 						{{ article.time_to_read }} <span class="spacer">|</span>
-						<a href="{{ BASE_URL }}/?c={{ article.category }}">{{ article.category }}</a> <span class="spacer">|</span>
-						by {{ article.get_authors }}
+						<a href="{{ BASE_URL }}/?c={{ article.category }}">{{ article.category }}</a>
 					</p>
 
 					<span class="article_body">{{ article.body | safe }}</span>
 
 					<p class="article_footer">
-						Comments [{{ article.comment_count }}] <span class="spacer">|</span>
-						Tags: {{ article.get_tags }} <span class="spacer">|</span>
+						{% if comments_enabled %}<a href="{{ BASE_URL }}/{{ article.permalink_title }}#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a> <span class="spacer">|</span>{% endif %}
+						<span class="hover_text" title="{{ article.get_tags }}">Tags</span> <span class="spacer">|</span>
 						Share on <a href="{% create_share_url 'twitter' BASE_URL article.permalink_title article.title %}" title="Share on Twitter">Twitter</a>,
 						<a href="{% create_share_url 'facebook' BASE_URL article.permalink_title article.title %}" title="Share on Facebook">Facebook</a> or
 						<a href="{% create_share_url 'google' BASE_URL article.permalink_title article.title %}" title="Share on Google+">Google+</a> <span class="spacer">|</span>
 						<a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="permalink">permalink</a>
 					</p>
+					{% if show_comments %}
+					<p class="article_comments">
+						<a name="comments"></a>
+						<div class="comment_form row">
+							<form action="/comment/" method="post">
+								{% csrf_token %}
+								{{ form.non_field_errors }}
+
+								<div class="col-md-6">
+									{{ form.name.errors }}
+									<div class="form-group {% if form.name.errors %} has-error has-feedback{% endif %}">
+										{{ form.name }}
+									</div>
+
+									{{ form.email.errors }}
+									<div class="form-group{% if form.email.errors %} has-error has-feedback{% endif %}">
+										{{ form.email }} <p class="help-block">{{ form.email.help_text | safe }}</p>
+									</div>
+
+									{{ form.website.errors }}
+									<div class="form-group{% if form.website.errors %} has-error has-feedback{% endif %}">
+										{{ form.website }} <p class="help-block">{{ form.website.help_text }}</p>
+									</div>
+
+
+								</div>
+
+								<div class="col-md-6">
+									{{ form.message.errors }}
+									<div class="form-group{% if form.message.errors %} has-error{% endif %}">
+										{{ form.message }}
+									</div>
+
+									<div class="form-group checkbox float_right">
+										<label for="id_remember_me">{{ form.remember_me }} {{ form.remember_me.label }}</label>
+									</div>
+
+									<button id="post_comment" type="submit" role="submit" class="btn-send btn btn-primary float_right">Post</button>
+								</div>
+							</form>
+						</div>
+						{% for comment in article.comments.all %}
+							<div class="comment_wrapper">
+								<img class="comment_gravatar" src="{{ comment.user.gravatar }}">
+								<div class="comment_name"><a href="{{ comment.user.website }}" title="{{ comment.user.get_full_name }}">{{ comment.user.get_full_name }}</a></div>
+								<div class="comment_date">{{ comment.created | date:'F j, Y' }}</div>
+								<div class="comment_body">{{ comment.body | safe }}</div>
+							</div>
+						{% endfor %}
+					</p>
+					{% endif %}
 					<p class="article_separator"></p>
 				</article>
 			{% endfor %}
 			</div>
+			<div class="col-md-4"><!-- TODO: Tags/Date/Category filter options here --></div>
 		</div><!-- end_row -->
 		{% url 'articles' as current_url %}
 		{% include 'pagination_footer.html' with page='articles' url=current_url %}

@@ -54,6 +54,8 @@ def create_results_string(count, offset, limit):
     if (count != 1):
         count_string += "s"
 
+    return count_string
+
 def project_view(request, project):
     return render(request, "projects.html", {
         'page_title': build_page_title('Projects'),
@@ -61,9 +63,14 @@ def project_view(request, project):
     })
 
 def article_view(request, article):
+    form = forms.CommentForm()
+
     return render(request, "articles.html", {
-        'page_title': build_page_title('Articles'),
         'articles': article,
+        'form': form,
+        'page_title': build_page_title('Articles'),
+        'comments_enabled': False,
+        'show_comments': False, # TODO Finish comment functionality
     })
 
 
@@ -81,6 +88,7 @@ class ArticlesView(View):
         if title:
             return article_view(request, all_articles.filter(permalink_title=title))
 
+        form = forms.CommentForm()
         limit = settings.PAGE_LIMITS['articles']
         offset = get_page_offset(request, limit)
         curr_page = get_current_page(request)
@@ -90,10 +98,12 @@ class ArticlesView(View):
         articles = all_articles[offset:offset + limit]
 
         return render(request, "articles.html", {
-            'page_title': build_page_title('Articles'),
             'articles': articles,
-            'prev_page': prev_page,
+            'comments_enabled': False,
+            'form': form,
             'next_page': next_page,
+            'page_title': build_page_title('Articles'),
+            'prev_page': prev_page,
         })
 
 
@@ -135,28 +145,22 @@ class HomeView(View):
         prev_page = get_prev_page(curr_page)
         query_string = ''
         found_articles = None
-        found_projects = None
 
         if ('q' in request.GET) and request.GET['q'].strip():
             query_string = request.GET['q']
 
             search = SiteSearch()
             article_query = search.get_query(query_string, ['title', 'body', 'authors__first_name', 'authors__last_name', 'tags__name', 'category__name'])
-            project_query = search.get_query(query_string, ['title', 'description', 'clients__first_name', 'clients__last_name'])
-
-            found_projects = models.Project.objects.filter(project_query).order_by('-created').distinct()[offset:offset + limit]
             found_articles = models.Article.objects.filter(article_query).order_by('-created').distinct()[offset:offset + limit]
 
-            total_count = found_projects.count() + found_articles.count()
+            total_count = found_articles.count()
 
             next_page = get_next_page(curr_page, limit, total_count)
 
-            # 2 * limit is so we can have exactly limit of articles and projects
-            results_string = create_results_string(total_count, offset, (2 * limit))
+            results_string = create_results_string(total_count, offset, limit)
 
             return render(request, "search.html", {
                 'search_string': query_string,
-                'projects': found_projects,
                 'articles': found_articles,
                 'results_string': results_string,
                 'prev_page': prev_page,

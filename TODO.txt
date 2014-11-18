@@ -1,6 +1,7 @@
-- Look up JS form validation to enable submit button when all forms are filled out
-- Fix HTTP 405 error when submitting contact form
-- Finish contact form submit and email receipt
+- Finish comment functionality
+- Auto-generate gravatar URL on comment post/user creation based on email
+- Flesh out project page
+- Set up RSS Feed
 
 - Take picture programming on mac
 - Take a variety of head shots

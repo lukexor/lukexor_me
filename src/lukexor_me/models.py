@@ -138,6 +138,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=45)
     last_name = models.CharField(max_length=45, blank=True, null=True)
     website = models.CharField(max_length=2083, blank=True, null=True)
+    gravatar = models.CharField(max_length=2083, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     note = models.TextField(blank=True, null=True)
     is_staff = models.BooleanField('staff status', default=False,

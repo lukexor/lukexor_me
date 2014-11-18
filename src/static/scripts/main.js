@@ -10,8 +10,9 @@ $(document).ready(function ()
     }
 
 
-    // Contact form validation
+    // form validation
     $('#send_message').addClass('disabled'); // Set default to disabled
+    $('#post_comment').addClass('disabled'); // Set default to disabled
 
     $('input').on('keyup change', function() { validate_contact_form() });
     $('textarea').on('keyup change', function() { validate_contact_form() });

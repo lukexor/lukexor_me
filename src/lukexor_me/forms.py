@@ -41,38 +41,93 @@ class ContactForm(forms.Form):
     """
 
     name = forms.CharField(
-        max_length=45,
-        widget=forms.TextInput(
-            attrs={
+        max_length = 45,
+        widget = forms.TextInput(
+            attrs = {
                 'class': 'contact_name form-control required',
                 'placeholder': 'Name',
             }
         ),
     )
     email = forms.EmailField(
-        max_length=254,
-        widget=forms.TextInput(
-            attrs={
+        max_length = 254,
+        widget = forms.TextInput(
+            attrs = {
                 'class': 'contact_email form-control required',
                 'placeholder': 'Email',
             }
         ),
     )
     phone = forms.CharField(
-        max_length=15,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'contact_phone form-control required',
+        max_length = 15,
+        help_text = "(optional)",
+        widget = forms.TextInput(
+            attrs = {
+                'class': 'contact_phone form-control',
                 'placeholder': 'Phone',
             }
         ),
     )
     message = forms.CharField(
-        widget=forms.Textarea(
-            attrs={
+        widget = forms.Textarea(
+            attrs = {
                 'class': 'contact_message form-control required',
                 'placeholder': 'Message',
                 'rows': 9,
+            }
+        ),
+    )
+
+
+class CommentForm(forms.Form):
+
+    """A simple message form
+    """
+
+    name = forms.CharField(
+        max_length = 45,
+        widget = forms.TextInput(
+            attrs = {
+                'class': 'comment_form_name form-control required',
+                'placeholder': 'Name',
+            }
+        ),
+    )
+    email = forms.EmailField(
+        max_length = 254,
+        help_text = 'Uses <a href="http://gravatar.com/" title="Gravatar">gravatar</a>',
+        widget = forms.TextInput(
+            attrs = {
+                'class': 'comment_form_email form-control required',
+                'placeholder': 'Email',
+            }
+        ),
+    )
+    website = forms.CharField(
+        max_length = 2083,
+        help_text = '(optional)',
+        widget = forms.TextInput(
+            attrs = {
+                'class': 'comment_form_website form-control',
+                'placeholder': 'Website',
+            }
+        ),
+    )
+    remember_me = forms.BooleanField(
+        required = True,
+        label = 'Remember me',
+        widget = forms.CheckboxInput(
+            attrs = {
+                'class': 'comment_form_remember_me',
+            }
+        ),
+    )
+    message = forms.CharField(
+        widget = forms.Textarea(
+            attrs = {
+                'class': 'comment_form_message form-control required',
+                'placeholder': 'Message',
+                'rows': 8,
             }
         ),
     )

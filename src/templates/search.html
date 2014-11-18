@@ -16,28 +16,22 @@
 		</div><!-- end_row -->
 		<div class="row">
 			<div class="col-md-12">
-				<p class="search-count">{{ count_string }}</p>
-
+				<p class="search_results_string">{{ results_string }}</p>
 				<p>
-					<!-- TODO: Factor into project-short template -->
-					{% if search_string and projects %}<h3>Projects:</h3>{% endif %}
-					{% for project in projects %}
-						<article>
-							<h4>{{ project.title }}</h4>
-							<p>{{ project.summary }}
-							<p>Client(s): {{ project.get_clients }}</p>
-						</article>
-					{% endfor %}
 					<!-- TODO: Factor into article-short template -->
-					{% if search_string and articles %}<h3>Articles:</h3>{% endif %}
+					<ol>
 					{% for article in articles %}
-						<article>
-							<h4>{{ article.title }}</h4>
-							<p>{{ article.summary }}
-							<p>Time to Read: {{ article.time_to_read }}</p>
+						<li>
+							<p class="search_listing_title"><a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p>
+							<p class="date_published">
+								{{ article.created | date:'F j, Y' }} <span class="spacer">|</span>
+								{{ article.time_to_read }} <span class="spacer">|</span>
+								<a href="{{ BASE_URL }}/?c={{ article.category }}">{{ article.category }}</a>
+							</p>
 							<!-- TODO Tags, Comments -->
-						</article>
+						</li>
 					{% endfor %}
+					</ol>
 				</p>
 			</div>
 		</div>
