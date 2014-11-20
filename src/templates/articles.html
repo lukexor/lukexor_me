@@ -11,7 +11,7 @@
 				<article>
 					<h2>{{ article.title }}</h2>
 					<p class="date_published">
-						{{ article.created | date:'F j, Y' }} <span class="spacer">|</span>
+						{{ article.date_published | date:'F j, Y' }} <span class="spacer">|</span>
 						{{ article.time_to_read }} <span class="spacer">|</span>
 						<a href="{{ BASE_URL }}/?c={{ article.category }}">{{ article.category }}</a>
 					</p>
