@@ -2,6 +2,7 @@
 - Auto-generate gravatar URL on comment post/user creation based on email
 - Flesh out project page
 - Set up RSS Feed
+- Fix contact form emails being marked spam
 
 - Take picture programming on mac
 - Take a variety of head shots

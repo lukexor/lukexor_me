@@ -7,6 +7,7 @@
 		<div class="row">
 			<div class="col-md-8">
 			{% for article in articles %}
+				{% if article.is_published %}
 				<article>
 					<h2>{{ article.title }}</h2>
 					<p class="date_published">
@@ -78,6 +79,7 @@
 					{% endif %}
 					<p class="article_separator"></p>
 				</article>
+				{% endif %}
 			{% endfor %}
 			</div>
 			<div class="col-md-4"><!-- TODO: Tags/Date/Category filter options here --></div>

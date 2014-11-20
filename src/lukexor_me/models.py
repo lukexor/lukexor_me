@@ -9,7 +9,7 @@ from . import settings
 
 class Article(models.Model):
     article_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
     permalink_title = models.CharField(max_length=45, unique=True)
     summary = models.CharField(max_length=255)
     body = models.TextField()
@@ -31,7 +31,10 @@ class Article(models.Model):
                                       related_query_name='comment',
                                       db_table='article_comment',
                                       blank=True)
-    created = models.DateTimeField('date published', default=timezone.now)
+
+    is_published = models.BooleanField(default=False)
+    date_published = models.DateTimeField(default=timezone.now) 
+    created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
     class Meta:
@@ -68,7 +71,7 @@ class Article(models.Model):
 
 class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=45, unique=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
@@ -181,7 +184,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
 class Project(models.Model):
     project_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, unique=True)
     permalink_title = models.CharField(max_length=45, unique=True)
     summary = models.CharField(max_length=255)
     description = models.TextField()
@@ -231,7 +234,7 @@ class Project(models.Model):
 
 class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=45, unique=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
@@ -246,7 +249,7 @@ class Role(models.Model):
 
 class Tag(models.Model):
     tag_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=45, unique=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 

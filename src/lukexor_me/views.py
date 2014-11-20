@@ -56,19 +56,19 @@ def create_results_string(count, offset, limit):
 
     return count_string
 
-def project_view(request, project):
+def project_view(request, title, project):
     return render(request, "projects.html", {
-        'page_title': build_page_title('Projects'),
+        'page_title': build_page_title(title),
         'projects': project,
     })
 
-def article_view(request, article):
+def article_view(request, title, article):
     form = forms.CommentForm()
 
     return render(request, "articles.html", {
         'articles': article,
         'form': form,
-        'page_title': build_page_title('Articles'),
+        'page_title': build_page_title(title),
         'comments_enabled': False,
         'show_comments': False, # TODO Finish comment functionality
     })
@@ -82,11 +82,8 @@ class AboutView(View):
 
 class ArticlesView(View):
 
-    def get(self, request, title=None):
+    def get(self, request):
         all_articles = models.Article.objects.all().order_by('-created')
-
-        if title:
-            return article_view(request, all_articles.filter(permalink_title=title))
 
         form = forms.CommentForm()
         limit = settings.PAGE_LIMITS['articles']
@@ -191,11 +188,8 @@ class HomeView(View):
 
 class ProjectsView(View):
 
-    def get(self, request, title=None):
+    def get(self, request):
         all_projects = models.Project.objects.all().order_by('-created')
-
-        if title:
-            return project_view(request, all_projects.filter(permalink_title=title))
 
         limit = settings.PAGE_LIMITS['projects']
         offset = get_page_offset(request, limit)
@@ -223,14 +217,14 @@ class TitleView(View):
 
     def get(self, request, title=None):
         # Find our title
-        found_project = models.Project.objects.filter(permalink_title=title)
+        found_projects = models.Project.objects.filter(permalink_title=title)
 
-        if found_project:
-            return project_view(request, found_project)
+        if found_projects:
+            return project_view(request, found_projects.first().title, found_projects)
 
-        found_article = models.Article.objects.filter(permalink_title=title)
+        found_articles = models.Article.objects.filter(permalink_title=title)
 
-        if found_article:
-            return article_view(request, found_article)
+        if found_articles:
+            return article_view(request, found_articles.first().title, found_articles)
         else:
             raise Http404

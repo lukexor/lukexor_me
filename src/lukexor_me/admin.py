@@ -72,6 +72,9 @@ class ArticleAdmin(admin.ModelAdmin):
         ('Labels', {
             'fields': ('category', 'tags', 'comments')
         }),
+        ('Dates', {
+            'fields': ('is_published', 'date_published',)
+        })
     )
     inlines = [
         #CommentsInline,
