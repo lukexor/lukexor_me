@@ -34,7 +34,11 @@ class Article(models.Model):
         return reverse('permalink', args=[self.permalink_title])
 
     def get_tags(self):
-        return ", ".join(self.tags.all())
+        tags = []
+        for tag in self.tags.all():
+            tag.append(tag.name)
+
+        return ", ".join(tags)
     get_tags.short_description = 'Tag(s)'
 
     def summary(self):
@@ -180,6 +184,14 @@ class Project(models.Model):
 
         return ", ".join(roles)
     get_roles.short_description = 'Role(s)'
+
+    def get_tags(self):
+        tags = []
+        for tag in self.tags.all():
+            tags.append(tag.name)
+
+        return ", ".join(tags)
+    get_tags.short_description = 'Tag(s)'
 
     def summary(self):
         return "%s ..." % (self.description[0:100])
