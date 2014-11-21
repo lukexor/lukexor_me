@@ -41,6 +41,7 @@
 </head>
 
 <body>
+    {{ GA_CODE|safe }}
 
     <main>
         <!--[if lt IE 7]>
@@ -140,10 +141,10 @@
 
                     <nav class="footer-nav site-nav col-md-3 col-md-offset-5" role="navigation">
                         <ul class="nav-inline">
-                            <li class="contact">
+                            <li>
                                 <a href="{% url 'contact' %}">Contact</a>
                             </li>
-                            <li class="subscribe">
+                            <li>
                                 <a href="{% URLS.feedburner %}">Subscribe</a>
                             </li>
                         </ul>
@@ -152,7 +153,6 @@
             </div><!-- end_row -->
         </div><!-- end_container -->
     </main>
-    {{ GA_CODE|safe }}
 </body>
 
 </html>
