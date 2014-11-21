@@ -10,18 +10,21 @@
 <head>
     <meta charset="utf-8">
 
-    <title>
-        {{ page_title }}
-    </title>
-    <meta name="description" content="Articles and projects of Lucas Petherbridge. {{ SITE_SUBTITLE }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }}</title>
 
+    {% if page_description %}<meta name="description" content="{{ page_description }}">{% endif %}
+    {% if page_keywords %}<meta name="keywords" content="{{ page_keywords }}">{% endif %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Lucas Petherbridge">
+    <meta name="copyright" content="Lucas Petherbridge">
+    <meta name="msapplication-TileColor" content="#D83434">
+    <meta name="msapplication-TileImage" content="{% static 'images/icons/tileicon-144.png' %}">
+
+    <link rel="alternate" type="application/atom+xml" href="{% url 'feed' %}" title="Lucas Petherbridge Article Feed"/>
     <link rel="apple-touch-icon" href="{% static 'images/icons/apple-touch-icon-152.png' %}">
     <link rel="icon" href="{% static 'images/icons/favicon-96.png' %}">
     <!--[if IE]><link rel="shortcut icon" href="{% static 'images/icons/favicon-32.ico' %}"><![endif]-->
     <!-- or, set /favicon.ico for IE10 win -->
-    <meta name="msapplication-TileColor" content="#D83434">
-    <meta name="msapplication-TileImage" content="{% static 'images/icons/tileicon-144.png' %}">
 
     <link rel="stylesheet" href="{% static 'styles/normalize.css' %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
@@ -92,6 +95,11 @@
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="{{ URLS.github }}" title="GitHub" class="github text-hide">
+                                        GitHub
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ URLS.facebook }}" title="Facebook" class="facebook text-hide">
                                         Facebook
                                     </a>
@@ -101,11 +109,16 @@
                                         Twitter
                                     </a>
                                 </li>
-                                <!--<li>
-                                    <a href="{% url 'subscribe' %}" title="Subscribe" class="subscribe text-hide">
+                                <li>
+                                    <a href="{{ URLS.googleplus }}" title="Google+" class="googleplus text-hide">
+                                        Google+
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'feed' %}" title="Subscribe" class="subscribe text-hide">
                                         Subscribe
                                     </a>
-                                </li>-->
+                                </li>
                             </ul>
                         </div>
                     </nav>
@@ -120,7 +133,7 @@
                 <footer>
                     <p class="copyright col-md-4">
                         &copy; Copyright 2014 -
-                        <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin">
+                        <a href="{{ URLS.linkedin }}" title="LinkedIn">
                             Lucas Petherbridge
                         </a>
                     </p>
@@ -130,9 +143,9 @@
                             <li class="contact">
                                 <a href="{% url 'contact' %}">Contact</a>
                             </li>
-                            <!--<li class="subscribe">
-                                <a href="{% url 'subscribe' %}">Subscribe</a>
-                            </li>-->
+                            <li class="subscribe">
+                                <a href="{% url 'feed' %}">Subscribe</a>
+                            </li>
                         </ul>
                     </nav>
                 </footer>

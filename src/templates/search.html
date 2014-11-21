@@ -15,18 +15,20 @@
 			</div>
 		</div><!-- end_row -->
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-8">
 				<p class="search_results_string">{{ results_string }}</p>
 				<p>
 					<!-- TODO: Factor into article-short template -->
 					<ol>
 					{% for article in articles %}
 						<li>
-							<p class="search_listing_title"><a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p>
+							<p class="search_listing_title">
+								<a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p><br>
 							<p class="date_published">
 								{{ article.created | date:'F j, Y' }} <span class="spacer">|</span>
 								{{ article.time_to_read }} <span class="spacer">|</span>
-								<a href="{{ BASE_URL }}/?c={{ article.category }}">{{ article.category }}</a>
+								<a href="{{ BASE_URL }}/?c={{ article.category }}">{{ article.category }}</a> <span class="spacer">|</span>
+								<a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="permalink">permalink</a>
 							</p>
 							<!-- TODO Tags, Comments -->
 						</li>

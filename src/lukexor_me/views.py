@@ -56,19 +56,23 @@ def create_results_string(count, offset, limit):
 
     return count_string
 
-def project_view(request, title, project):
+def project_view(request, project):
     return render(request, "projects.html", {
-        'page_title': build_page_title(title),
-        'projects': project,
+        'page_description': project.title + " :: " + project.summary(),
+        'page_keywords': project.get_tags(),
+        'page_title': build_page_title(project.title),
+        'projects': [project],
     })
 
-def article_view(request, title, article):
+def article_view(request, article):
     form = forms.CommentForm()
 
     return render(request, "articles.html", {
-        'articles': article,
+        'articles': [article],
         'form': form,
-        'page_title': build_page_title(title),
+        'page_description': article.title + " :: " + article.summary(),
+        'page_keywords': article.get_tags(),
+        'page_title': build_page_title(article.title),
         'comments_enabled': False,
         'show_comments': False, # TODO Finish comment functionality
     })
@@ -83,7 +87,7 @@ class AboutView(View):
 class ArticlesView(View):
 
     def get(self, request):
-        all_articles = models.Article.objects.all().order_by('-created')
+        all_articles = models.Article.objects.all().order_by('-date_published')
 
         form = forms.CommentForm()
         limit = settings.PAGE_LIMITS['articles']
@@ -147,8 +151,8 @@ class HomeView(View):
             query_string = request.GET['q']
 
             search = SiteSearch()
-            article_query = search.get_query(query_string, ['title', 'body', 'authors__first_name', 'authors__last_name', 'tags__name', 'category__name'])
-            found_articles = models.Article.objects.filter(article_query).order_by('-created').distinct()[offset:offset + limit]
+            article_query = search.get_query(query_string, ['title', 'body', 'author__first_name', 'author__last_name', 'tags__name', 'category__name'])
+            found_articles = models.Article.objects.filter(article_query).filter(is_published=True).order_by('-date_published').distinct()[offset:offset + limit]
 
             total_count = found_articles.count()
 
@@ -169,7 +173,7 @@ class HomeView(View):
             search = SiteSearch()
             article_query = search.get_query(query_string, ['category__name'])
 
-            found_articles = models.Article.objects.filter(article_query).order_by('-created').distinct()[offset:offset + limit]
+            found_articles = models.Article.objects.filter(article_query).order_by('-date_published').distinct()[offset:offset + limit]
 
             next_page = get_next_page(curr_page, limit, found_articles.count())
 
@@ -183,7 +187,11 @@ class HomeView(View):
                 'next_page': next_page,
             })
         else:
-            return render(request, "index.html", {'page_title': build_page_title(settings.STRINGS['site_subtitle'])})
+            return render(request, "index.html", {
+                'page_title': build_page_title(settings.STRINGS['site_subtitle']),
+                'page_description': settings.STRINGS['homepage_description'],
+                'page_keywords': settings.STRINGS['homepage_keywords'],
+            })
 
 
 class ProjectsView(View):
@@ -217,14 +225,14 @@ class TitleView(View):
 
     def get(self, request, title=None):
         # Find our title
-        found_projects = models.Project.objects.filter(permalink_title=title)
+        found_project = models.Project.objects.filter(permalink_title=title).first()
 
-        if found_projects:
-            return project_view(request, found_projects.first().title, found_projects)
+        if found_project:
+            return project_view(request, found_project)
 
-        found_articles = models.Article.objects.filter(permalink_title=title)
+        found_article = models.Article.objects.filter(permalink_title=title).first()
 
-        if found_articles:
-            return article_view(request, found_articles.first().title, found_articles)
+        if found_article:
+            return article_view(request, found_article)
         else:
             raise Http404

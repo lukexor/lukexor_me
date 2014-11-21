@@ -6,7 +6,16 @@ from . import models, forms
 
 
 class CommentsInline(admin.TabularInline):
-    model = models.Article.comments.through
+    model = models.Comment
+    extra = 1
+    verbose_name = 'Comment'
+    verbose_name_plural = 'Comments'
+
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'body')
+        }),
+    )
 
 
 @admin.register(models.Category)
@@ -67,24 +76,26 @@ class CustomUserAdmin(UserAdmin):
 class ArticleAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': (('title', 'permalink_title'), ('authors', 'minutes_to_read'), 'summary', 'body',),
+            'fields': (('title', 'permalink_title'), ('author', 'minutes_to_read'), 'category', 'tags', 'body',),
         }),
-        ('Labels', {
-            'fields': ('category', 'tags', 'comments')
+        ('Publish', {
+            'fields': ('is_published', 'date_published')
         }),
-        ('Dates', {
-            'fields': ('is_published', 'date_published',)
+        ('Date Information', {
+            'classes': ('collapse',),
+            'fields': ('created', 'updated')
         })
     )
+    readonly_fields = ('created', 'updated')
     inlines = [
-        #CommentsInline,
+        CommentsInline,
     ]
     formfield_overrides = {
         db_models.TextField: {'widget': TinyMCE(attrs={'cols': 100, 'rows': 30})},
     }
-    list_display = ('title', 'get_authors', 'minutes_to_read', 'category', 'comment_count', 'created')
-    list_filter = ('authors', 'category', 'tags', 'minutes_to_read', 'created')
-    search_fields = ('title', 'authors__first_name', 'authors__last_name', 'category__name', 'tags__name')
+    list_display = ('title', 'author', 'minutes_to_read', 'category', 'comment_count', 'created')
+    list_filter = ('author', 'category', 'tags', 'minutes_to_read', 'created')
+    search_fields = ('title', 'author__first_name', 'author__last_name', 'category__name', 'tags__name')
     ordering = ('title',)
     date_hierarchy = 'created'
 
@@ -94,17 +105,21 @@ class ProjectAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (('title', 'permalink_title'),
-                       ('roles', 'clients'), 'website', 'summary', 'description',
+                       'website', 'tags', 'description',
                        ('date_started', 'date_completed')
              ),
         }),
+        ('Date Information', {
+            'classes': ('collapse',),
+            'fields': ('created', 'updated'),
+        })
     )
     formfield_overrides = {
         db_models.TextField: {'widget': TinyMCE(attrs={'cols': 100, 'rows': 30})},
     }
-    list_display = ('title', 'website', 'get_roles', 'get_clients', 'date_started', 'date_completed')
-    list_filter = ('roles', 'clients', 'date_completed')
-    search_fields = ('title', 'website', 'description', 'clients__first_name', 'clients__last_name')
+    list_display = ('title', 'website', 'get_roles', 'client', 'date_started', 'date_completed')
+    list_filter = ('roles', 'client', 'date_completed')
+    search_fields = ('title', 'website', 'description', 'client__first_name', 'client__last_name')
     ordering = ('title',)
     date_hierarchy = 'date_started'
 

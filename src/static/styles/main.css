@@ -288,23 +288,57 @@ a.disabled {
     background-color: #333333;
     border: 2px solid #333333;
     border-radius: 5px;
+    display: inline;
+}
+.share-icons {
+    margin: -.5em .5em;
 }
 .social-icons a {
-    display: block;
     width: 32px;
     height: 32px;
+    display: inline;
 }
-.social-icons .facebook {
-    background: url("/static/images/social_icons/facebook.png");
+.facebook, .twitter, .linkedin, .github, .subscribe {
+    background-size: 32px 32px !important;
+    background-repeat: no-repeat;
 }
-.social-icons .twitter {
-    background: url("/static/images/social_icons/twitter.png");
+
+.facebook:hover {
+    background-color: #3B5998 !important;
 }
-.social-icons .linkedin {
-    background: url("/static/images/social_icons/linkedin.png");
+.twitter:hover {
+    background-color: #00ACED !important;
 }
-.social-icons .subscribe {
-    background: url("/static/images/social_icons/rss.png");
+.googleplus:hover {
+    background-color: #D14836 !important;
+}
+.linkedin:hover {
+    background-color: #007FB1 !important;
+}
+.github:hover {
+    background-color: #4183C4 !important;
+}
+.subscribe:hover {
+    background-color: #FF8300 !important;
+}
+
+.facebook {
+    background: url("/static/images/social_icons/facebook-32.png");
+}
+.twitter {
+    background: url("/static/images/social_icons/twitter-32.png");
+}
+.googleplus {
+    background: url("/static/images/social_icons/googleplus-32.png");
+}
+.linkedin {
+    background: url("/static/images/social_icons/linkedin-32.png");
+}
+.github {
+    background: url("/static/images/social_icons/github-32.png");
+}
+.subscribe {
+    background: url("/static/images/social_icons/rss-32.png");
 }
 
 
@@ -334,8 +368,8 @@ a.disabled {
 .article_footer {
     border-bottom: 1px solid #619694;
     border-right: 1px solid #619694;
-    margin-top:2em;
-    padding:.5em 0;
+    margin-top: 2em;
+    padding: .5em 0;
     font-size: 1em;
     color: #9E792F;
 }
@@ -392,10 +426,6 @@ a.disabled {
 .hover_text {
     border-bottom: 2px dotted #3A7B78;
     cursor: help;
-}
-.float_right {
-    clear: both;
-    float: right;
 }
 
 /* ==========================================================================

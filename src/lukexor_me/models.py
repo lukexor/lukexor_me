@@ -1,69 +1,50 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.html import strip_tags
 from django.utils.http import urlquote
 from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from . import settings
+import re
 
 
 class Article(models.Model):
     article_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, unique=True)
     permalink_title = models.CharField(max_length=45, unique=True)
-    summary = models.CharField(max_length=255)
     body = models.TextField()
-    authors = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                     related_name='articles',
-                                     related_query_name='article',
-                                     db_table='article_author')
-    category = models.ForeignKey('Category',
-                                 related_name='articles',
-                                 related_query_name='article')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
+    category = models.ForeignKey('Category', default=1)
     tags = models.ManyToManyField('Tag',
-                                  related_name='articles',
-                                  related_query_name='article',
-                                  db_table='article_tag',
+                                  db_table = 'article_tag',
                                   blank=True)
-    minutes_to_read = models.PositiveIntegerField()
-    comments = models.ManyToManyField('Comment',
-                                      related_name='comment',
-                                      related_query_name='comment',
-                                      db_table='article_comment',
-                                      blank=True)
-
+    minutes_to_read = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=False)
-    date_published = models.DateTimeField(default=timezone.now) 
+    date_published = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
-    class Meta:
-        db_table = 'article'
-        verbose_name = 'article'
-        verbose_name_plural = 'articles'
+    def comment_count(self):
+        return self.comment_set.all().count()
+    comment_count.short_description = 'Comments'
 
-    def get_authors(self):
-        authors = []
-        for author in self.authors.all():
-            authors.append(author.get_full_name())
-
-        return ", ".join(authors)
+    def get_absolute_url(self):
+        return reverse('permalink', args=[self.permalink_title])
 
     def get_tags(self):
-        tags = []
-        for tag in self.tags.all():
-            tags.append(tag.name)
+        return ", ".join(self.tags.all())
+    get_tags.short_description = 'Tag(s)'
 
-        return ", ".join(tags)
-
-    def comment_count(self):
-        return self.comments.all().count()
+    def summary(self):
+        word_separator = re.compile('[ ]')
+        words = word_separator.split(self.body)[0:30]
+        summary = ' '.join(words)
+        return "%s ..." % (strip_tags(summary))
 
     def time_to_read(self):
         return "%d minute read" % (self.minutes_to_read)
-
-    get_authors.short_description = 'Author(s)'
-    comment_count.short_description = 'Comments'
 
     def __unicode__(self):
         return self.title
@@ -76,8 +57,6 @@ class Category(models.Model):
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
     class Meta:
-        db_table = 'category'
-        verbose_name = 'category'
         verbose_name_plural = 'categories'
 
     def __unicode__(self):
@@ -87,17 +66,13 @@ class Category(models.Model):
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    article = models.ForeignKey('Article')
     body = models.TextField()
     created = models.DateTimeField('date posted', default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
-    class Meta:
-        db_table = 'comment'
-        verbose_name = 'comment'
-        verbose_name_plural = 'comments'
-
     def __unicode__(self):
-        return "%s - %s" % (self.body, self.user)
+        return "%s - %s" % (strip_tags(self.body), self.user)
 
 
 class CustomUserManager(BaseUserManager):
@@ -159,7 +134,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     class Meta:
-        db_table = 'user'
         verbose_name = 'user'
         verbose_name_plural = 'users'
 
@@ -169,14 +143,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
+    get_full_name.short_description = 'Full Name'
 
     def get_short_name(self):
         return self.first_name
+    get_short_name.short_description = 'First Name'
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
-
-    get_full_name.short_description = 'Full Name'
 
     def __unicode__(self):
         return self.get_full_name()
@@ -186,27 +160,18 @@ class Project(models.Model):
     project_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, unique=True)
     permalink_title = models.CharField(max_length=45, unique=True)
-    summary = models.CharField(max_length=255)
     description = models.TextField()
     website = models.CharField(max_length=2083, blank=True, null=True)
-    roles = models.ManyToManyField('Role',
-                                   related_name='roles',
-                                   related_query_name='roles',
-                                   db_table='project_role')
-    clients = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                     related_name='client',
-                                     related_query_name='client',
-                                     db_table='project_client',
-                                     blank=True)
+    roles = models.ManyToManyField('Role', db_table='project_role')
+    client = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    tags = models.ManyToManyField('Tag', db_table='project_tag', blank=True)
     date_started = models.DateTimeField(blank=True, null=True)
     date_completed = models.DateTimeField(blank=True, null=True)
-    created = models.DateTimeField('date added', default=timezone.now)
+    created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
-    class Meta:
-        db_table = 'project'
-        verbose_name = 'project'
-        verbose_name_plural = 'projects'
+    def get_absolute_url(self):
+        return reverse('permalink', args=[self.permalink_title])
 
     def get_roles(self):
         roles = []
@@ -214,19 +179,10 @@ class Project(models.Model):
             roles.append(role.name)
 
         return ", ".join(roles)
-
-    def get_clients(self):
-        clients = []
-        for client in self.clients.all():
-            clients.append(client.get_full_name())
-
-        if clients:
-            return ", ".join(clients)
-        else:
-            return "N/A"
-
     get_roles.short_description = 'Role(s)'
-    get_clients.short_description = 'Client(s)'
+
+    def summary(self):
+        return "%s ..." % (self.description[0:100])
 
     def __unicode__(self):
         return self.title
@@ -238,11 +194,6 @@ class Role(models.Model):
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
-    class Meta:
-        db_table = 'role'
-        verbose_name = 'role'
-        verbose_name_plural = 'roles'
-
     def __unicode__(self):
         return self.name
 
@@ -252,11 +203,6 @@ class Tag(models.Model):
     name = models.CharField(max_length=45, unique=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
-
-    class Meta:
-        db_table = 'tag'
-        verbose_name = 'tag'
-        verbose_name_plural = 'tags'
 
     def __unicode__(self):
         return self.name

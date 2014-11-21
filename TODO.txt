@@ -3,6 +3,13 @@
 - Flesh out project page
 - Set up RSS Feed
 - Fix contact form emails being marked spam
+- Expand tags functionality on admin site for articles and projects
+- Fix project admin site with 'updated' field erro
+- Auto-save published date when marking 'is_published'
+- Auto-save minutes_to_read based on word count
+- Look into twitter feed/GitHub/LinkedIn API for About page
+- Link GitHub Repos into Projects
+- Add website link to projects
 
 - Take picture programming on mac
 - Take a variety of head shots

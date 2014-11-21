@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from . import views
+from lib.feeds import Feed
 
 admin.autodiscover()
 
@@ -12,7 +13,7 @@ urlpatterns = patterns(
     url(r'^about/$', views.AboutView.as_view(), name='about'),
     url(r'^contact/$', views.ContactView.as_view(), name='contact'),
     url(r'^thanks/$', views.ThanksView.as_view(), name='thanks'),
-    url(r'^subscribe/$', views.HomeView.as_view(), name='subscribe'),
+    url(r'^feed/$', Feed(), name='feed'),
     url(r'^(?P<title>[\w-]+)/$', views.TitleView.as_view(), name='permalink'),
 
     url(r'^tinymce/', include('tinymce.urls'), name='tinymce'),

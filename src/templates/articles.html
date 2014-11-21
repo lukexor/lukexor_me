@@ -18,14 +18,32 @@
 
 					<span class="article_body">{{ article.body | safe }}</span>
 
-					<p class="article_footer">
+					<div class="article_footer">
 						{% if comments_enabled %}<a href="{{ BASE_URL }}/{{ article.permalink_title }}#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a> <span class="spacer">|</span>{% endif %}
                         {% if article.get_tags %}<span class="hover_text" title="{{ article.get_tags }}">Tags</span> <span class="spacer">|</span>{% endif %}
-						Share on <a href="{% create_share_url 'twitter' BASE_URL article.permalink_title article.title %}" title="Share on Twitter">Twitter</a>,
-						<a href="{% create_share_url 'facebook' BASE_URL article.permalink_title article.title %}" title="Share on Facebook">Facebook</a> or
-						<a href="{% create_share_url 'google' BASE_URL article.permalink_title article.title %}" title="Share on Google+">Google+</a> <span class="spacer">|</span>
-						<a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="permalink">permalink</a>
-					</p>
+						<p class="block pull-left">Share:</p>
+						<ul class="social-icons share-icons nav nav-pills pull-left">
+							<li>
+								<a href="{% create_share_url 'twitter' BASE_URL article.permalink_title article.title %}" title="Share on Twitter" class="twitter text-hide">
+									Twitter
+								</a>
+							</li>
+							<li>
+								<a href="{% create_share_url 'facebook' BASE_URL article.permalink_title article.title %}" title="Share on Facebook" class="facebook text-hide">
+									Facebook
+								</a>
+							</li>
+							<li>
+								<a href="{% create_share_url 'google' BASE_URL article.permalink_title article.title %}" title="Share on Google+" class="googleplus text-hide">
+									Google+
+								</a>
+							</li>
+						</ul>
+						<p>
+							<span class="spacer">|</span>
+							<a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="permalink">permalink</a>
+						</p>
+					</div>
 					{% if show_comments %}
 					<p class="article_comments">
 						<a name="comments"></a>
@@ -59,7 +77,7 @@
 										{{ form.message }}
 									</div>
 
-									<div class="form-group checkbox float_right">
+									<div class="form-group checkbox pull-right">
 										<label for="id_remember_me">{{ form.remember_me }} {{ form.remember_me.label }}</label>
 									</div>
 
