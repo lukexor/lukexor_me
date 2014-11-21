@@ -7,7 +7,7 @@ from lukexor_me import models
 class Feed(Feed):
     feed_type = Atom1Feed
 
-    title = "Lucas Petherbridge Articles"
+    title = "Lucas Petherbridge"
     subtitle = settings.STRINGS['homepage_description']
     description = settings.STRINGS['homepage_description']
 
