@@ -39,12 +39,14 @@
 			</div>
 
 			<div class="col-md-3 pull-right">
+				{% if tags %}
 				<h3>Tags</h3>
 				<ul class="horizontal-bullets">
 					{% for tag in tags %}
 					<li><a href="{% url 'project_tag_search' tag|lower|slugify %}" title="{{ tag }}">{{ tag }}</a></li>
 					{% endfor %}
 				</ul>
+				{% endif %}
 			</div>
 
 			{% include 'snippets/pagination_footer.html' with post_type='projects' %}
