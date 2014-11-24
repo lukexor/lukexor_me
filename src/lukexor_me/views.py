@@ -62,6 +62,7 @@ def project_view(request, project, form):
         'page_title': build_page_title(project.title),
         'projects': [project],
         'show_comments': True,
+        'tags': get_all_tags(),
     })
 
 def article_view(request, article, form):
