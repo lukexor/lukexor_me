@@ -15,11 +15,15 @@ logger = logging.getLogger(__name__)
 def build_page_title(title):
     return '%s :: %s' % (title, settings.STRINGS['full_name'])
 
-def get_all_tags():
-    return models.Tag.objects.all()
+def get_article_tags():
+    tags = models.Tag.objects.filter(article__isnull=False).distinct()
+    return tags
 
-def get_all_categories():
-    return models.Category.objects.all()
+def get_project_tags():
+    return models.Tag.objects.filter(project__isnull=False).distinct()
+
+def get_article_categories():
+    return models.Category.objects.filter(article__isnull=False).distinct()
 
 def get_prev_page(page):
     if int(page) > 0:
@@ -62,20 +66,20 @@ def project_view(request, project, form):
         'page_title': build_page_title(project.title),
         'projects': [project],
         'show_comments': True,
-        'tags': get_all_tags(),
+        'tags': get_project_tags(),
     })
 
 def article_view(request, article, form):
     return render(request, "articles.html", {
         'articles': [article],
-        'categories': get_all_categories(),
+        'categories': get_article_categories(),
         'comments_enabled': settings.COMMENTS_ENABLED,
         'form': form,
         'page_description': article.title + " :: " + article.summary(),
         'page_keywords': article.get_tags(),
         'page_title': build_page_title(article.title),
         'show_comments': True,
-        'tags': get_all_tags(),
+        'tags': get_article_tags(),
     })
 
 
@@ -168,12 +172,12 @@ class ArticlesView(View):
         return render(request, "articles.html", {
             'articles': articles,
             'article_dates': article_dates,
-            'categories': get_all_categories(),
+            'categories': get_article_categories(),
             'comments_enabled': settings.COMMENTS_ENABLED,
             'next_page_url': next_page_url,
             'page_title': build_page_title('Articles'),
             'prev_page_url': prev_page_url,
-            'tags': get_all_tags(),
+            'tags': get_article_tags(),
         })
 
 
@@ -287,7 +291,7 @@ class ProjectsView(View):
             'page_title': build_page_title('Projects'),
             'prev_page_url': prev_page_url,
             'projects': filtered_projects[offset:offset + limit],
-            'tags': get_all_tags(),
+            'tags': get_project_tags(),
         })
 
 
