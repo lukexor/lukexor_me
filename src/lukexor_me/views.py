@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
 from django.views.generic import View
+from django.core.urlresolvers import reverse_lazy
 from django.core.mail import EmailMessage
 from django.conf import settings
 from lib.site_search import SiteSearch
 from . import forms, models
 
-import logging
+import logging, datetime, hashlib, re
 
 logger = logging.getLogger(__name__)
 
@@ -14,30 +15,26 @@ logger = logging.getLogger(__name__)
 def build_page_title(title):
     return '%s :: %s' % (title, settings.STRINGS['full_name'])
 
-def get_current_page(request):
-    current_page = 0
+def get_all_tags():
+    return models.Tag.objects.all()
 
-    if ('p' in request.GET) and request.GET['p'].strip():
-        current_page = int(request.GET['p'])
+def get_all_categories():
+    return models.Category.objects.all()
 
-    return current_page
-
-def get_prev_page(current_page):
-    if current_page > 0:
-        return current_page - 1
+def get_prev_page(page):
+    if int(page) > 0:
+        return int(page) - 1
     else:
         return None
 
-def get_next_page(current_page, limit, count):
-    if count > ( (current_page + 1) * limit ):
-        return current_page + 1
+def get_next_page(page, limit, count):
+    if count > ( (int(page) + 1) * limit ):
+        return int(page) + 1
     else:
         None
 
-def get_page_offset(request, limit):
-    offset = get_current_page(request) * limit
-
-    return offset
+def get_page_offset(page, limit):
+    return int(page) * limit
 
 def create_results_string(count, offset, limit):
     count_string = ""
@@ -56,25 +53,28 @@ def create_results_string(count, offset, limit):
 
     return count_string
 
-def project_view(request, project):
+def project_view(request, project, form):
     return render(request, "projects.html", {
+        'comments_enabled': settings.COMMENTS_ENABLED,
+        'form': form,
         'page_description': project.title + " :: " + project.summary(),
         'page_keywords': project.get_tags(),
         'page_title': build_page_title(project.title),
         'projects': [project],
+        'show_comments': True,
     })
 
-def article_view(request, article):
-    form = forms.CommentForm()
-
+def article_view(request, article, form):
     return render(request, "articles.html", {
         'articles': [article],
+        'categories': get_all_categories(),
+        'comments_enabled': settings.COMMENTS_ENABLED,
         'form': form,
         'page_description': article.title + " :: " + article.summary(),
         'page_keywords': article.get_tags(),
         'page_title': build_page_title(article.title),
-        'comments_enabled': False,
-        'show_comments': False, # TODO Finish comment functionality
+        'show_comments': True,
+        'tags': get_all_tags(),
     })
 
 
@@ -86,25 +86,93 @@ class AboutView(View):
 
 class ArticlesView(View):
 
-    def get(self, request):
-        all_articles = models.Article.objects.all().order_by('-date_published')
+    def get(self, request, category=None, tag=None, year=None, month=None, page=0):
+        all_articles = models.Article.objects.filter(is_published=True).order_by('-date_published')
 
-        form = forms.CommentForm()
+        article_dates = {}
+        for article in all_articles:
+            article_year = int(article.date_published.year)
+            article_month = int(article.date_published.month)
+
+            if article_year in article_dates:
+                if article_month in article_dates[article_year]:
+                    article_dates[article_year][article_month] += 1
+                else:
+                    article_dates[article_year][article_month] = 1
+            else:
+                article_dates[article_year] = {
+                    article_month: 1
+                }
+
         limit = settings.PAGE_LIMITS['articles']
-        offset = get_page_offset(request, limit)
-        curr_page = get_current_page(request)
-        prev_page = get_prev_page(curr_page)
-        next_page = get_next_page(curr_page, limit, all_articles.count())
+        offset = get_page_offset(page, limit)
 
-        articles = all_articles[offset:offset + limit]
+        filtered_articles = None
+        next_page_url = None
+        prev_page_url = None
+        prev_page = get_prev_page(page)
+
+        if category:
+            unslugified_category = category.replace('-', ' ')
+            filtered_articles = all_articles.filter(category__name=unslugified_category)
+
+            next_page = get_next_page(page, limit, filtered_articles.count())
+
+            if next_page:
+                next_page_url = reverse_lazy('category_search_by_page', args=[category, next_page])
+
+            if prev_page > 0:
+                prev_page_url = reverse_lazy('category_search_by_page', args=[category, prev_page])
+            elif prev_page == 0:
+                prev_page_url = reverse_lazy('category_search', args=[category])
+        elif tag:
+            unslugified_tag = tag.replace('-', ' ')
+            filtered_articles = all_articles.filter(tags__name=unslugified_tag)
+
+            next_page = get_next_page(page, limit, filtered_articles.count())
+
+            if next_page:
+                next_page_url = reverse_lazy('tag_search_by_page', args=[tag, next_page])
+
+            if prev_page > 0:
+                prev_page_url = reverse_lazy('tag_search_by_page', args=[tag, prev_page])
+            elif prev_page == 0:
+                prev_page_url = reverse_lazy('tag_search', args=[tag])
+        elif year:
+            if month:
+                min_date = datetime.datetime(int(year), int(month), 01)
+                max_date = datetime.datetime(int(year), int(month) + 1, 01) - datetime.timedelta(days = 1)
+                filtered_articles = all_articles.filter(date_published__gte=min_date).filter(date_published__lte=max_date)
+            else:
+                filtered_articles = all_articles.filter(date_published__year=int(year))
+        else:
+            filtered_articles = all_articles
+
+            next_page = get_next_page(page, limit, filtered_articles.count())
+
+            if next_page:
+                next_page_url = reverse_lazy('articles_by_page', args=[next_page])
+
+            if prev_page > 0:
+                prev_page_url = reverse_lazy('articles_by_page', args=[prev_page])
+            elif prev_page == 0:
+                prev_page_url = reverse_lazy('articles')
+
+        # No pagination for year/month pages
+        if year:
+            articles = filtered_articles
+        else:
+            articles = filtered_articles[offset:offset + limit]
 
         return render(request, "articles.html", {
             'articles': articles,
-            'comments_enabled': False,
-            'form': form,
-            'next_page': next_page,
+            'article_dates': article_dates,
+            'categories': get_all_categories(),
+            'comments_enabled': settings.COMMENTS_ENABLED,
+            'next_page_url': next_page_url,
             'page_title': build_page_title('Articles'),
-            'prev_page': prev_page,
+            'prev_page_url': prev_page_url,
+            'tags': get_all_tags(),
         })
 
 
@@ -119,14 +187,14 @@ class ContactView(View):
             message = form.cleaned_data['message']
             recipients = [settings.STRINGS['admin_email']]
 
-            subject = "New message from %s on lukexor.me" % (name)
+            date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            subject = "New message from %s on lukexor.me at: %s" % (name, date)
+            message = message + "\n\nAt: " + date
 
-            email = EmailMessage(subject, message, settings.STRINGS['no_reply_email'],
-                                 recipients, headers={'Reply-To': sender})
-
+            email = EmailMessage(subject, message, sender, recipients, headers={'Reply-To': sender})
             email.send()
 
-            return HttpResponseRedirect('/thanks/')
+            return HttpResponseRedirect('%s' % (reverse_lazy('thanks')))
         else:
             return render(request, "contact.html", {'form': form, 'page_title': build_page_title('Contact')})
 
@@ -137,81 +205,88 @@ class ContactView(View):
         return render(request, "contact.html", {'form': form, 'page_title': build_page_title('Contact')})
 
 
+class SearchArticlesView(View):
+    def get(self, request, page=0, query=None):
+        if ('q' in request.GET) and request.GET['q'].strip():
+            query_string = request.GET['q'].strip()
+            return HttpResponseRedirect("%s" % (query_string))
+
+        limit = settings.PAGE_LIMITS['search']
+        offset = get_page_offset(page, limit)
+        prev_page = get_prev_page(page)
+        next_page = None
+        search = SiteSearch()
+        search_query = None
+        search_results = None
+        results_string = ''
+
+        if query:
+            search_query = search.get_query(query, ['title', 'body', 'author__first_name', 'author__last_name', 'tags__name', 'category__name'])
+            search_results = models.Article.objects.filter(search_query).filter(is_published=True).order_by('-date_published').distinct()[offset:offset + limit]
+
+            search_count = search_results.count()
+            next_page = get_next_page(page, limit, search_count)
+
+            results_string = create_results_string(search_count, offset, limit)
+
+        return render(request, "search.html", {
+            'comments_enabled': settings.COMMENTS_ENABLED,
+            'query': query,
+            'articles': search_results,
+            'results_string': results_string,
+            'prev_page': prev_page,
+            'next_page': next_page,
+        })
+
 class HomeView(View):
 
     def get(self, request):
-        limit = settings.PAGE_LIMITS['search']
-        offset = get_page_offset(request, limit)
-        curr_page = get_current_page(request)
-        prev_page = get_prev_page(curr_page)
-        query_string = ''
-        found_articles = None
-
-        if ('q' in request.GET) and request.GET['q'].strip():
-            query_string = request.GET['q']
-
-            search = SiteSearch()
-            article_query = search.get_query(query_string, ['title', 'body', 'author__first_name', 'author__last_name', 'tags__name', 'category__name'])
-            found_articles = models.Article.objects.filter(article_query).filter(is_published=True).order_by('-date_published').distinct()[offset:offset + limit]
-
-            total_count = found_articles.count()
-
-            next_page = get_next_page(curr_page, limit, total_count)
-
-            results_string = create_results_string(total_count, offset, limit)
-
-            return render(request, "search.html", {
-                'search_string': query_string,
-                'articles': found_articles,
-                'results_string': results_string,
-                'prev_page': prev_page,
-                'next_page': next_page,
-            })
-        elif ('c' in request.GET) and request.GET['c'].strip():
-            query_string = request.GET['c']
-
-            search = SiteSearch()
-            article_query = search.get_query(query_string, ['category__name'])
-
-            found_articles = models.Article.objects.filter(article_query).order_by('-date_published').distinct()[offset:offset + limit]
-
-            next_page = get_next_page(curr_page, limit, found_articles.count())
-
-            results_string = create_results_string(found_articles.count(), offset, limit)
-
-            return render(request, "search.html", {
-                'category': query_string,
-                'articles': found_articles,
-                'results_string': results_string,
-                'prev_page': prev_page,
-                'next_page': next_page,
-            })
-        else:
-            return render(request, "index.html", {
-                'page_title': build_page_title(settings.STRINGS['site_subtitle']),
-                'page_description': settings.STRINGS['homepage_description'],
-                'page_keywords': settings.STRINGS['homepage_keywords'],
-            })
+        return render(request, "index.html", {
+            'page_title': build_page_title(settings.STRINGS['site_subtitle']),
+            'page_description': settings.STRINGS['homepage_description'],
+            'page_keywords': settings.STRINGS['homepage_keywords'],
+        })
 
 
 class ProjectsView(View):
 
-    def get(self, request):
+    def get(self, request, page=0, tag=None):
         all_projects = models.Project.objects.all().order_by('-created')
 
         limit = settings.PAGE_LIMITS['projects']
-        offset = get_page_offset(request, limit)
-        curr_page = get_current_page(request)
-        prev_page = get_prev_page(curr_page)
-        next_page = get_next_page(curr_page, limit, all_projects.count())
+        offset = get_page_offset(page, limit)
+        prev_page = get_prev_page(page)
 
-        projects = all_projects[offset:offset + limit]
+
+        filtered_projects = None
+        next_page_url = None
+        prev_page_url = None
+
+        if tag:
+            unslugified_tag = tag.replace('-', ' ')
+            filtered_projects = all_projects.filter(tags__name=unslugified_tag)
+
+            next_page = get_next_page(page, limit, filtered_projects.count())
+
+            if next_page:
+                next_page_url = reverse_lazy('project_tag_search_by_page', args=[tag, next_page])
+
+            if prev_page > 0:
+                prev_page_url = reverse_lazy('project_tag_search_by_page', args=[tag, prev_page])
+            elif prev_page == 0:
+                prev_page_url = reverse_lazy('project_tag_search', args=[tag])
+        else:
+            filtered_projects = all_projects
+
+            next_page = get_next_page(page, limit, filtered_projects.count())
 
         return render(request, "projects.html", {
+            'comments_enabled': settings.COMMENTS_ENABLED,
+            'next_page_url': next_page_url,
             'page_title': build_page_title('Projects'),
-            'projects': projects,
-            'next_page': next_page,
-            'prev_page': prev_page,
+            'prev_page_url': prev_page_url,
+            'projects': filtered_projects[offset:offset + limit],
+            'tags': get_all_tags(),
         })
 
 
@@ -221,18 +296,105 @@ class ThanksView(View):
         return render(request, "thanks.html", {'page_title': build_page_title('Thanks')})
 
 
-class TitleView(View):
+class PermalinkView(View):
 
-    def get(self, request, title=None):
-        # Find our title
-        found_project = models.Project.objects.filter(permalink_title=title).first()
+    def post(self, request, permalink_title=None):
+        form = forms.CommentForm(request.POST)
+        post_type = 'article'
 
+        found_post = models.Project.objects.filter(permalink_title=permalink_title).first()
+        if found_post:
+            post_type = 'project'
+        else:
+            found_post = models.Article.objects.filter(permalink_title=permalink_title).first()
+
+        if found_post:
+            if form.is_valid():
+                name = form.cleaned_data['name']
+                email = form.cleaned_data['email'].lower().strip()
+                website = form.cleaned_data['website']
+                message = form.cleaned_data['message']
+                remember_me = form.cleaned_data['remember_me']
+
+                md5_email = hashlib.md5(email).hexdigest()
+
+                name_separator = re.compile('[ ]')
+                names = name_separator.split(name)
+                first_name = names[0]
+                last_name = ' '.join(names[1:])
+
+                user = models.CustomUser.objects.get_or_create(
+                    email = email,
+                    defaults = {
+                        'first_name': first_name,
+                        'last_name': last_name,
+                        'website': website,
+                        'gravatar': settings.URLS['gravatar'] % (md5_email)
+                    },
+                )
+
+                if user:
+                    if post_type == 'article':
+                        comment = models.Comment.objects.create(
+                            user = user[0],
+                            article = found_post,
+                            body = message,
+                        )
+                    else:
+                        comment = models.Comment.objects.create(
+                            user = user[0],
+                            project = found_post,
+                            body = message,
+                        )
+
+                    if comment:
+                        if remember_me:
+                            request.session['comment_remember'] = {
+                                'name': name,
+                                'email': email,
+                                'website': website,
+                                'remember_me': remember_me,
+                            }
+                        else:
+                            request.session['comment_remember'] = None
+
+                        comment_count = found_post.comment_set.count()
+                        url = reverse_lazy('permalink', args=[found_post.permalink_title])
+
+                        return HttpResponseRedirect("%s#comment_%d" % (url, comment_count))
+                    else:
+                        form.add_error(None, "An error occurred posting your comment.")
+                else:
+                    form.add_error(None, "There was an error posting your comment.")
+
+                if post_type == 'article':
+                    return article_view(request, found_post, form)
+                else:
+                    return project_view(request, found_post, form)
+            else:
+                if post_type == 'article':
+                    return article_view(request, found_post, form)
+                else:
+                    return project_view(request, found_post, form)
+        else:
+            raise Http404
+
+    def get(self, request, permalink_title=None):
+        form = forms.CommentForm()
+
+        session_data = request.session.get('comment_remember', None)
+        if session_data:
+            form.fields['name'].initial = session_data['name']
+            form.fields['email'].initial = session_data['email']
+            form.fields['website'].initial = session_data['website']
+            form.fields['remember_me'].initial = session_data['remember_me']
+
+        found_project = models.Project.objects.filter(permalink_title=permalink_title).first()
         if found_project:
-            return project_view(request, found_project)
+            return project_view(request, found_project, form)
 
-        found_article = models.Article.objects.filter(permalink_title=title).first()
-
+        found_article = models.Article.objects.filter(permalink_title=permalink_title).first()
         if found_article:
-            return article_view(request, found_article)
+            return article_view(request, found_article, form)
         else:
             raise Http404

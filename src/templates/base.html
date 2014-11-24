@@ -17,6 +17,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Lucas Petherbridge">
     <meta name="copyright" content="Lucas Petherbridge">
+    <meta name="language" content="english">
     <meta name="msapplication-TileColor" content="#D83434">
     <meta name="msapplication-TileImage" content="{% static 'images/icons/tileicon-144.png' %}">
 
@@ -82,7 +83,7 @@
                         </div>
 
                         <div class="sub-nav">
-                            <form action="/" method="get">
+                            <form action="{% url 'search' %}" method="get">
                                 <div class="search pull-right">
                                     <span class="fa fa-search"></span>
                                     <input type="search" name="q" class="form-control" placeholder="Search">

@@ -1,31 +1,17 @@
-- Finish comment functionality
-- Auto-generate gravatar URL on comment post/user creation based on email
-- Flesh out project page
-- Set up RSS Feed
-- Fix contact form emails being marked spam
-- Expand tags functionality on admin site for articles and projects
-- Fix project admin site with 'updated' field erro
-- Auto-save published date when marking 'is_published'
-- Auto-save minutes_to_read based on word count
+- Finish adding comments to Project page
+- Look for other areas to re-factor views
 - Look into twitter feed/GitHub/LinkedIn API for About page
 - Link GitHub Repos into Projects
-- Add website link to projects
+- Set up analytics goals
+- add http://smarterer.com/kaele7
 
 - Take picture programming on mac
 - Take a variety of head shots
-- Update social icons to be more code-like and have transparent letters (to be able to customize text-color with CSS)
-- Research how to set up RSS feed
-- Define about me content
-- Design article page
-- Design project page
-- Add articles
-- Add projects
-- Put icons into CSS sprite
 - http://www.woorank.com/en/www/lukexor.me
 - https://support.google.com/business/answer/4569085?hl=en&rd=1
 - http://blog.woorank.com/2013/03/all-about-xml-sitemaps/
   - https://code.google.com/p/googlesitemapgenerator/
 - http://developers.google.com/speed/pagespeed/insights/
 - http://blog.woorank.com/2014/07/dublin-core-in-2014/
-- Language meta tag
 - print friendly css
+- Minify CSS/JS

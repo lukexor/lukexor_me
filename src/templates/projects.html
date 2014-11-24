@@ -5,16 +5,50 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-8">
-			{% for project in projects %}
-				<h2>{{ project.title }}</h2>
-				<p class="date_published">
-					{{ project.created | date:'F j, Y' }}
-				<p>{{ project.description | safe }}</p>
-			{% endfor %}
+				{% if projects.count == 0 %}
+				<h2>No projects found.</h2>
+				{% endif %}{{ tag }}
+
+				{% for project in projects %}
+				<article>
+					<h2>
+						{% if project.website %}
+						<a href="{{ project.website }}" title="{{ project.title }}">
+							{{ project.title }}
+						</a>
+						{% else %}
+							{{ project.title }}
+						{% endif %}
+					</h2>
+
+					{% include 'snippets/date_subheading.html' with object=project %}
+
+					<div class="post-body">
+						{{ project.description|safe }}
+					</div>
+
+					{% include 'snippets/labels.html' with object=project tag_search='project_tag_search' %}
+
+					{% include 'snippets/post_footer.html' with object=project %}
+
+					{% include 'snippets/post_comments.html' with object=project %}
+
+					<p class="post-separator"></p>
+				</article>
+				{% endfor %}
 			</div>
+
+			<div class="col-md-3 pull-right">
+				<h3>Tags</h3>
+				<ul class="horizontal-bullets">
+					{% for tag in tags %}
+					<li><a href="{% url 'project_tag_search' tag|lower|slugify %}" title="{{ tag }}">{{ tag }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			{% include 'snippets/pagination_footer.html' with post_type='projects' %}
 		</div><!-- end_row -->
-		{% url 'projects' as current_url %}
-		{% include 'pagination_footer.html' with page='projects' url=current_url %}
 	</div><!-- end_container -->
 </section>
 {% endblock %}

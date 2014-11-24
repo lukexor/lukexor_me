@@ -1,109 +1,69 @@
 {% extends "base.html" %}
 {% load utilities %}
-
 {% block content %}
 <section id="main-section">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8">
-			{% for article in articles %}
-				{% if article.is_published %}
-				<article>
-					<h2>{{ article.title }}</h2>
-					<p class="date_published">
-						{{ article.date_published | date:'F j, Y' }} <span class="spacer">|</span>
-						{{ article.time_to_read }} <span class="spacer">|</span>
-						<a href="{{ BASE_URL }}/?c={{ article.category }}">{{ article.category }}</a>
-					</p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% if articles.count == 0 %}
+                <h2>No articles found.</h2>
+                {% endif %}
 
-					<span class="article_body">{{ article.body | safe }}</span>
+                {% for article in articles %}
+                <article>
+                    <h2>{{ article.title }}</h2>
+                    {% include 'snippets/date_subheading.html' with object=article %}
 
-					<div class="article_footer">
-						{% if comments_enabled %}<a href="{{ BASE_URL }}/{{ article.permalink_title }}#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a> <span class="spacer">|</span>{% endif %}
-                        {% if article.get_tags %}<span class="hover_text" title="{{ article.get_tags }}">Tags</span> <span class="spacer">|</span>{% endif %}
-						<p class="block pull-left">Share:</p>
-						<ul class="social-icons share-icons nav nav-pills pull-left">
-							<li>
-								<a href="{% create_share_url 'twitter' BASE_URL article.permalink_title article.title %}" title="Share on Twitter" class="twitter text-hide">
-									Twitter
-								</a>
-							</li>
-							<li>
-								<a href="{% create_share_url 'facebook' BASE_URL article.permalink_title article.title %}" title="Share on Facebook" class="facebook text-hide">
-									Facebook
-								</a>
-							</li>
-							<li>
-								<a href="{% create_share_url 'google' BASE_URL article.permalink_title article.title %}" title="Share on Google+" class="googleplus text-hide">
-									Google+
-								</a>
-							</li>
-						</ul>
-						<p>
-							<span class="spacer">|</span>
-							<a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="permalink">permalink</a>
-						</p>
-					</div>
-					{% if show_comments %}
-					<p class="article_comments">
-						<a name="comments"></a>
-						<div class="comment_form row">
-							<form action="/comment/" method="post">
-								{% csrf_token %}
-								{{ form.non_field_errors }}
+                    <div class="post-body">
+                        {{ article.body|safe }}
+                    </div>
 
-								<div class="col-md-6">
-									{{ form.name.errors }}
-									<div class="form-group {% if form.name.errors %} has-error has-feedback{% endif %}">
-										{{ form.name }}
-									</div>
+                    {% include 'snippets/labels.html' with object=article tag_search='tag_search' %}
 
-									{{ form.email.errors }}
-									<div class="form-group{% if form.email.errors %} has-error has-feedback{% endif %}">
-										{{ form.email }} <p class="help-block">{{ form.email.help_text | safe }}</p>
-									</div>
+                    {% include 'snippets/post_footer.html' with object=article %}
 
-									{{ form.website.errors }}
-									<div class="form-group{% if form.website.errors %} has-error has-feedback{% endif %}">
-										{{ form.website }} <p class="help-block">{{ form.website.help_text }}</p>
-									</div>
+                    {% include 'snippets/post_comments.html' with object=article %}
 
+                    <div class="post-separator"></div>
+                </article>
+                {% endfor %}
+            </div>
+            <div class="col-md-3 pull-right">
+                <h3>Articles</h3>
+                <ul>
+                    {% for year, months in article_dates.items %}
+                    <li>
+                        <a href="{% url 'year_search' year %}" title="{{ year }} articles">{{ year }}</a>
+                        <ul>
+                            {% for month, article_count in months.items %}
+                            <li><a href="{% url 'month_search' year month %}" title="{{ month }} {{ year }} articles">{{ month }} ({{ article_count }})</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
 
-								</div>
+                <div class="hr-grey"></div>
 
-								<div class="col-md-6">
-									{{ form.message.errors }}
-									<div class="form-group{% if form.message.errors %} has-error{% endif %}">
-										{{ form.message }}
-									</div>
+                <h3>Categories</h3>
+                <ul>
+                {% for category in categories %}
+                    <li><a href="{% url 'category_search' category|lower|slugify %}" title="{{ category }}">{{ category }}</a></li>
+                {% endfor %}
+                </ul>
 
-									<div class="form-group checkbox pull-right">
-										<label for="id_remember_me">{{ form.remember_me }} {{ form.remember_me.label }}</label>
-									</div>
+                <div class="hr-grey"></div>
 
-									<button id="post_comment" type="submit" role="submit" class="btn-send btn btn-primary float_right">Post</button>
-								</div>
-							</form>
-						</div>
-						{% for comment in article.comments.all %}
-							<div class="comment_wrapper">
-								<img class="comment_gravatar" src="{{ comment.user.gravatar }}">
-								<div class="comment_name"><a href="{{ comment.user.website }}" title="{{ comment.user.get_full_name }}">{{ comment.user.get_full_name }}</a></div>
-								<div class="comment_date">{{ comment.created | date:'F j, Y' }}</div>
-								<div class="comment_body">{{ comment.body | safe }}</div>
-							</div>
-						{% endfor %}
-					</p>
-					{% endif %}
-					<p class="article_separator"></p>
-				</article>
-				{% endif %}
-			{% endfor %}
-			</div>
-			<div class="col-md-4"><!-- TODO: Tags/Date/Category filter options here --></div>
-		</div><!-- end_row -->
-		{% url 'articles' as current_url %}
-		{% include 'pagination_footer.html' with page='articles' url=current_url %}
-	</div><!-- end_container -->
+                <h3>Tags</h3>
+                <ul class="horizontal-bullets">
+                    {% for tag in tags %}
+                        <li><a href="{% url 'tag_search' tag|lower|slugify %}" title="{{ tag }}">{{ tag }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% include 'snippets/pagination_footer.html' with post_type='articles' %}
+        </div><!-- end_row -->
+    </div><!-- end_container -->
 </section>
 {% endblock %}

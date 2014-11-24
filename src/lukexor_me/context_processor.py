@@ -1,7 +1,7 @@
 from . import settings
 
 
-def global_vars(request):
+def GlobalVars(request):
     """
     Returns a dict of variables
     """
@@ -13,7 +13,7 @@ def global_vars(request):
 
     return globals
 
-def baseurl(request):
+def BaseURL(request):
     """
     Return a BASE_URL template context for the current request.
     """

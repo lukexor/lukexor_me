@@ -89,6 +89,7 @@ class CommentForm(forms.Form):
         widget = forms.TextInput(
             attrs = {
                 'class': 'comment_form_name form-control required',
+                'aria-describedby': 'id_name_status',
                 'placeholder': 'Name',
             }
         ),
@@ -99,22 +100,25 @@ class CommentForm(forms.Form):
         widget = forms.TextInput(
             attrs = {
                 'class': 'comment_form_email form-control required',
+                'aria-describedby': 'id_email_status',
                 'placeholder': 'Email',
             }
         ),
     )
     website = forms.CharField(
+        required = False,
         max_length = 2083,
         help_text = '(optional)',
         widget = forms.TextInput(
             attrs = {
                 'class': 'comment_form_website form-control',
+                'aria-describedby': 'id_website_status',
                 'placeholder': 'Website',
             }
         ),
     )
     remember_me = forms.BooleanField(
-        required = True,
+        required = False,
         label = 'Remember me',
         widget = forms.CheckboxInput(
             attrs = {
@@ -126,6 +130,7 @@ class CommentForm(forms.Form):
         widget = forms.Textarea(
             attrs = {
                 'class': 'comment_form_message form-control required',
+                'aria-describedby': 'id_message_status',
                 'placeholder': 'Message',
                 'rows': 8,
             }

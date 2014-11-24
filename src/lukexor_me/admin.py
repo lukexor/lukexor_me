@@ -1,8 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.utils import timezone
 from django.db import models as db_models
 from tinymce.widgets import TinyMCE
+from django.conf import settings
 from . import models, forms
+import re, math
 
 
 class CommentsInline(admin.TabularInline):
@@ -27,14 +30,23 @@ class Category(admin.ModelAdmin):
 
 @admin.register(models.Comment)
 class Comment(admin.ModelAdmin):
-    fields = ('user', 'body')
+    fieldsets = (
+        (None, {
+            'fields': ('user', ('article', 'project'), 'body'),
+        }),
+        ('Date Information', {
+            'classes': ('collapse',),
+            'fields': ('created', 'updated'),
+        })
+    )
+    readonly_fields = ('created', 'updated')
     formfield_overrides = {
         db_models.TextField: {'widget': TinyMCE(attrs={'cols': 100, 'rows': 30})},
     }
-    list_display = ('user', 'body', 'created')
-    list_filter = ('user__first_name', 'user__last_name', 'created')
-    search_fields = ('user', 'body')
-    ordering = ('user',)
+    list_display = ('user', 'article', 'project', 'body', 'created')
+    list_filter = ('project', 'created',)
+    search_fields = ('user', 'article', 'project', 'body')
+    ordering = ('user','created')
     date_hierarchy = 'created'
 
 @admin.register(models.CustomUser)
@@ -49,7 +61,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'password'),
         }),
         ('Personal info', {
-            'fields': ('first_name', 'last_name', 'website', 'phone', 'note'),
+            'fields': ('first_name', 'last_name', 'website', 'gravatar', 'phone', 'note'),
         }),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser',
@@ -76,7 +88,7 @@ class CustomUserAdmin(UserAdmin):
 class ArticleAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': (('title', 'permalink_title'), ('author', 'minutes_to_read'), 'category', 'tags', 'body',),
+            'fields': (('title', 'permalink_title'), 'category', 'tags', 'body',),
         }),
         ('Publish', {
             'fields': ('is_published', 'date_published')
@@ -86,7 +98,7 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields': ('created', 'updated')
         })
     )
-    readonly_fields = ('created', 'updated')
+    readonly_fields = ('created', 'updated', 'date_published')
     inlines = [
         CommentsInline,
     ]
@@ -98,6 +110,20 @@ class ArticleAdmin(admin.ModelAdmin):
     search_fields = ('title', 'author__first_name', 'author__last_name', 'category__name', 'tags__name')
     ordering = ('title',)
     date_hierarchy = 'created'
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.author = request.user
+
+        word_separator = re.compile('[ ]')
+        words = word_separator.split(obj.body)
+
+        obj.minutes_to_read = math.ceil(len(words) / settings.AVG_WPM_READING_SPEED)
+
+        if obj.is_published and not obj.date_published:
+            obj.date_published = timezone.now()
+
+        obj.save()
 
 
 @admin.register(models.Project)
@@ -114,6 +140,7 @@ class ProjectAdmin(admin.ModelAdmin):
             'fields': ('created', 'updated'),
         })
     )
+    readonly_fields = ('created', 'updated')
     formfield_overrides = {
         db_models.TextField: {'widget': TinyMCE(attrs={'cols': 100, 'rows': 30})},
     }

@@ -17,12 +17,10 @@ class Article(models.Model):
     body = models.TextField()
     author = models.ForeignKey(settings.AUTH_USER_MODEL, default=1)
     category = models.ForeignKey('Category', default=1)
-    tags = models.ManyToManyField('Tag',
-                                  db_table = 'article_tag',
-                                  blank=True)
+    tags = models.ManyToManyField('Tag', blank=True)
     minutes_to_read = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=False)
-    date_published = models.DateTimeField(default=timezone.now)
+    date_published = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
@@ -36,7 +34,7 @@ class Article(models.Model):
     def get_tags(self):
         tags = []
         for tag in self.tags.all():
-            tag.append(tag.name)
+            tags.append(tag.name)
 
         return ", ".join(tags)
     get_tags.short_description = 'Tag(s)'
@@ -70,7 +68,8 @@ class Category(models.Model):
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    article = models.ForeignKey('Article')
+    article = models.ForeignKey('Article', blank=True, null=True)
+    project = models.ForeignKey('Project', blank=True, null=True)
     body = models.TextField()
     created = models.DateTimeField('date posted', default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
@@ -145,7 +144,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return "/users/%s/" % urlquote(self.email)
 
     def get_full_name(self):
-        full_name = '%s %s' % (self.first_name, self.last_name)
+        if self.last_name:
+            full_name = '%s %s' % (self.first_name, self.last_name)
+        else:
+            full_name = self.first_name
         return full_name.strip()
     get_full_name.short_description = 'Full Name'
 
@@ -166,9 +168,9 @@ class Project(models.Model):
     permalink_title = models.CharField(max_length=45, unique=True)
     description = models.TextField()
     website = models.CharField(max_length=2083, blank=True, null=True)
-    roles = models.ManyToManyField('Role', db_table='project_role')
+    roles = models.ManyToManyField('Role')
     client = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-    tags = models.ManyToManyField('Tag', db_table='project_tag', blank=True)
+    tags = models.ManyToManyField('Tag', blank=True)
     date_started = models.DateTimeField(blank=True, null=True)
     date_completed = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(default=timezone.now)

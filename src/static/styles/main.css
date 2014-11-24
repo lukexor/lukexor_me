@@ -120,6 +120,7 @@ footer {
     margin-top: 20px;
     padding-top: 10px;
     font-size: .9em;
+    margin-bottom: 100px;
 }
 h1, h2, h3, h4, h5, h6 {
     color: #CAA65F;
@@ -288,21 +289,16 @@ a.disabled {
     background-color: #333333;
     border: 2px solid #333333;
     border-radius: 5px;
-    display: inline;
+    display: inline-block;
 }
-.share-icons {
-    margin: -.5em .5em;
+.social-icons > li {
+    margin: 0 !important;
 }
 .social-icons a {
     width: 32px;
     height: 32px;
-    display: inline;
+    display: inline-block;
 }
-.facebook, .twitter, .linkedin, .github, .subscribe {
-    background-size: 32px 32px !important;
-    background-repeat: no-repeat;
-}
-
 .facebook:hover {
     background-color: #3B5998 !important;
 }
@@ -324,21 +320,27 @@ a.disabled {
 
 .facebook {
     background: url("/static/images/social_icons/facebook-32.png");
+    background-repeat: no-repeat;
 }
 .twitter {
     background: url("/static/images/social_icons/twitter-32.png");
+    background-repeat: no-repeat;
 }
 .googleplus {
     background: url("/static/images/social_icons/googleplus-32.png");
+    background-repeat: no-repeat;
 }
 .linkedin {
     background: url("/static/images/social_icons/linkedin-32.png");
+    background-repeat: no-repeat;
 }
 .github {
     background: url("/static/images/social_icons/github-32.png");
+    background-repeat: no-repeat;
 }
 .subscribe {
     background: url("/static/images/social_icons/rss-32.png");
+    background-repeat: no-repeat;
 }
 
 
@@ -354,57 +356,95 @@ a.disabled {
 }
 
 /* Articles */
-.article_body p:first-child:first-letter {
+.post-body p:first-child:first-letter {
     float: left;
     color: #3A7B78;
     font-size: 5em;
     line-height: .8em;
     padding-right: .05em;
     font-family: Georgia;
+    font-weight: normal;
 }
-.article_comments {
-    margin-top: 2em;
+.post-body {
+    margin-top: 4em;
+    clear: both;
+    min-height: 4em;
 }
-.article_footer {
-    border-bottom: 1px solid #619694;
-    border-right: 1px solid #619694;
-    margin-top: 2em;
-    padding: .5em 0;
-    font-size: 1em;
+.labels {
     color: #9E792F;
+    font-size: .9em;
 }
-.article_separator {
-    margin:3.5em 0;
+.post-comments {
+    margin-top: 30px;
 }
-.comment_body {
+.post-footer {
+    margin-top: 2em;
+    font-size: 1.1em;
+    color: #9E792F;
+    min-height: 38px;
+    position: relative;
+}
+.post-footer .horizontal-bullets {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.post-footer .social-icons {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+}
+.post-separator {
+    margin: 3.5em 0;
+}
+.comment-body {
     margin-top: 1em;
 }
-.comment_date, .date_published {
+.comment-date, .date-published {
     font-size: 1em;
     color: #9E792F;
 }
-.comment_form {
-    margin-bottom: 50px;
+.comment-form {
+    margin-bottom: 40px;
 }
-.comment_gravatar {
+.comment-gravatar {
     float: left;
     width: 100px;
     height: 100px;
     margin-right: 15px;
     margin-bottom: 15px;
 }
-.comment_name {
-    margin-top: 1.5em;
+.comment-name {
     font-size: 1.2em;
 }
-.comment_wrapper {
+.comment-wrapper {
     margin-left: 2em;
+    margin-top: 1.5em;
     margin-bottom: 10px;
     border-bottom: 1px solid #619694;
+    min-height: 115px;
 }
-.date_published {
+.date-published {
     margin-top: -1em;
     margin-bottom: 2em;
+}
+.horizontal-bullets {
+    margin: 0;
+    padding: 0;
+}
+.horizontal-bullets > li {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+.horizontal-bullets > li:after {
+    padding: 0 .5em;
+    margin: 0;
+    content: "|";
+}
+.horizontal-bullets > li:last-child:after {
+    content: none;
 }
 
 /* Contact */
@@ -420,12 +460,22 @@ a.disabled {
     unicode-bidi: bidi-override;
     direction: rtl;
 }
-.spacer {
-    padding: 0 5px;
-}
 .hover_text {
     border-bottom: 2px dotted #3A7B78;
     cursor: help;
+}
+.clear {
+    clear: both;
+}
+.hr-green {
+    height: 11px;
+    border-bottom: 1px solid #619694;
+    margin-bottom: 10px;
+}
+.hr-grey {
+    height: 11px;
+    border-bottom: 1px solid #333333;
+    margin-bottom: 10px;
 }
 
 /* ==========================================================================

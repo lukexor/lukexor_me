@@ -12,10 +12,10 @@ $(document).ready(function ()
 
     // form validation
     $('#send_message').addClass('disabled'); // Set default to disabled
-    $('#post_comment').addClass('disabled'); // Set default to disabled
+    $('#post-comment').addClass('disabled'); // Set default to disabled
 
-    $('input').on('keyup change', function() { validate_contact_form() });
-    $('textarea').on('keyup change', function() { validate_contact_form() });
+    $('input').on('keyup blur change', function() { validate_form() });
+    $('textarea').on('keyup blur change', function() { validate_form() });
 
     // Prevent disabled links from functioning
     $('body').on('click', 'a.disabled', function(event) {
@@ -23,11 +23,11 @@ $(document).ready(function ()
     });
 }); // end document.ready
 
-function validate_contact_form()
+function validate_form()
 {
     var $input  = $('input.required'),
         $text   = $('textarea.required'),
-        $button = $('#send_message');
+        $button = $('button[role="submit"]');
 
     var forms_valid = true;
 

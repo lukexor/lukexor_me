@@ -1,0 +1,67 @@
+{% if show_comments %}
+<div class="post-comments">
+    <div class="comment-form row">
+        <form action="{% url 'permalink' object.permalink_title|lower|slugify %}" method="post">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="col-md-12 form-group has-error has-feedback">
+                <label class="control-label">{{ form.non_field_errors.as_text }}</label>
+            </div>
+            {% endif %}
+
+            <div class="col-md-6">
+                <div class="form-group {% if form.name.errors %} has-error has-feedback{% endif %}">
+                    {% if form.name.errors %}<label class="control-label" for="id_name">{{ form.name.errors.as_text }}</label>{% endif %}
+                    {{ form.name }}
+                </div>
+
+                <div class="form-group{% if form.email.errors %} has-error has-feedback{% endif %}">
+                    {% if form.email.errors %}<label class="control-label" for="id_email">{{ form.email.errors.as_text }}</label>{% endif %}
+                    {{ form.email }}
+                    <p class="help-block">{{ form.email.help_text | safe }}</p>
+                </div>
+
+                <div class="form-group{% if form.website.errors %} has-error has-feedback{% endif %}">
+                    {% if form.website.errors %}<label class="control-label" for="id_website">{{ form.website.errors.as_text }}</label>{% endif %}
+                    {{ form.website }}
+                    <p class="help-block">{{ form.website.help_text }}</p>
+                </div>
+
+
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group{% if form.message.errors %} has-error{% endif %}">
+                    {% if form.message.errors %}<label class="control-label" for="id_message">{{ form.message.errors.as_text }}</label>{% endif %}
+                    {{ form.message }}
+                </div>
+
+                <div class="form-group checkbox pull-right">
+                    <label for="id_remember_me">{{ form.remember_me }} {{ form.remember_me.label }}</label>
+                </div>
+
+                <button id="post-comment" type="submit" role="submit" class="btn-send btn btn-primary pull-right clear">Post</button>
+            </div>
+        </form>
+    </div>
+
+    {% for comment in object.comment_set.all %}
+    <div class="comment-wrapper">
+        <a name="comment_{{ forloop.counter }}"></a>
+        <img class="comment-gravatar" src="{{ comment.user.gravatar }}">
+        <div class="comment-name">
+            {% if comment.user.website %}
+            <a href="{{ comment.user.website }}" title="{{ comment.user.get_full_name }}">
+                {{ comment.user.get_full_name }}
+            </a>
+            {% else %}
+            {{ comment.user.get_full_name }}
+            {% endif %}
+        </div>
+        <div class="comment-date">{{ comment.created|date:'l, M jS Y H:i e' }}</div>
+        <div class="comment-body">{{ comment.body|safe }}</div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}

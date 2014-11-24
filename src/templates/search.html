@@ -6,10 +6,10 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h2>
-					{% if search_string %}
-						Search Results for <u>{{ search_string }}</u>
-					{% elif category %}
-						Articles about {{ category }}
+					{% if query %}
+						Search Results for <u>{{ query }}</u>
+					{% else %}
+						No articles found.
 					{% endif %}
 				</h2>
 			</div>
@@ -17,24 +17,30 @@
 		<div class="row">
 			<div class="col-md-8">
 				<p class="search_results_string">{{ results_string }}</p>
-				<p>
-					<!-- TODO: Factor into article-short template -->
+				<div>
 					<ol>
 					{% for article in articles %}
 						<li>
 							<p class="search_listing_title">
-								<a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p><br>
-							<p class="date_published">
-								{{ article.created | date:'F j, Y' }} <span class="spacer">|</span>
-								{{ article.time_to_read }} <span class="spacer">|</span>
-								<a href="{{ BASE_URL }}/?c={{ article.category }}">{{ article.category }}</a> <span class="spacer">|</span>
-								<a href="{{ BASE_URL }}/{{ article.permalink_title }}" title="permalink">permalink</a>
-							</p>
-							<!-- TODO Tags, Comments -->
+								<a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}
+							</p><br>
+							<div class="date-published">
+								<ul class="horizontal-bullets">
+									<li>{{ article.created | date:'F j, Y' }}</li>
+									{% if article.minutes_to_read > 0 %}
+									<li>{{ article.time_to_read }}</li>
+									{% endif %}
+									{% if comments_enabled %}
+									<li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}/#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a></li>
+									{% endif %}
+									<li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
+								</li>
+							</div>
+							<div class="hr-green"></div>
 						</li>
 					{% endfor %}
 					</ol>
-				</p>
+				</div>
 			</div>
 		</div>
 	</div><!-- end_container -->
