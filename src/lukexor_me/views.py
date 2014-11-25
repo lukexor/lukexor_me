@@ -382,6 +382,15 @@ class PermalinkView(View):
                         else:
                             request.session['comment_remember'] = None
 
+                        date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                        sender = "%s <%s>" %(name, email)
+                        recipients = [settings.STRINGS['admin_email']]
+                        subject = "New comment from %s on lukexor.me for %s at: %s" % (name, found_post.title, date)
+                        message = message + "\n\nAt: " + date
+
+                        email = EmailMessage(subject, message, sender, recipients, headers={'Reply-To': sender})
+                        email.send()
+
                         comment_count = found_post.comment_set.count()
                         url = reverse_lazy('permalink', args=[found_post.permalink_title])
 
