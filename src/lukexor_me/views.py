@@ -4,7 +4,9 @@ from django.views.generic import View
 from django.core.urlresolvers import reverse_lazy
 from django.core.mail import EmailMessage
 from django.conf import settings
+from django.utils.decorators import method_decorator
 from lib.site_search import SiteSearch
+from honeypot.decorators import check_honeypot
 from . import forms, models
 
 import logging, datetime, hashlib, re
@@ -202,6 +204,7 @@ class ArticlesView(View):
 
 class ContactView(View):
 
+    @method_decorator(check_honeypot)
     def post(self, request):
         form = forms.ContactForm(request.POST)
 
@@ -329,6 +332,7 @@ class ThanksView(View):
 
 class PermalinkView(View):
 
+    @method_decorator(check_honeypot)
     def post(self, request, permalink_title=None):
         form = forms.CommentForm(request.POST)
         post_type = 'article'

@@ -1,5 +1,6 @@
 {% if show_comments %}
 {% load markdown_deux_tags %}
+{% load honeypot %}
 <div class="post-comments">
     <div class="comment-form row">
         <form action="{% url 'permalink' object.permalink_title|lower|slugify %}" method="post">
@@ -29,7 +30,7 @@
                     <p class="help-block">{{ form.website.help_text }}</p>
                 </div>
 
-
+                {% render_honeypot_field %}
             </div>
 
             <div class="col-md-6">

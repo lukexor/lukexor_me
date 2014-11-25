@@ -1,5 +1,3 @@
-- Finish adding comments to Project page
-- Look for other areas to re-factor views
 - Look into twitter feed/GitHub/LinkedIn API for About page
 - Link GitHub Repos into Projects
 - Set up analytics goals
