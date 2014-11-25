@@ -20,7 +20,7 @@
                 <div class="form-group{% if form.email.errors %} has-error has-feedback{% endif %}">
                     {% if form.email.errors %}<label class="control-label" for="id_email">{{ form.email.errors.as_text }}</label>{% endif %}
                     {{ form.email }}
-                    <p class="help-block">{{ form.email.help_text | safe }}</p>
+                    <p class="help-block">{{ form.email.help_text|safe }}</p>
                 </div>
 
                 <div class="form-group{% if form.website.errors %} has-error has-feedback{% endif %}">
@@ -36,6 +36,7 @@
                 <div class="form-group{% if form.message.errors %} has-error{% endif %}">
                     {% if form.message.errors %}<label class="control-label" for="id_message">{{ form.message.errors.as_text }}</label>{% endif %}
                     {{ form.message }}
+                    <p class="help-block">{{ form.message.help_text|safe }}</p>
                 </div>
 
                 <div class="form-group checkbox pull-right">
