@@ -1,4 +1,5 @@
 {% if show_comments %}
+{% load markdown_deux_tags %}
 <div class="post-comments">
     <div class="comment-form row">
         <form action="{% url 'permalink' object.permalink_title|lower|slugify %}" method="post">
@@ -60,7 +61,7 @@
             {% endif %}
         </div>
         <div class="comment-date">{{ comment.created|date:'l, M jS Y H:i e' }}</div>
-        <div class="comment-body">{{ comment.body }}</div>
+        <div class="comment-body">{{ comment.body|markdown }}</div>
     </div>
     {% endfor %}
 </div>
