@@ -4,7 +4,7 @@
 <section id="main-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-8 col-sm-8">
                 {% if articles|length == 0 %}
                 <h2>No articles found.</h2>
                 {% endif %}
@@ -28,7 +28,8 @@
                 </article>
                 {% endfor %}
             </div>
-            <div class="col-md-3 pull-right">
+            <div class="col-md-1 col-sm-0"></div>
+            <div class="col-md-3 col-sm-3">
                 {% if article_dates %}
                 <h3>Articles</h3>
                 <ul>

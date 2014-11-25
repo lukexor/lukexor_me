@@ -379,20 +379,16 @@ a.disabled {
 }
 .post-footer {
     margin-top: 2em;
+    margin-bottom: 0;
     font-size: 1.1em;
     color: #9E792F;
-    min-height: 38px;
     position: relative;
 }
 .post-footer .horizontal-bullets {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    margin-top: 1em;
 }
 .post-footer .social-icons {
-    position: absolute;
-    bottom: 0;
-    right: 10px;
+    float: right;
 }
 .post-separator {
     margin: 3.5em 0;
