@@ -3,8 +3,6 @@ from django.contrib import admin
 from . import views
 from lib.feeds import Feed
 
-admin.autodiscover()
-
 urlpatterns = patterns(
     '',
     url(r'^$', views.HomeView.as_view(), name='home'),
