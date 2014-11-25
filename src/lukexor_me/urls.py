@@ -15,6 +15,8 @@ urlpatterns = patterns(
     url(r'^feed/$', Feed(), name='feed'),
 
     url(r'^articles/(?P<page>[\d]{1,})/$', views.ArticlesView.as_view(), name='articles_by_page'),
+    url(r'^projects/(?P<page>[\d]{1,})/$', views.ProjectsView.as_view(), name='projects_by_page'),
+
     url(r'^search/(?P<query>[\w\s-]+)/$', views.SearchArticlesView.as_view(), name='search_by_term'),
     url(r'^search/(?P<query>[\w\s-]+)/(?P<page>[\d]{1,})/$', views.SearchArticlesView.as_view(), name='search_by_page'),
 

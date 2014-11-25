@@ -281,7 +281,6 @@ class ProjectsView(View):
         offset = get_page_offset(page, limit)
         prev_page = get_prev_page(page)
 
-
         filtered_projects = None
         next_page_url = None
         prev_page_url = None
@@ -303,6 +302,14 @@ class ProjectsView(View):
             filtered_projects = all_projects
 
             next_page = get_next_page(page, limit, filtered_projects.count())
+
+            if next_page:
+                next_page_url = reverse_lazy('projects_by_page', args=[next_page])
+
+            if prev_page > 0:
+                prev_page_url = reverse_lazy('projects_by_page', args=[prev_page])
+            elif prev_page == 0:
+                prev_page_url = reverse_lazy('projects')
 
         return render(request, "projects.html", {
             'comments_enabled': settings.COMMENTS_ENABLED,
