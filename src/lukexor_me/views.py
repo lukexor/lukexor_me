@@ -9,6 +9,10 @@ from . import forms, models
 
 import logging, datetime, hashlib, re
 
+handler400 = 'lukexor_me.views.BadRequestView'
+handler403 = 'lukexor_me.views.PermissionDeniedView'
+handler404 = 'lukexor_me.views.PageNotFoundView'
+handler500 = 'lukexor_me.views.ServerErrorView'
 logger = logging.getLogger(__name__)
 
 
@@ -82,6 +86,21 @@ def article_view(request, article, form):
         'tags': get_article_tags(),
     })
 
+class BadRequestView(View):
+    def get(self, request):
+        return render(request, "400.html", {'page_title': build_page_title('400 FLAGRANT SYSTEM ERROR')})
+
+class PermissionDeniedView(View):
+    def get(self, request):
+        return render(request, "403.html", {'page_title': build_page_title('403 FLAGRANT SYSTEM ERROR')})
+
+class PageNotFoundView(View):
+    def get(self, request):
+        return render(request, "404.html", {'page_title': build_page_title('404 FLAGRANT SYSTEM ERROR')})
+
+class ServerErrorView(View):
+    def get(self, request):
+        return render(request, "500.html", {'page_title': build_page_title('500 FLAGRANT SYSTEM ERROR')})
 
 class AboutView(View):
 
