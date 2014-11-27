@@ -22,7 +22,7 @@
 					{% for article in articles %}
 						<li>
 							<p class="search_listing_title">
-								<a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}
+								<a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.body|truncatewords_html:30 }}
 							</p><br>
 							<div class="date-published">
 								<ul class="horizontal-bullets">

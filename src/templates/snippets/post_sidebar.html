@@ -1,0 +1,41 @@
+<div class="col-md-1 col-sm-0"></div>
+
+<div class="col-md-3 col-sm-3">
+    {% if article_dates %}
+    <h2>Articles</h2>
+    <ul>
+        {% for year, months in article_dates.items %}
+        <li>
+            <a href="{% url 'year_search' year %}" title="{{ year }} articles">{{ year }}</a>
+            <ul>
+                {% for month, article_count in months.items %}
+                <li><a href="{% url 'month_search' year month %}" title="{{ month }} {{ year }} articles">{{ month }} ({{ article_count }})</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <div class="hr-grey"></div>
+    {% endif %}
+
+    {% if categories %}
+    <h2>Categories</h2>
+    <ul>
+        {% for category in categories %}
+        <li><a href="{% url 'category_search' category|lower|slugify %}" title="{{ category }}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <div class="hr-grey"></div>
+    {% endif %}
+
+    {% if tags %}
+    <h2>Tags</h2>
+    {% for tag in tags %}
+    <a href="{% url tag_search tag|lower|slugify %}" title="{{ tag }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+
+    <div class="hr-grey"></div>
+    {% endif %}
+</div>

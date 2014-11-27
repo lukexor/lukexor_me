@@ -113,12 +113,12 @@ class AboutView(View):
 class ArticlesView(View):
 
     def get(self, request, category=None, tag=None, year=None, month=None, page=0):
-        all_articles = models.Article.objects.filter(is_published=True).order_by('-date_published')
+        all_articles = models.Article.objects.filter(is_published=True).order_by('-created')
 
         article_dates = {}
         for article in all_articles:
-            article_year = int(article.date_published.year)
-            article_month = int(article.date_published.month)
+            article_year = int(article.created.year)
+            article_month = int(article.created.month)
 
             if article_year in article_dates:
                 if article_month in article_dates[article_year]:
@@ -168,9 +168,9 @@ class ArticlesView(View):
             if month:
                 min_date = datetime.datetime(int(year), int(month), 01)
                 max_date = datetime.datetime(int(year), int(month) + 1, 01) - datetime.timedelta(days = 1)
-                filtered_articles = all_articles.filter(date_published__gte=min_date).filter(date_published__lte=max_date)
+                filtered_articles = all_articles.filter(created__gte=min_date).filter(created__lte=max_date)
             else:
-                filtered_articles = all_articles.filter(date_published__year=int(year))
+                filtered_articles = all_articles.filter(created__year=int(year))
         else:
             filtered_articles = all_articles
 
@@ -249,7 +249,7 @@ class SearchArticlesView(View):
 
         if query:
             search_query = search.get_query(query, ['title', 'body', 'author__first_name', 'author__last_name', 'tags__name', 'category__name'])
-            search_results = models.Article.objects.filter(search_query).filter(is_published=True).order_by('-date_published').distinct()[offset:offset + limit]
+            search_results = models.Article.objects.filter(search_query).filter(is_published=True).order_by('-created').distinct()[offset:offset + limit]
 
             search_count = search_results.count()
             next_page = get_next_page(page, limit, search_count)
@@ -278,7 +278,7 @@ class HomeView(View):
 class ProjectsView(View):
 
     def get(self, request, page=0, tag=None):
-        all_projects = models.Project.objects.all().order_by('-created')
+        all_projects = models.Project.objects.filter(is_published=True).order_by('-created')
 
         limit = settings.PAGE_LIMITS['projects']
         offset = get_page_offset(page, limit)
@@ -337,11 +337,11 @@ class PermalinkView(View):
         form = forms.CommentForm(request.POST)
         post_type = 'article'
 
-        found_post = models.Project.objects.filter(permalink_title=permalink_title).first()
+        found_post = models.Project.objects.filter(is_published=True, permalink_title=permalink_title).first()
         if found_post:
             post_type = 'project'
         else:
-            found_post = models.Article.objects.filter(permalink_title=permalink_title).first()
+            found_post = models.Article.objects.filter(is_published=True, permalink_title=permalink_title).first()
 
         if found_post:
             if form.is_valid():
@@ -433,11 +433,11 @@ class PermalinkView(View):
             form.fields['website'].initial = session_data['website']
             form.fields['remember_me'].initial = session_data['remember_me']
 
-        found_project = models.Project.objects.filter(permalink_title=permalink_title).first()
+        found_project = models.Project.objects.filter(is_published=True, permalink_title=permalink_title).first()
         if found_project:
             return project_view(request, found_project, form)
 
-        found_article = models.Article.objects.filter(permalink_title=permalink_title).first()
+        found_article = models.Article.objects.filter(is_published=True, permalink_title=permalink_title).first()
         if found_article:
             return article_view(request, found_article, form)
         else:

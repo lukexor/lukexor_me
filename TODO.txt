@@ -1,3 +1,9 @@
+- Crop article photos
+- Create images/icons for mindtask
+- write Part 1
+- Make icons (apple, fav, etc)
+- Minify CSS/JS
+
 - Look into twitter feed/GitHub/LinkedIn API for About page
 - Link GitHub Repos into Projects
 - Set up analytics goals
@@ -11,5 +17,11 @@
   - https://code.google.com/p/googlesitemapgenerator/
 - http://developers.google.com/speed/pagespeed/insights/
 - http://blog.woorank.com/2014/07/dublin-core-in-2014/
-- print friendly css
-- Minify CSS/JS
+
+January 1994 - Yahoo 8
+September 4, 1998 - Google
+1999 - Yahoo! GeoCities - Age 13 - 8th grade
+June, 2003 - Graduated - Age 17 - senior
+August 1, 2003 - MySpace
+February 4, 2004 - Facebook
+March 21, 2006 - Twitter

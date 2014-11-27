@@ -1,73 +1,21 @@
 {% extends "base.html" %}
+
 {% load utilities %}
+{% load markdown_deux_tags %}
+
 {% block content %}
-<section id="main-section">
+<section class="main-section">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-sm-8">
-                {% if articles|length == 0 %}
-                <h2>No articles found.</h2>
-                {% endif %}
-
-                {% for article in articles %}
-                <article>
-                    <h2>{{ article.title }}</h2>
-                    {% include 'snippets/date_subheading.html' with object=article %}
-
-                    <div class="post-body">
-                        {{ article.body|safe }}
-                    </div>
-
-                    {% include 'snippets/labels.html' with object=article tag_search='tag_search' %}
-
-                    {% include 'snippets/post_footer.html' with object=article %}
-
-                    {% include 'snippets/post_comments.html' with object=article %}
-
-                    <div class="post-separator"></div>
-                </article>
+                {% for post in articles %}
+                    {% include 'snippets/post_entry.html' with tag_search='tag_search' %}
+                {% empty %}
+                    <h2>No articles found.</h2>
                 {% endfor %}
             </div>
-            <div class="col-md-1 col-sm-0"></div>
-            <div class="col-md-3 col-sm-3">
-                {% if article_dates %}
-                <h3>Articles</h3>
-                <ul>
-                    {% for year, months in article_dates.items %}
-                    <li>
-                        <a href="{% url 'year_search' year %}" title="{{ year }} articles">{{ year }}</a>
-                        <ul>
-                            {% for month, article_count in months.items %}
-                            <li><a href="{% url 'month_search' year month %}" title="{{ month }} {{ year }} articles">{{ month }} ({{ article_count }})</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
 
-                <div class="hr-grey"></div>
-
-                {% if categories %}
-                <h3>Categories</h3>
-                <ul>
-                {% for category in categories %}
-                    <li><a href="{% url 'category_search' category|lower|slugify %}" title="{{ category }}">{{ category }}</a></li>
-                {% endfor %}
-                </ul>
-                {% endif %}
-
-                <div class="hr-grey"></div>
-
-                {% if tags %}
-                <h3>Tags</h3>
-                <ul class="horizontal-bullets">
-                    {% for tag in tags %}
-                        <li><a href="{% url 'tag_search' tag|lower|slugify %}" title="{{ tag }}">{{ tag }}</a></li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </div>
+            {% include 'snippets/post_sidebar.html' with tag_search='tag_search' %}
 
             {% include 'snippets/pagination_footer.html' with post_type='articles' %}
         </div><!-- end_row -->

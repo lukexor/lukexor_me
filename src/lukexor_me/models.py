@@ -20,7 +20,6 @@ class Article(models.Model):
     tags = models.ManyToManyField('Tag', blank=True)
     minutes_to_read = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=False)
-    date_published = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
@@ -166,13 +165,14 @@ class Project(models.Model):
     project_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, unique=True)
     permalink_title = models.CharField(max_length=45, unique=True)
-    description = models.TextField()
+    body = models.TextField()
     website = models.CharField(max_length=2083, blank=True, null=True)
     roles = models.ManyToManyField('Role')
     client = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     tags = models.ManyToManyField('Tag', blank=True)
     date_started = models.DateTimeField(blank=True, null=True)
     date_completed = models.DateTimeField(blank=True, null=True)
+    is_published = models.BooleanField(default=False)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 

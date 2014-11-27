@@ -1,9 +1,11 @@
 {% if show_comments %}
+
 {% load markdown_deux_tags %}
 {% load honeypot %}
+
 <div class="post-comments">
     <div class="comment-form row">
-        <form action="{% url 'permalink' object.permalink_title|lower|slugify %}" method="post">
+        <form action="{% url 'permalink' post.permalink_title|lower|slugify %}" method="post">
             {% csrf_token %}
 
             {% if form.non_field_errors %}
@@ -49,17 +51,17 @@
         </form>
     </div>
 
-    {% for comment in object.comment_set.all %}
+    {% for comment in post.comment_set.all %}
     <div class="comment-wrapper">
         <a name="comment_{{ forloop.counter }}"></a>
         <img class="comment-gravatar" src="{{ comment.user.gravatar }}">
         <div class="comment-name">
             {% if comment.user.website %}
-            <a href="{{ comment.user.website }}" title="{{ comment.user.get_full_name }}">
-                {{ comment.user.get_full_name }}
+            <a href="{{ comment.user.website }}" title="{{ comment.user.get_full_name|title }}">
+                {{ comment.user.get_full_name|title }}
             </a>
             {% else %}
-            {{ comment.user.get_full_name }}
+            {{ comment.user.get_full_name|title }}
             {% endif %}
         </div>
         <div class="comment-date">{{ comment.created|date:'l, M jS Y H:i e' }}</div>

@@ -91,22 +91,22 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields': (('title', 'permalink_title'), 'category', 'tags', 'body',),
         }),
         ('Publish', {
-            'fields': ('is_published', 'date_published')
+            'fields': ('is_published',)
         }),
         ('Date Information', {
             'classes': ('collapse',),
             'fields': ('created', 'updated')
         })
     )
-    readonly_fields = ('created', 'updated', 'date_published')
     inlines = [
         CommentsInline,
     ]
-    formfield_overrides = {
-        db_models.TextField: {'widget': TinyMCE(attrs={'cols': 100, 'rows': 30})},
-    }
+    readonly_fields = ('updated',)
+    # formfield_overrides = {
+    #     db_models.TextField: {'widget': TinyMCE(attrs={'cols': 180, 'rows': 100})},
+    # }
     list_display = ('title', 'author', 'minutes_to_read', 'category', 'comment_count', 'created')
-    list_filter = ('author', 'category', 'tags', 'minutes_to_read', 'created')
+    list_filter = ('author', 'is_published', 'category', 'tags', 'minutes_to_read', 'created')
     search_fields = ('title', 'author__first_name', 'author__last_name', 'category__name', 'tags__name')
     ordering = ('title',)
     date_hierarchy = 'created'
@@ -120,9 +120,6 @@ class ArticleAdmin(admin.ModelAdmin):
 
         obj.minutes_to_read = math.ceil(len(words) / settings.AVG_WPM_READING_SPEED)
 
-        if obj.is_published and not obj.date_published:
-            obj.date_published = timezone.now()
-
         obj.save()
 
 
@@ -131,21 +128,24 @@ class ProjectAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
             'fields': (('title', 'permalink_title'),
-                       'website', 'tags', 'description',
+                       'website', 'tags', 'body',
                        ('date_started', 'date_completed')
              ),
+        }),
+        ('Publish', {
+            'fields': ('is_published',)
         }),
         ('Date Information', {
             'classes': ('collapse',),
             'fields': ('created', 'updated'),
         })
     )
-    readonly_fields = ('created', 'updated')
-    formfield_overrides = {
-        db_models.TextField: {'widget': TinyMCE(attrs={'cols': 100, 'rows': 30})},
-    }
+    readonly_fields = ('updated',)
+    # formfield_overrides = {
+    #     db_models.TextField: {'widget': TinyMCE(attrs={'cols': 100, 'rows': 30})},
+    # }
     list_display = ('title', 'website', 'get_roles', 'client', 'date_started', 'date_completed')
-    list_filter = ('roles', 'client', 'date_completed')
+    list_filter = ('roles', 'client', 'is_published', 'date_completed')
     search_fields = ('title', 'website', 'description', 'client__first_name', 'client__last_name')
     ordering = ('title',)
     date_hierarchy = 'date_started'

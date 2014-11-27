@@ -1,0 +1,39 @@
+<article>
+    <header>
+        <h1 class="post-title">
+            {% if post.website %}
+            <a href="{{ post.website }}" title="{{ post.title }}">
+                {{ post.title }}
+            </a>
+            {% else %}
+                {{ post.title }}
+            {% endif %}
+        </h1>
+
+        <div class="post-byline">
+            <ul class="horizontal-bullets">
+                {% if post.date_completed %}
+                    <li>{{ post.date_completed|date:'l, M jS Y' }}</li>
+                {% elif post.created %}
+                    <li>{{ post.created|date:'l, M jS Y' }}</li>
+                {% endif %}
+
+                {% if post.minutes_to_read > 0 %}
+                    <li>{{ post.time_to_read }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+
+    <div class="post-body">
+        {{ post.body|safe }}
+    </div>
+
+    {% include 'snippets/post_info.html' with post=post tag_search=tag_search %}
+
+    {% include 'snippets/post_footer.html' with post=post %}
+
+    {% include 'snippets/post_comments.html' with post=post %}
+
+    <div class="post-separator"></div>
+</article>
