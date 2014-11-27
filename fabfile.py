@@ -1,6 +1,9 @@
 from fabric.api import local
 from fabric.api import lcd
 
+def prepare():
+    local('pip freeze >| src/requirements.txt')
+
 def deploy():
     local('git pull')
     local('pip install --upgrade -r src/requirements.txt')
