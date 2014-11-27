@@ -115,8 +115,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     """
     user_id = models.AutoField(primary_key=True)
     email = models.EmailField(max_length=254, unique=True)
-    first_name = models.CharField(max_length=45)
-    last_name = models.CharField(max_length=45, blank=True, null=True)
+    full_name = models.CharField(max_length=255)
+    preferred_name = models.CharField(max_length=90, blank=True, null=True)
     website = models.CharField(max_length=2083, blank=True, null=True)
     gravatar = models.CharField(max_length=2083, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
@@ -143,16 +143,14 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return "/users/%s/" % urlquote(self.email)
 
     def get_full_name(self):
-        if self.last_name:
-            full_name = '%s %s' % (self.first_name, self.last_name)
-        else:
-            full_name = self.first_name
+        full_name = "%s" % (self.full_name)
         return full_name.strip()
     get_full_name.short_description = 'Full Name'
 
     def get_short_name(self):
-        return self.first_name
-    get_short_name.short_description = 'First Name'
+        preferred_name = "%s" % (self.preferred_name)
+        return preferred_name.strip()
+    get_short_name.short_description = 'Preferred Name'
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])

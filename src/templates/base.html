@@ -39,11 +39,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="{% static 'scripts/vendor/plugins.js' %}"></script>
     <script src="{% static 'scripts/main.js' %}"></script>
+
+    {{ GA_CODE|safe }}
 </head>
 
 <body>
-    {{ GA_CODE|safe }}
-
     <main>
         <!--[if lt IE 7]>
 				<p class="browsehappy">This website was designed with a modern

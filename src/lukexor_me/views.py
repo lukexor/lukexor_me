@@ -248,7 +248,7 @@ class SearchArticlesView(View):
         results_string = ''
 
         if query:
-            search_query = search.get_query(query, ['title', 'body', 'author__first_name', 'author__last_name', 'tags__name', 'category__name'])
+            search_query = search.get_query(query, ['title', 'body', 'author__full_name', 'tags__name', 'category__name'])
             search_results = models.Article.objects.filter(search_query).filter(is_published=True).order_by('-created').distinct()[offset:offset + limit]
 
             search_count = search_results.count()
@@ -353,16 +353,10 @@ class PermalinkView(View):
 
                 md5_email = hashlib.md5(email).hexdigest()
 
-                name_separator = re.compile('[ ]')
-                names = name_separator.split(name)
-                first_name = names[0]
-                last_name = ' '.join(names[1:])
-
                 user = models.CustomUser.objects.get_or_create(
                     email = email,
                     defaults = {
-                        'first_name': first_name,
-                        'last_name': last_name,
+                        'full_name': name,
                         'website': website,
                         'gravatar': settings.URLS['gravatar'] % (md5_email)
                     },

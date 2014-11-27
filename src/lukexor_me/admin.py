@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.utils import timezone
 from django.db import models as db_models
 from tinymce.widgets import TinyMCE
 from django.conf import settings
@@ -61,7 +60,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('email', 'password'),
         }),
         ('Personal info', {
-            'fields': ('first_name', 'last_name', 'website', 'gravatar', 'phone', 'note'),
+            'fields': ('full_name', 'preferred_name', 'website', 'gravatar', 'phone', 'note'),
         }),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser',
@@ -80,7 +79,7 @@ class CustomUserAdmin(UserAdmin):
     form = forms.CustomUserChangeForm
     add_form = forms.CustomUserCreationForm
     list_display = ('email', 'get_full_name', 'website', 'phone', 'is_staff', 'is_superuser', 'is_active')
-    search_fields = ('email', 'first_name', 'last_name', 'website')
+    search_fields = ('email', 'full_name', 'preferred_name', 'website')
     ordering = ('email',)
     date_hierarchy = 'created'
 
@@ -107,7 +106,7 @@ class ArticleAdmin(admin.ModelAdmin):
     # }
     list_display = ('title', 'author', 'minutes_to_read', 'category', 'comment_count', 'created')
     list_filter = ('author', 'is_published', 'category', 'tags', 'minutes_to_read', 'created')
-    search_fields = ('title', 'author__first_name', 'author__last_name', 'category__name', 'tags__name')
+    search_fields = ('title', 'author__full_name', 'category__name', 'tags__name')
     ordering = ('title',)
     date_hierarchy = 'created'
 
@@ -146,7 +145,7 @@ class ProjectAdmin(admin.ModelAdmin):
     # }
     list_display = ('title', 'website', 'get_roles', 'client', 'date_started', 'date_completed')
     list_filter = ('roles', 'client', 'is_published', 'date_completed')
-    search_fields = ('title', 'website', 'description', 'client__first_name', 'client__last_name')
+    search_fields = ('title', 'website', 'description', 'client__full_name')
     ordering = ('title',)
     date_hierarchy = 'date_started'
 

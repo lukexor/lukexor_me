@@ -1,7 +1,18 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
+
 from . import views
-from lib.feeds import Feed
+from lib import feeds, site_maps
+
+sitemaps = {
+    'static': site_maps.StaticSitemap,
+    'articles': site_maps.ArticleSitemap,
+    'article_tags': site_maps.ArticleTagSiteMap,
+    'article_categories': site_maps.ArticleCategorySiteMap,
+    'projects': site_maps.ProjectSitemap,
+    'project_tags': site_maps.ProjectTagSiteMap,
+}
 
 urlpatterns = patterns(
     '',
@@ -12,7 +23,7 @@ urlpatterns = patterns(
     url(r'^contact/$', views.ContactView.as_view(), name='contact'),
     url(r'^search/$', views.SearchArticlesView.as_view(), name='search'),
     url(r'^thanks/$', views.ThanksView.as_view(), name='thanks'),
-    url(r'^feed/$', Feed(), name='feed'),
+    url(r'^feed/$', feeds.Feed(), name='feed'),
 
     url(r'^articles/(?P<page>[\d]{1,})/$', views.ArticlesView.as_view(), name='articles_by_page'),
     url(r'^projects/(?P<page>[\d]{1,})/$', views.ProjectsView.as_view(), name='projects_by_page'),
@@ -32,8 +43,10 @@ urlpatterns = patterns(
     url(r'^(?P<year>[\d]{4})/$', views.ArticlesView.as_view(), name='year_search'),
     url(r'^(?P<year>[\d]{4})/(?P<month>[\d]{2})/$', views.ArticlesView.as_view(), name='month_search'),
 
-    url(r'^(?P<permalink_title>[\w-]+)/$', views.PermalinkView.as_view(), name='permalink'),
-
     url(r'^tinymce/', include('tinymce.urls'), name='tinymce'),
-    url(r'^admin/', include(admin.site.urls), name='admin'),
+    url(r'^siteadmin/doc/', include('django.contrib.admindocs.urls'), name='admin_doc'),
+    url(r'^siteadmin/', include(admin.site.urls), name='admin'),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+
+    url(r'^(?P<permalink_title>[\w-]+)/$', views.PermalinkView.as_view(), name='permalink'),
 )
