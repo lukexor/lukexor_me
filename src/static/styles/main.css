@@ -365,6 +365,9 @@ a.disabled {
 
 /* Articles */
 
+article {
+    margin-bottom: 80px;
+}
 .photo-credit {
     color: #9E792F;
     margin-top: 40px;
@@ -415,9 +418,6 @@ a.disabled {
 }
 .post-footer .social-icons {
     float: right;
-}
-.post-separator {
-    margin: 3.5em 0;
 }
 .comment-body {
     margin-top: 1em;
@@ -491,8 +491,8 @@ a.disabled {
 }
 .hr-green {
     height: 11px;
-    border-bottom: 1px solid #619694;
-    margin-bottom: 10px;
+    border-bottom: 2px solid #619694;
+    margin-bottom: 20px;
 }
 .hr-grey {
     height: 11px;
