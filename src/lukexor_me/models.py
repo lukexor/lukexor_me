@@ -42,7 +42,7 @@ class Article(models.Model):
         word_separator = re.compile('[ ]')
         words = word_separator.split(self.body)[0:30]
         summary = ' '.join(words)
-        return "%s ..." % (strip_tags(summary))
+        return "%s ..." % (strip_tags(summary).strip())
 
     def time_to_read(self):
         return "%d minute read" % (self.minutes_to_read)
@@ -196,7 +196,10 @@ class Project(models.Model):
     get_tags.short_description = 'Tag(s)'
 
     def summary(self):
-        return "%s ..." % (self.body[0:100])
+        word_separator = re.compile('[ ]')
+        words = word_separator.split(self.body)[0:30]
+        summary = ' '.join(words)
+        return "%s ..." % (strip_tags(summary).strip())
 
     def __unicode__(self):
         return self.title
