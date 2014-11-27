@@ -2,6 +2,8 @@
 
 # Settings to load after loading virtualenv
 
+cdproject
+
 if [[ $(current_branch) == 'develop' ]]; then
     SETTING='settings_dev'
 else
@@ -10,5 +12,4 @@ fi
 
 export DJANGO_SETTINGS_MODULE="lukexor_me.${SETTING}"
 
-cdproject
 cd .

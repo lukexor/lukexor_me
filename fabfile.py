@@ -11,4 +11,4 @@ def deploy():
     local('python src/manage.py test')
     local('python src/manage.py collectstatic --noinput --clear --link')
     local('sudo service apache2 graceful')
-    local('python src/manage.py ping_google [/sitemap.xml]')
+    local('python src/manage.py ping_google "/sitemap.xml"')
