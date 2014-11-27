@@ -196,7 +196,7 @@ class Project(models.Model):
     get_tags.short_description = 'Tag(s)'
 
     def summary(self):
-        return "%s ..." % (self.description[0:100])
+        return "%s ..." % (self.body[0:100])
 
     def __unicode__(self):
         return self.title

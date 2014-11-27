@@ -22,9 +22,9 @@
 					{% for article in articles %}
 						<li>
 							<p class="search_listing_title">
-								<a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.body|truncatewords_html:30 }}
+								<a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}
 							</p><br>
-							<div class="date-published">
+							<div class="post-byline">
 								<ul class="horizontal-bullets">
 									<li>{{ article.created | date:'F j, Y' }}</li>
 									{% if article.minutes_to_read > 0 %}
