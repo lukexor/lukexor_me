@@ -1,17 +1,29 @@
 <div class="col-md-1 col-sm-0"></div>
 
 <div class="col-md-3 col-sm-3">
-    {% if article_dates %}
-    <h2>Articles</h2>
-    <ul>
-        {% for year, months in article_dates.items %}
+    {% if archive %}
+    <h2>Archive</h2>
+    <ul class="arrow-collapse">
+        {% for entry in archive %}
         <li>
-            <a href="{% url 'year_search' year %}" title="{{ year }} articles">{{ year }}</a>
-            <ul>
-                {% for month, article_count in months.items %}
-                <li><a href="{% url 'month_search' year month %}" title="{{ month }} {{ year }} articles">{{ month }} ({{ article_count }})</a></li>
-                {% endfor %}
-            </ul>
+            <a class="arrow-collapse{% if not forloop.first %} collapsed{% endif %}" id="{{ entry.year }}-menu" data-toggle="collapse" href="#{{ entry.year }}-months" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="{{ entry.year }}-months" title="{{ entry.year }}">{{ entry.year }}</a>
+
+            <div id="{{ entry.year }}-months" class="panel-collapse collapse{% if forloop.first %} in{% endif %}">
+                <ul class="arrow-collapse">
+                    {% for month in entry.months %}
+                    <li>
+                        <a class="arrow-collapse{% if not forloop.first or not forloop.parentloop.first %} collapsed{% endif %}" data-toggle="collapse" data-parent="#{{ entry.year }}-menu" href="#{{ entry.year }}-{{ month.name }}-posts" aria-expanded="{% if forloop.first and forloop.parentloop.first %}true{% else %}false{% endif %}" aria-controls="{{ entry.year }}-{{ month.name }}-posts" title="{{ month.name }} {{ entry.year }}">{{ month.name }}</a>
+                        <div id="{{ entry.year }}-{{ month.name }}-posts" class="panel-collapse collapse{% if forloop.first and forloop.parentloop.first %} in{% endif %}">
+                            <ul class="arrow-collapse">
+                                {% for post in month.posts %}
+                                <li><a href="{{ post.permalink }}" title="{{ post.title }}">{{ post.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </li>
         {% endfor %}
     </ul>

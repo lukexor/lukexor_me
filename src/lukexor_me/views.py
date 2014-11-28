@@ -88,6 +88,50 @@ def article_view(request, article, form):
         'tags': get_article_tags(),
     })
 
+def datify_archive(entries):
+    archive = []
+
+    for entry in entries:
+        print "State: "
+        print archive
+
+        year = entry.created.year
+        month = entry.created.strftime('%b')
+
+        entry_data = {
+            "title": entry.title,
+            "permalink": reverse_lazy('permalink', args=[entry.permalink_title]),
+        }
+
+        print "Working on title: " + entry.title
+
+        year_match = next((entry for entry in archive if entry['year'] == year), None)
+        if year_match:
+            print "Found year %d" % (year)
+            month_match = next((entry for entry in year_match['months'] if entry['name'] == month), None)
+            if month_match:
+                print "Found month " + month
+                month_match['posts'].append(entry_data)
+            else:
+                print "Didn't find month " + month
+                month_data = {
+                    "name": month,
+                    "posts": [entry_data],
+                }
+                year_match['months'].append(month_data)
+        else:
+            print "Didn't find year %d" % (year)
+            year_data = {
+                "year": year,
+                "months": [{
+                    "name": month,
+                    "posts": [entry_data]
+                }],
+            }
+            archive.append(year_data)
+
+    return archive
+
 class BadRequestView(View):
     def get(self, request):
         return render(request, "400.html", {'page_title': build_page_title('400 FLAGRANT SYSTEM ERROR')})
@@ -115,20 +159,7 @@ class ArticlesView(View):
     def get(self, request, category=None, tag=None, year=None, month=None, page=0):
         all_articles = models.Article.objects.filter(is_published=True).order_by('-created')
 
-        article_dates = {}
-        for article in all_articles:
-            article_year = int(article.created.year)
-            article_month = int(article.created.month)
-
-            if article_year in article_dates:
-                if article_month in article_dates[article_year]:
-                    article_dates[article_year][article_month] += 1
-                else:
-                    article_dates[article_year][article_month] = 1
-            else:
-                article_dates[article_year] = {
-                    article_month: 1
-                }
+        articles_archive = datify_archive(all_articles)
 
         limit = settings.PAGE_LIMITS['articles']
         offset = get_page_offset(page, limit)
@@ -192,7 +223,7 @@ class ArticlesView(View):
 
         return render(request, "articles.html", {
             'articles': articles,
-            'article_dates': article_dates,
+            'archive': articles_archive,
             'categories': get_article_categories(),
             'comments_enabled': settings.COMMENTS_ENABLED,
             'next_page_url': next_page_url,

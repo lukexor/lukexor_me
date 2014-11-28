@@ -365,6 +365,31 @@ a.disabled {
 
 /* Articles */
 
+ul.arrow-collapse {
+    padding-left: 1.2em;
+    list-style: none;
+}
+ul.arrow-collapse ul ul {
+    list-style: disc;
+    padding-left: 0.5em;
+}
+.arrow-collapse li {
+    margin: 0.25em 0;
+}
+a.arrow-collapse:hover {
+    text-decoration: none;
+}
+a.arrow-collapse:before {
+    content: "▼";
+    display: block;
+    height: 0;
+    width: 0;
+    left: -1.2em;
+    position: relative;
+}
+a.collapsed:before {
+    content: "►";
+}
 article {
     margin-bottom: 80px;
 }
