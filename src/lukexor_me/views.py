@@ -76,8 +76,11 @@ def project_view(request, project, form):
     })
 
 def article_view(request, article, form):
+    all_articles = models.Article.objects.filter(is_published=True).order_by('-created')
+
     return render(request, "articles.html", {
         'articles': [article],
+        'archive': datify_archive(all_articles),
         'categories': get_article_categories(),
         'comments_enabled': settings.COMMENTS_ENABLED,
         'form': form,
