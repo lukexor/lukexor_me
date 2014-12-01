@@ -1,11 +1,17 @@
 from django.contrib.syndication.views import Feed
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.urlresolvers import reverse_lazy
 from django.utils.feedgenerator import Atom1Feed
 from django.conf import settings
 from lukexor_me import models
 
+class CustomAtom1Feed(Atom1Feed):
+    def add_item_elements(self, handler, item):
+        super(CustomAtom1Feed, self).add_item_elements(handler, item)
+        handler.addQuickElement(u"content", item['content'], {"type": "html"})
+
 class Feed(Feed):
-    feed_type = Atom1Feed
+    feed_type = CustomAtom1Feed
 
     title = "Lucas Petherbridge"
     subtitle = settings.STRINGS['homepage_description']
@@ -13,7 +19,6 @@ class Feed(Feed):
 
     author_name = settings.STRINGS['full_name']
     author_email = settings.STRINGS['plain_email']
-    author_link = reverse_lazy('about')
 
     link = reverse_lazy('articles')
     feed_url = reverse_lazy('feed')
@@ -36,3 +41,9 @@ class Feed(Feed):
 
     def item_updateddate(self, item):
         return item.updated
+
+    def item_extra_kwargs(self, item):
+        return {
+            'content': item.body,
+        }
+

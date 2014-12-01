@@ -40,7 +40,7 @@ class Article(models.Model):
 
     def summary(self):
         word_separator = re.compile('[ ]')
-        words = word_separator.split(self.body)[0:30]
+        words = word_separator.split(self.body)[0:40]
         summary = ' '.join(words)
         return "%s ..." % (strip_tags(summary).strip())
 
@@ -195,7 +195,7 @@ class Project(models.Model):
 
     def summary(self):
         word_separator = re.compile('[ ]')
-        words = word_separator.split(self.body)[0:30]
+        words = word_separator.split(self.body)[0:40]
         summary = ' '.join(words)
         return "%s ..." % (strip_tags(summary).strip())
 
