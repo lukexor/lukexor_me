@@ -23,7 +23,7 @@ class Feed(Feed):
 
 
     def items(self):
-        return models.Article.objects.filter(is_published=True).order_by('-date_published')[:10]
+        return models.Article.objects.filter(is_published=True).order_by('-created')[:10]
 
     def item_title(self, item):
         return item.title
@@ -32,7 +32,7 @@ class Feed(Feed):
         return item.summary()
 
     def item_pubdate(self, item):
-        return item.date_published
+        return item.created
 
     def item_updateddate(self, item):
         return item.updated
