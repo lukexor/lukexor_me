@@ -222,7 +222,7 @@ section p {
 
 /* Links/Nav */
 
-a {
+a, a:active, a:focus {
     color: #9EC3C2;
 }
 a:visited {
@@ -382,7 +382,7 @@ ul.arrow-collapse ul ul {
 .arrow-collapse li {
     margin: 0.25em 0;
 }
-a.arrow-collapse:hover {
+a.arrow-collapse:hover, a.arrow-collapse:active, a.arrow-collapse:focus {
     text-decoration: none;
 }
 a.arrow-collapse:before {
