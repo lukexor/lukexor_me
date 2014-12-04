@@ -127,7 +127,7 @@ class CommentForm(forms.Form):
         ),
     )
     message = forms.CharField(
-        help_text = 'Supports <a href="http://daringfireball.net/projects/markdown/" title="Markdown">Markdown</a>',
+        help_text = 'Supports <a href="http://daringfireball.net/projects/markdown/syntax" title="Markdown">Markdown</a>',
         widget = forms.Textarea(
             attrs = {
                 'class': 'comment_form_message form-control required',

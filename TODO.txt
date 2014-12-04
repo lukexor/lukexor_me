@@ -1,8 +1,7 @@
-- Crop article photos
 - Create images/icons for mindtask
-- write Part 1
 - Make icons (apple, fav, etc)
 - Minify CSS/JS
+- Strip img tags from markdown comments
 
 - Look into twitter feed/GitHub/LinkedIn API for About page
 - Link GitHub Repos into Projects

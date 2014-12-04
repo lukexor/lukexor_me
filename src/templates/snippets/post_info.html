@@ -1,4 +1,4 @@
-<div class="hr-grey"></div>
+<hr>
 <div class="post-info">
     {% if post.category %}
         <strong>Category:</strong> <a href="{% url 'category_search' post.category|lower|slugify %}" title="{{ post.category }} Category">{{ post.category }}</a><br>

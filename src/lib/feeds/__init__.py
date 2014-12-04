@@ -24,7 +24,7 @@ class Feed(Feed):
     feed_url = reverse_lazy('feed')
 
     categories = models.Category.objects.all()
-    feed_copyright = settings.STRINGS['copywrite']
+    feed_copyright = settings.STRINGS['copyright']
 
 
     def items(self):

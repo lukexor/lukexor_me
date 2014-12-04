@@ -1,3 +1,5 @@
+{% load markdown_deux_tags %}
+
 <article>
     <header>
         <h1 class="post-title">
@@ -26,7 +28,7 @@
     </header>
 
     <div class="post-body">
-        {{ post.body|safe }}
+        {{ post.body|markdown:"trusted" }}
     </div>
 
     {% include 'snippets/post_info.html' with post=post tag_search=tag_search %}
