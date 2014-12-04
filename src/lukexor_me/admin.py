@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.db import models as db_models
-from tinymce.widgets import TinyMCE
 from django.conf import settings
+from django.forms import Textarea
 from . import models, forms
 import re, math
 
@@ -40,7 +40,7 @@ class Comment(admin.ModelAdmin):
     )
     readonly_fields = ('created', 'updated')
     formfield_overrides = {
-        db_models.TextField: {'widget': TinyMCE(attrs={'cols': 100, 'rows': 30})},
+        db_models.TextField: {'widget': Textarea(attrs={'cols': 180, 'rows': 60})},
     }
     list_display = ('user', 'article', 'project', 'body', 'created')
     list_filter = ('project', 'created',)
@@ -101,9 +101,9 @@ class ArticleAdmin(admin.ModelAdmin):
         CommentsInline,
     ]
     readonly_fields = ('updated',)
-    # formfield_overrides = {
-    #     db_models.TextField: {'widget': TinyMCE(attrs={'cols': 180, 'rows': 100})},
-    # }
+    formfield_overrides = {
+        db_models.TextField: {'widget': Textarea(attrs={'cols': 180, 'rows': 60})},
+    }
     list_display = ('title', 'author', 'minutes_to_read', 'category', 'comment_count', 'created')
     list_filter = ('author', 'is_published', 'category', 'tags', 'minutes_to_read', 'created')
     search_fields = ('title', 'author__full_name', 'category__name', 'tags__name')
@@ -140,9 +140,9 @@ class ProjectAdmin(admin.ModelAdmin):
         })
     )
     readonly_fields = ('updated',)
-    # formfield_overrides = {
-    #     db_models.TextField: {'widget': TinyMCE(attrs={'cols': 100, 'rows': 30})},
-    # }
+    formfield_overrides = {
+        db_models.TextField: {'widget': Textarea(attrs={'cols': 180, 'rows': 60})},
+    }
     list_display = ('title', 'website', 'get_roles', 'client', 'date_started', 'date_completed')
     list_filter = ('roles', 'client', 'is_published', 'date_completed')
     search_fields = ('title', 'website', 'description', 'client__full_name')

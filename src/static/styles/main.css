@@ -135,6 +135,12 @@ h2 {
 h3 {
     font-size: 1.2em;
 }
+hr {
+    border-color: #333333;
+}
+hr.green {
+    border-color: #619694;
+}
 input,textarea {
     color: #F7C6A0 !important;
     background-color: #222222 !important;
@@ -395,11 +401,13 @@ article {
 }
 .photo-credit {
     color: #9E792F;
-    margin-top: 40px;
+    margin-top: 20px;
 }
-.footnote {
+.footnotes, .footnotes p {
     color: #666666;
     font-size: .9em;
+    padding: 0;
+    margin: 0;
 }
 .post-header-img {
     width: 100%;
@@ -410,7 +418,7 @@ article {
     width: 100%;
     border: 2px solid #333333;
 }
-.post-body p:first-of-type:first-letter {
+.post-body > p:first-of-type:first-letter {
     float: left;
     color: #3A7B78;
     font-size: 5em;
@@ -513,16 +521,6 @@ article {
 }
 .clear {
     clear: both;
-}
-.hr-green {
-    height: 11px;
-    border-bottom: 2px solid #619694;
-    margin-bottom: 20px;
-}
-.hr-grey {
-    height: 11px;
-    border-bottom: 1px solid #333333;
-    margin-bottom: 10px;
 }
 
 /* ==========================================================================

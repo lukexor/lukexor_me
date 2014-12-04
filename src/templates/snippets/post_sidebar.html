@@ -28,7 +28,7 @@
         {% endfor %}
     </ul>
 
-    <div class="hr-grey"></div>
+    <hr>
     {% endif %}
 
     {% if categories %}
@@ -39,7 +39,7 @@
         {% endfor %}
     </ul>
 
-    <div class="hr-grey"></div>
+    <hr>
     {% endif %}
 
     {% if tags %}
@@ -48,6 +48,6 @@
     <a href="{% url tag_search tag|lower|slugify %}" title="{{ tag }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
     {% endfor %}
 
-    <div class="hr-grey"></div>
+    <hr>
     {% endif %}
 </div>
