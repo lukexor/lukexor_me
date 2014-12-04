@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.feedgenerator import Atom1Feed
 from django.conf import settings
 from lukexor_me import models
+import markdown_deux
 
 class CustomAtom1Feed(Atom1Feed):
     def add_item_elements(self, handler, item):
@@ -44,6 +45,6 @@ class Feed(Feed):
 
     def item_extra_kwargs(self, item):
         return {
-            'content': item.body,
+            'content': markdown_deux.markdown(item.body, "trusted"),
         }
 
