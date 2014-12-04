@@ -95,9 +95,6 @@ def datify_archive(entries):
     archive = []
 
     for entry in entries:
-        print "State: "
-        print archive
-
         year = entry.created.year
         month = entry.created.strftime('%b')
 
@@ -106,24 +103,18 @@ def datify_archive(entries):
             "permalink": reverse_lazy('permalink', args=[entry.permalink_title]),
         }
 
-        print "Working on title: " + entry.title
-
         year_match = next((entry for entry in archive if entry['year'] == year), None)
         if year_match:
-            print "Found year %d" % (year)
             month_match = next((entry for entry in year_match['months'] if entry['name'] == month), None)
             if month_match:
-                print "Found month " + month
                 month_match['posts'].append(entry_data)
             else:
-                print "Didn't find month " + month
                 month_data = {
                     "name": month,
                     "posts": [entry_data],
                 }
                 year_match['months'].append(month_data)
         else:
-            print "Didn't find year %d" % (year)
             year_data = {
                 "year": year,
                 "months": [{
