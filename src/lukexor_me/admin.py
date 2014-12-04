@@ -46,7 +46,7 @@ class Comment(admin.ModelAdmin):
     list_filter = ('project', 'created',)
     search_fields = ('user', 'article', 'project', 'body')
     ordering = ('user','created')
-    date_hierarchy = 'created'
+    # date_hierarchy = 'created'
 
 @admin.register(models.CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -81,13 +81,13 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('email', 'get_full_name', 'website', 'phone', 'is_staff', 'is_superuser', 'is_active')
     search_fields = ('email', 'full_name', 'preferred_name', 'website')
     ordering = ('email',)
-    date_hierarchy = 'created'
+    # date_hierarchy = 'created'
 
 @admin.register(models.Article)
 class ArticleAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': (('title', 'permalink_title'), 'category', 'tags', 'body',),
+            'fields': (('title', 'permalink_title'), 'minutes_to_read', 'category', 'tags', 'body',),
         }),
         ('Publish', {
             'fields': ('is_published',)
@@ -100,15 +100,15 @@ class ArticleAdmin(admin.ModelAdmin):
     inlines = [
         CommentsInline,
     ]
-    readonly_fields = ('updated',)
+    readonly_fields = ('updated', 'minutes_to_read')
     formfield_overrides = {
         db_models.TextField: {'widget': Textarea(attrs={'cols': 180, 'rows': 60})},
     }
     list_display = ('title', 'author', 'minutes_to_read', 'category', 'comment_count', 'created')
     list_filter = ('author', 'is_published', 'category', 'tags', 'minutes_to_read', 'created')
     search_fields = ('title', 'author__full_name', 'category__name', 'tags__name')
-    ordering = ('title',)
-    date_hierarchy = 'created'
+    ordering = ('-created',)
+    # date_hierarchy = 'created'
 
     def save_model(self, request, obj, form, change):
         if not change:
@@ -147,7 +147,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ('roles', 'client', 'is_published', 'date_completed')
     search_fields = ('title', 'website', 'description', 'client__full_name')
     ordering = ('title',)
-    date_hierarchy = 'date_started'
+    # date_hierarchy = 'date_started'
 
 
 @admin.register(models.Role)
@@ -156,7 +156,7 @@ class Role(admin.ModelAdmin):
     list_display = ('name', 'created')
     search_fields = ('name',)
     ordering = ('name',)
-    date_hierarchy = 'created'
+    # date_hierarchy = 'created'
 
 @admin.register(models.Tag)
 class Tag(admin.ModelAdmin):
@@ -164,4 +164,4 @@ class Tag(admin.ModelAdmin):
     list_display = ('name', 'created')
     search_fields = ('name',)
     ordering = ('name',)
-    date_hierarchy = 'created'
+    # date_hierarchy = 'created'
