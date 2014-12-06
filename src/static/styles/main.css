@@ -177,21 +177,6 @@ section p {
 .site-subtitle {
     font-size: 1.1em;
 }
-.site-header-outer {
-    height: 250px;
-    margin-bottom: 20px;
-    border: 2px solid #333333;
-}
-.site-header-background {
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    -webkit-background-size: cover;
-    background-size: cover;
-}
 
 /* Search */
 
@@ -358,8 +343,20 @@ a.subscribe {
 
 /* Home */
 
-.index-header-background {
-    background-image: url("/static/images/header-bg/code-bg.jpg");
+.site-header-img {
+    height: 250px;
+    margin-bottom: 20px;
+    border: 2px solid #333333;
+    overflow: hidden;
+}
+.site-header-img h2 {
+    position: relative;
+    left: -50%;
+}
+.greeting-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 0;
 }
 .greeting {
     margin: 0;
