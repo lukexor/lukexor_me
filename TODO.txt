@@ -1,6 +1,7 @@
+- Turn icons into sprites
+- Turn main img into img instead of bg
 - Create images/icons for mindtask
 - Make icons (apple, fav, etc)
-- Minify CSS/JS
 - Strip img tags from markdown comments
 
 - Look into twitter feed/GitHub/LinkedIn API for About page
