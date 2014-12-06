@@ -254,6 +254,7 @@ class ArticlesView(View):
             'comments_enabled': settings.COMMENTS_ENABLED,
             'next_page_url': next_page_url,
             'page_title': build_page_title('Articles'),
+            'page_description': "Articles :: " + settings.STRINGS['full_name'],
             'prev_page_url': prev_page_url,
             'tags': get_article_tags(),
         })
@@ -372,12 +373,15 @@ class ProjectsView(View):
             elif prev_page == 0:
                 prev_page_url = reverse_lazy('projects')
 
+        projects = filtered_projects[offset:offset + limit]
+
         return render(request, "projects.html", {
             'comments_enabled': settings.COMMENTS_ENABLED,
             'next_page_url': next_page_url,
             'page_title': build_page_title('Projects'),
+            'page_description': "Projects :: " + settings.STRINGS['full_name'],
             'prev_page_url': prev_page_url,
-            'projects': filtered_projects[offset:offset + limit],
+            'projects': projects,
             'tags': get_project_tags(),
         })
 
