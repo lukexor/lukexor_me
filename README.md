@@ -8,17 +8,17 @@ This project is a website portfolio of projects and articles where I write about
 
 - Contact email form
 - Article feed with filtering by:
--- Date/Month
--- Category
--- Tag
+    - Date/Month
+    - Category
+    - Tag
 - Article full-text search by:
--- Title
--- Content
--- Category
--- Tag
+    - Title
+    - Content
+    - Category
+    - Tag
 - Project feed with filtering by:
--- Tag
--- Atom XML feed
+    - Tag
+    - Atom XML feed
 
 ## Major Dependencies
 
