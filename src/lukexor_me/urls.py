@@ -44,7 +44,6 @@ urlpatterns = patterns(
     url(r'^(?P<year>[\d]{4})/$', cache_page(settings.CACHE_TIMES['post'])(views.ArticlesView.as_view()), name='year_search'),
     url(r'^(?P<year>[\d]{4})/(?P<month>[\d]{2})/$', cache_page(settings.CACHE_TIMES['post'])(views.ArticlesView.as_view()), name='month_search'),
 
-    url(r'^tinymce/', include('tinymce.urls'), name='tinymce'),
     url(r'^siteadmin/doc/', include('django.contrib.admindocs.urls'), name='admin_doc'),
     url(r'^siteadmin/', include(admin.site.urls), name='admin'),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='sitemap'),

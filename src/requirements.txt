@@ -2,13 +2,11 @@ Django==1.7
 Fabric==1.9.1
 MySQL-python==1.2.3
 argparse==1.2.1
-distribute==0.7.3
 django-appconf==0.6
 django-compressor==1.4
 django-honeypot==0.4.0
 django-markdown-deux==1.0.5
 django-redis-cache==0.13.0
-django-tinymce==1.5.3
 docutils==0.12
 ecdsa==0.11
 markdown2==2.3.0
