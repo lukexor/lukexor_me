@@ -16,12 +16,12 @@ def getValueByKey(arg, key):
 
 
 @register.simple_tag
-def create_share_url(type, base_url, url, text=""):
+def create_share_url(type, base_url, url, text="Good read"):
     """
     Return a url to share a link on social media
     """
 
-    url = base_url + '/' + url
+    url = base_url + '/' + url + '/'
     share_url = ''
 
     if type == 'twitter':

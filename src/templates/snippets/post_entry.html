@@ -2,7 +2,7 @@
 
 <article>
     <header>
-        <h1 class="post-title">
+        <h2 class="post-title">
             {% if post.website %}
             <a href="{{ post.website }}" title="{{ post.title }}">
                 {{ post.title }}
@@ -10,7 +10,7 @@
             {% else %}
                 <a href="{% url 'permalink' post.permalink_title|lower|slugify %}" title="{{ post.title }}">{{ post.title }}</a>
             {% endif %}
-        </h1>
+        </h2>
 
         <div class="post-byline">
             <ul class="horizontal-bullets">

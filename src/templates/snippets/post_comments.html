@@ -52,8 +52,7 @@
     </div>
 
     {% for comment in post.comment_set.all %}
-    <div class="comment-wrapper">
-        <a name="comment_{{ forloop.counter }}"></a>
+    <div id="comment_{{ forloop.counter }}" class="comment-wrapper">
         <img class="comment-gravatar" src="{{ comment.user.gravatar }}">
         <div class="comment-name">
             {% if comment.user.website %}
