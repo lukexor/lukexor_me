@@ -1,14 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, Http404
-from django.views.generic import View
-from django.core.urlresolvers import reverse_lazy
-from django.core.mail import EmailMessage
 from django.conf import settings
+from django.core.cache import cache
+from django.core.mail import EmailMessage
+from django.core.urlresolvers import reverse_lazy
+from django.http import HttpResponseRedirect, Http404
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from lib.site_search import SiteSearch
+from django.views.generic import View
 from honeypot.decorators import check_honeypot
 from . import forms, models
-
+from lib.site_search import SiteSearch
 import logging, datetime, hashlib, re
 
 handler400 = 'lukexor_me.views.BadRequestView'
@@ -18,18 +18,36 @@ handler500 = 'lukexor_me.views.ServerErrorView'
 logger = logging.getLogger(__name__)
 
 
+
 def build_page_title(title):
     return '%s :: %s' % (title, settings.STRINGS['full_name'])
 
 def get_article_tags():
-    tags = models.Tag.objects.filter(article__isnull=False).distinct()
+    tags = cache.get('article_tags')
+
+    if not tags:
+        tags = models.Tag.objects.filter(article__isnull=False).distinct()
+        cache.set('article_tags', tags, settings.CACHE_TIMES['labels'])
+
     return tags
 
 def get_project_tags():
-    return models.Tag.objects.filter(project__isnull=False).distinct()
+    tags = cache.get('project_tags')
+
+    if not tags:
+        tags = models.Tag.objects.filter(project__isnull=False).distinct()
+        cache.set('project_tags', tags, settings.CACHE_TIMES['labels'])
+
+    return  tags
 
 def get_article_categories():
-    return models.Category.objects.filter(article__isnull=False).distinct()
+    categories = cache.get('categories')
+
+    if not categories:
+        categories = models.Category.objects.filter(article__isnull=False).distinct()
+        cache.set('categories', categories, settings.CACHE_TIMES['labels'])
+
+    return categories
 
 def get_prev_page(page):
     if int(page) > 0:
@@ -92,55 +110,69 @@ def article_view(request, article, form):
     })
 
 def datify_archive(entries):
-    archive = []
+    archive = cache.get('datified_archive')
 
-    for entry in entries:
-        year = entry.created.year
-        month = entry.created.strftime('%b')
+    if not archive:
+        archive = []
 
-        entry_data = {
-            "title": entry.title,
-            "permalink": reverse_lazy('permalink', args=[entry.permalink_title]),
-        }
+        for entry in entries:
+            year = entry.created.year
+            month = entry.created.strftime('%b')
 
-        year_match = next((entry for entry in archive if entry['year'] == year), None)
-        if year_match:
-            month_match = next((entry for entry in year_match['months'] if entry['name'] == month), None)
-            if month_match:
-                month_match['posts'].append(entry_data)
-            else:
-                month_data = {
-                    "name": month,
-                    "posts": [entry_data],
-                }
-                year_match['months'].append(month_data)
-        else:
-            year_data = {
-                "year": year,
-                "months": [{
-                    "name": month,
-                    "posts": [entry_data]
-                }],
+            entry_data = {
+                "title": entry.title,
+                "permalink": reverse_lazy('permalink', args=[entry.permalink_title]),
             }
-            archive.append(year_data)
+
+            year_match = next((entry for entry in archive if entry['year'] == year), None)
+            if year_match:
+                month_match = next((entry for entry in year_match['months'] if entry['name'] == month), None)
+                if month_match:
+                    month_match['posts'].append(entry_data)
+                else:
+                    month_data = {
+                        "name": month,
+                        "posts": [entry_data],
+                    }
+                    year_match['months'].append(month_data)
+            else:
+                year_data = {
+                    "year": year,
+                    "months": [{
+                        "name": month,
+                        "posts": [entry_data]
+                    }],
+                }
+                archive.append(year_data)
+
+        cache.set('datified_archive', archive, settings.CACHE_TIMES['post'])
 
     return archive
 
+
 class BadRequestView(View):
+
     def get(self, request):
         return render(request, "400.html", {'page_title': build_page_title('400 FLAGRANT SYSTEM ERROR')})
 
+
 class PermissionDeniedView(View):
+
     def get(self, request):
         return render(request, "403.html", {'page_title': build_page_title('403 FLAGRANT SYSTEM ERROR')})
 
+
 class PageNotFoundView(View):
+
     def get(self, request):
         return render(request, "404.html", {'page_title': build_page_title('404 FLAGRANT SYSTEM ERROR')})
 
+
 class ServerErrorView(View):
+
     def get(self, request):
         return render(request, "500.html", {'page_title': build_page_title('500 FLAGRANT SYSTEM ERROR')})
+
 
 class AboutView(View):
 
@@ -258,6 +290,7 @@ class ContactView(View):
 
 
 class SearchArticlesView(View):
+
     def get(self, request, page=0, query=None):
         if ('q' in request.GET) and request.GET['q'].strip():
             query_string = request.GET['q'].strip()
