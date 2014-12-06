@@ -3,6 +3,10 @@ from fabric.api import lcd
 
 def prepare():
     local('pip freeze >| src/requirements.txt')
+    local('git checkout master')
+    local('git pull')
+    local('git merge origin/develop')
+    local('git push origin master')
 
 def deploy():
     local('git pull')
