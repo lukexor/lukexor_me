@@ -1,4 +1,6 @@
 {% load static from staticfiles %}
+{% load compress %}
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>	   <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>		   <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -27,18 +29,23 @@
     <!--[if IE]><link rel="shortcut icon" href="{% static 'images/icons/favicon-32.ico' %}"><![endif]-->
     <!-- or, set /favicon.ico for IE10 win -->
 
-    <link rel="stylesheet" href="{% static 'styles/normalize.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'styles/vendor/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/vendor/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    {% endcompress %}
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>
         window.jQuery || document.write('<script src="{% static "scripts/vendor/jquery-1.10.2.min.js" %}"><\/script>')
     </script>
+
+    {% compress js %}
     <script src="{% static 'scripts/vendor/modernizr-2.6.2.min.js' %}"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'scripts/vendor/bootstrap.min.js' %}"></script>
     <script src="{% static 'scripts/vendor/plugins.js' %}"></script>
     <script src="{% static 'scripts/main.js' %}"></script>
+    {% endcompress %}
 
     {{ GA_CODE|safe }}
 </head>
