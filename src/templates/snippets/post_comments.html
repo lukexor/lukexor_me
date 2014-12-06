@@ -65,7 +65,7 @@
             {% endif %}
         </div>
         <div class="comment-date">{{ comment.created|date:'l, M jS Y H:i e' }}</div>
-        <div class="comment-body">{{ comment.body|markdown }}</div>
+        <div class="comment-body">{{ comment.body|markdown|removetags:"img" }}</div>
     </div>
     {% endfor %}
 </div>

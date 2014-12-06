@@ -1,12 +1,8 @@
-- Turn icons into sprites
-- Turn main img into img instead of bg
 - Create images/icons for mindtask
-- Make icons (apple, fav, etc)
-- Strip img tags from markdown comments
 
 - Look into twitter feed/GitHub/LinkedIn API for About page
-- Link GitHub Repos into Projects
-- Set up analytics goals
+- Add stylized portrait to About page
+- Link GitHub Repos into Projects (add github icon somewhere)
 - add http://smarterer.com/kaele7
 
 - Take picture programming on mac

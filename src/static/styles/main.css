@@ -347,7 +347,7 @@ a.subscribe {
     border: 2px solid #333333;
     overflow: hidden;
 }
-.site-header-img h2 {
+.site-header-img h1 {
     position: relative;
     left: -50%;
 }
