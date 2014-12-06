@@ -332,29 +332,27 @@ a.disabled {
     background-color: #FF8300 !important;
 }
 
-.facebook {
-    background: url("/static/images/social_icons/facebook-32.png");
+.social-icons a {
+    background: url("/static/images/social_icons/social_icons_sprite_32.png");
     background-repeat: no-repeat;
 }
-.twitter {
-    background: url("/static/images/social_icons/twitter-32.png");
-    background-repeat: no-repeat;
+a.linkedin {
+    background-position: 0 0;
 }
-.googleplus {
-    background: url("/static/images/social_icons/googleplus-32.png");
-    background-repeat: no-repeat;
+a.github {
+    background-position: -32px 0;
 }
-.linkedin {
-    background: url("/static/images/social_icons/linkedin-32.png");
-    background-repeat: no-repeat;
+a.facebook {
+    background-position: -64px 0;
 }
-.github {
-    background: url("/static/images/social_icons/github-32.png");
-    background-repeat: no-repeat;
+a.twitter {
+    background-position: -96px 0;
 }
-.subscribe {
-    background: url("/static/images/social_icons/rss-32.png");
-    background-repeat: no-repeat;
+a.googleplus {
+    background-position: -128px 0;
+}
+a.subscribe {
+    background-position: -160px 0;
 }
 
 
