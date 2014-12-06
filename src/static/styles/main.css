@@ -498,6 +498,9 @@ article {
 
 /* Contact */
 
+.contact-subheading {
+    font-size: 1.5em;
+}
 .btn-send {
     width: 150px;
     margin: 10px 0;
