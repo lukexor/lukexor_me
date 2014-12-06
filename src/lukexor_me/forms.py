@@ -89,7 +89,6 @@ class CommentForm(forms.Form):
         widget = forms.TextInput(
             attrs = {
                 'class': 'comment_form_name form-control required',
-                'aria-describedby': 'id_name_status',
                 'placeholder': 'Name',
             }
         ),
@@ -100,7 +99,6 @@ class CommentForm(forms.Form):
         widget = forms.TextInput(
             attrs = {
                 'class': 'comment_form_email form-control required',
-                'aria-describedby': 'id_email_status',
                 'placeholder': 'Email',
             }
         ),
@@ -112,7 +110,6 @@ class CommentForm(forms.Form):
         widget = forms.TextInput(
             attrs = {
                 'class': 'comment_form_website form-control',
-                'aria-describedby': 'id_website_status',
                 'placeholder': 'Website',
             }
         ),
@@ -131,7 +128,6 @@ class CommentForm(forms.Form):
         widget = forms.Textarea(
             attrs = {
                 'class': 'comment_form_message form-control required',
-                'aria-describedby': 'id_message_status',
                 'placeholder': 'Message',
                 'rows': 8,
             }

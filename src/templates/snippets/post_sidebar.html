@@ -2,7 +2,7 @@
 
 <div class="col-md-3 col-sm-3">
     {% if archive %}
-    <h2>Archive</h2>
+    <h3>Archive</h3>
     <ul class="arrow-collapse">
         {% for entry in archive %}
         <li>
@@ -32,7 +32,7 @@
     {% endif %}
 
     {% if categories %}
-    <h2>Categories</h2>
+    <h3>Categories</h3>
     <ul>
         {% for category in categories %}
         <li><a href="{% url 'category_search' category|lower|slugify %}" title="{{ category }}">{{ category }}</a></li>
@@ -43,7 +43,7 @@
     {% endif %}
 
     {% if tags %}
-    <h2>Tags</h2>
+    <h3>Tags</h3>
     {% for tag in tags %}
     <a href="{% url tag_search tag|lower|slugify %}" title="{{ tag }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
     {% endfor %}

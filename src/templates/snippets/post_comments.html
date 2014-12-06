@@ -3,7 +3,7 @@
 {% load markdown_deux_tags %}
 {% load honeypot %}
 
-<div class="post-comments">
+<div class="post-comments" id="comments">
     <div class="comment-form row">
         <form action="{% url 'permalink' post.permalink_title|lower|slugify %}" method="post">
             {% csrf_token %}
@@ -46,7 +46,7 @@
                     <label for="id_remember_me">{{ form.remember_me }} {{ form.remember_me.label }}</label>
                 </div>
 
-                <button id="post-comment" type="submit" role="submit" class="btn-send btn btn-primary pull-right clear">Post</button>
+                <button id="post-comment" type="submit" class="btn-send btn btn-primary pull-right clear">Post</button>
             </div>
         </form>
     </div>
