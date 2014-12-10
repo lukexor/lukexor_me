@@ -7,8 +7,18 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from . import settings
-import re
+import re, markdown_deux
 
+# Global helpers
+def short_text(text, length=40):
+    html_text = markdown_deux.markdown(text, "trusted")
+    stripped_text = strip_tags(html_text).strip()
+
+    word_separator = re.compile('[ ]')
+    words = word_separator.split(stripped_text)[0:40]
+    shortened_text = ' '.join(words)
+
+    return shortened_text
 
 class Article(models.Model):
     article_id = models.AutoField(primary_key=True)
@@ -39,10 +49,7 @@ class Article(models.Model):
     get_tags.short_description = 'Tag(s)'
 
     def summary(self):
-        word_separator = re.compile('[ ]')
-        words = word_separator.split(self.body)[0:40]
-        summary = ' '.join(words)
-        return "%s ..." % (strip_tags(summary).strip())
+        return "%s ..." % (short_text(self.body, 40))
 
     def time_to_read(self):
         return "%d minute read" % (self.minutes_to_read)
@@ -194,10 +201,7 @@ class Project(models.Model):
     get_tags.short_description = 'Tag(s)'
 
     def summary(self):
-        word_separator = re.compile('[ ]')
-        words = word_separator.split(self.body)[0:40]
-        summary = ' '.join(words)
-        return "%s ..." % (strip_tags(summary).strip())
+        return "%s ..." % (short_text(self.body, 40))
 
     def __unicode__(self):
         return self.title

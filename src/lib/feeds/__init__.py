@@ -35,7 +35,7 @@ class Feed(Feed):
         return item.title
 
     def item_description(self, item):
-        return item.summary()
+        return markdown_deux.markdown(item.summary(), "trusted")
 
     def item_pubdate(self, item):
         return item.created
@@ -47,4 +47,3 @@ class Feed(Feed):
         return {
             'content': markdown_deux.markdown(item.body, "trusted"),
         }
-
