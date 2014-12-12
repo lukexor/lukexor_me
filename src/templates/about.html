@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static from staticfiles %}
 
 {% block content %}
 <section class="main-section">
@@ -21,9 +22,9 @@
 					I'm constantly thirsting for new things to learn and more efficient ways to solve problems. I'm excited about emerging technologies and what else I can sink my teeth into. I post articles here to share ideas and spur discussions about code and technology.
 				</p>
 			</div>
-			<!--<div class="col-md-5">
-				<img class="img-responsive img-rounded" width="100%" alt="Portrait of Lucas Petherbridge">
-			</div>-->
+			<div class="col-md-5">
+				<img src="{% static 'images/about_me.jpg' %}" class="img-responsive img-rounded" alt="Portrait of Lucas Petherbridge">
+			</div>
 		</div><!-- end_row -->
 	</div><!-- end_container -->
 </section>
