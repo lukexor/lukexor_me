@@ -12,7 +12,7 @@ def deploy():
     local('git pull')
     local('pip install --upgrade -r src/requirements.txt')
     local('python src/manage.py migrate')
-    local('python src/manage.py test')
+    local('python src/manage.py test lukexor_me')
     local('python src/manage.py collectstatic --noinput --clear --link')
     local('echo "select 3\nflushdb" | redis-cli')
     local('sudo service apache2 graceful')
