@@ -14,10 +14,8 @@
 
         <div class="post-byline">
             <ul class="horizontal-bullets">
-                {% if post.date_completed %}
-                    <li>{{ post.date_completed|date:'l, M jS Y' }}</li>
-                {% elif post.created %}
-                    <li>{{ post.created|date:'l, M jS Y' }}</li>
+                {% if post.date_published %}
+                    <li>{{ post.date_published|date:'l, M jS Y' }}</li>
                 {% endif %}
 
                 {% if post.minutes_to_read > 0 %}

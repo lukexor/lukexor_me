@@ -12,8 +12,16 @@ def add_article_tag(**kwargs):
     return kwargs['article'].tags.add(kwargs['tag'])
 
 
-def create_author(**kwargs):
+def create_comment(**kwargs):
+    return models.Comment.objects.update_or_create(**kwargs)
+
+
+def create_user(**kwargs):
     return models.CustomUser.objects.update_or_create(**kwargs)
+
+
+def create_user_with_email(email):
+    return create_user(email = email)
 
 
 def create_category(**kwargs):

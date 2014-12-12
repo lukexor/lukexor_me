@@ -90,7 +90,7 @@ class ArticleAdmin(admin.ModelAdmin):
             'fields': (('title', 'permalink_title'), 'minutes_to_read', 'category', 'tags', 'body',),
         }),
         ('Publish', {
-            'fields': ('is_published',)
+            'fields': ('date_published',)
         }),
         ('Date Information', {
             'classes': ('collapse',),
@@ -105,7 +105,7 @@ class ArticleAdmin(admin.ModelAdmin):
         db_models.TextField: {'widget': Textarea(attrs={'cols': 180, 'rows': 60})},
     }
     list_display = ('title', 'author', 'minutes_to_read', 'category', 'comment_count', 'created')
-    list_filter = ('author', 'is_published', 'category', 'tags', 'minutes_to_read', 'created')
+    list_filter = ('author', 'date_published', 'category', 'tags', 'minutes_to_read')
     search_fields = ('title', 'author__full_name', 'category__name', 'tags__name')
     ordering = ('-created',)
     # date_hierarchy = 'created'
@@ -132,7 +132,7 @@ class ProjectAdmin(admin.ModelAdmin):
              ),
         }),
         ('Publish', {
-            'fields': ('is_published',)
+            'fields': ('date_published',)
         }),
         ('Date Information', {
             'classes': ('collapse',),
@@ -144,7 +144,7 @@ class ProjectAdmin(admin.ModelAdmin):
         db_models.TextField: {'widget': Textarea(attrs={'cols': 180, 'rows': 60})},
     }
     list_display = ('title', 'website', 'get_roles', 'client', 'date_started', 'date_completed')
-    list_filter = ('roles', 'client', 'is_published', 'date_completed')
+    list_filter = ('roles', 'client', 'date_published', 'date_completed')
     search_fields = ('title', 'website', 'description', 'client__full_name')
     ordering = ('title',)
     # date_hierarchy = 'date_started'

@@ -26,7 +26,7 @@
 							</p><br>
 							<div class="post-byline">
 								<ul class="horizontal-bullets">
-									<li>{{ article.created | date:'F j, Y' }}</li>
+									<li>{{ article.date_published|date:'F j, Y' }}</li>
 									{% if article.minutes_to_read > 0 %}
 									<li>{{ article.time_to_read }}</li>
 									{% endif %}

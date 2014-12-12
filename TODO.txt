@@ -1,7 +1,6 @@
 - Create images/icons for mindtask
 
-- Add wfw:comments to feed
-- Add unit tests
+- Complete unit test coverage
 - Look into twitter feed/GitHub/LinkedIn API for About page
 - Add stylized portrait to About page
 - Link GitHub Repos into Projects (add github icon somewhere)

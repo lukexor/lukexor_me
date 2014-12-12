@@ -10,13 +10,17 @@ from . import settings
 import re, markdown_deux
 
 # Global helpers
-def short_text(text, length=40):
+def summary_text(text, length=40):
     html_text = markdown_deux.markdown(text, "trusted")
     stripped_text = strip_tags(html_text).strip()
 
     word_separator = re.compile('[ ]')
-    words = word_separator.split(stripped_text)[0:40]
-    shortened_text = ' '.join(words)
+    words = word_separator.split(stripped_text)
+
+    if len(words) > length:
+        shortened_text = "%s ..." % (' '.join(words[0:length]))
+    else:
+        shortened_text = ' '.join(words)
 
     return shortened_text
 
@@ -29,7 +33,7 @@ class Article(models.Model):
     category = models.ForeignKey('Category', default=1)
     tags = models.ManyToManyField('Tag', blank=True)
     minutes_to_read = models.PositiveIntegerField(default=0)
-    is_published = models.BooleanField(default=False)
+    date_published = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
@@ -49,7 +53,7 @@ class Article(models.Model):
     get_tags.short_description = 'Tag(s)'
 
     def summary(self):
-        return "%s ..." % (short_text(self.body, 40))
+        return summary_text(self.body, 40)
 
     def time_to_read(self):
         return "%d minute read" % (self.minutes_to_read)
@@ -81,7 +85,7 @@ class Comment(models.Model):
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
     def __unicode__(self):
-        return "%s - %s" % (strip_tags(self.body), self.user)
+        return "%s - %s" % (strip_tags(self.body), self.user.get_full_name())
 
 
 class CustomUserManager(BaseUserManager):
@@ -95,6 +99,7 @@ class CustomUserManager(BaseUserManager):
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
+
         user = self.model(email=email,
                           is_staff=is_staff, is_active=True,
                           is_superuser=is_superuser, last_login=now,
@@ -177,12 +182,16 @@ class Project(models.Model):
     tags = models.ManyToManyField('Tag', blank=True)
     date_started = models.DateTimeField(blank=True, null=True)
     date_completed = models.DateTimeField(blank=True, null=True)
-    is_published = models.BooleanField(default=False)
+    date_published = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
     def get_absolute_url(self):
         return reverse('permalink', args=[self.permalink_title])
+
+    def comment_count(self):
+        return self.comment_set.all().count()
+    comment_count.short_description = 'Comments'
 
     def get_roles(self):
         roles = []
@@ -201,7 +210,7 @@ class Project(models.Model):
     get_tags.short_description = 'Tag(s)'
 
     def summary(self):
-        return "%s ..." % (short_text(self.body, 40))
+        return summary_text(self.body, 40)
 
     def __unicode__(self):
         return self.title
