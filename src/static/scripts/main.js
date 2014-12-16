@@ -4,7 +4,7 @@ $(document).ready(function ()
     var current_page = window.location.pathname;
     $('.nav-tabs a[href="' + current_page + '"]').parent('li').addClass('active');
 
-    if (window.location.search == '')
+    if ( window.location.search == '' )
     {
         $('a[href="' + current_page + '"]').addClass('disabled');
     }
@@ -25,27 +25,29 @@ $(document).ready(function ()
 
 function validate_form()
 {
-    var $input  = $('input.required'),
-        $text   = $('textarea.required'),
-        $button = $('button[role="submit"]');
+    var inputs = $('input.required'),
+        textareas = $('textarea.required'),
+        button = $('button[type="submit"]');
 
-    var forms_valid = true;
+    fields = $.merge(inputs, textareas);
 
-    $input.each(function()
-    {
-        if (!$(this).val())
-        {
-            console.log($(this).attr('value') + "is not valid.");
-            forms_valid = false;
-        }
+    var required_count = fields.size(),
+        valid_count = 0;
+
+    $.each(fields, function(c, field) {
+        if ( $(field).val() ) { valid_count += 1; }
     });
 
-    if (forms_valid && $text.val())
+    console.log("Valid: " + valid_count + ". Required: " + required_count);
+
+    if ( valid_count === required_count )
     {
-        $button.removeClass('disabled');
+        button.removeClass('disabled');
+        return true;
     }
     else
     {
-        $button.addClass('disabled');
+        button.addClass('disabled');
+        return false;
     }
 }
