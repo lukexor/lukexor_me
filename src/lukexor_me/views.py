@@ -2,8 +2,9 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpRequest
 from django.shortcuts import render
+from django.utils.cache import get_cache_key
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.views.generic import View
@@ -18,7 +19,11 @@ handler404 = 'lukexor_me.views.PageNotFoundView'
 handler500 = 'lukexor_me.views.ServerErrorView'
 logger = logging.getLogger(__name__)
 
+def expire_page(request):
+    key = get_cache_key(request)
 
+    if cache.has_key(key):
+        cache.delete(key)
 
 def build_page_title(title):
     return '%s :: %s' % (title, settings.STRINGS['full_name'])
@@ -398,13 +403,13 @@ class PermalinkView(View):
     @method_decorator(check_honeypot)
     def post(self, request, permalink_title=None):
         form = forms.CommentForm(request.POST)
-        post_type = 'article'
 
         found_post = models.Project.objects.filter(date_published__lte=timezone.now(), permalink_title=permalink_title).first()
-        if found_post:
-            post_type = 'project'
-        else:
+        post_type = 'project'
+
+        if not found_post:
             found_post = models.Article.objects.filter(date_published__lte=timezone.now(), permalink_title=permalink_title).first()
+            post_type = 'article'
 
         if found_post:
             if form.is_valid():
@@ -432,7 +437,7 @@ class PermalinkView(View):
                             article = found_post,
                             body = message,
                         )
-                    else:
+                    elif post_type == 'project':
                         comment = models.Comment.objects.create(
                             user = user[0],
                             project = found_post,
@@ -440,6 +445,8 @@ class PermalinkView(View):
                         )
 
                     if comment:
+                        expire_page(request)
+
                         if remember_me:
                             request.session['comment_remember'] = {
                                 'name': name,
