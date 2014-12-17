@@ -173,7 +173,7 @@ textarea {
   color: #555 !important;
 }
 
-section p {
+article p {
   font-size: 1.1em;
   line-height: 1.6em;
   padding: 10px 0;
@@ -492,12 +492,13 @@ article {
   font: normal 5em Georgia;
   margin: -.12em 0 -.2em 0;
   padding-right: .08em;
+  text-transform: uppercase;
 }
 
 .post-body {
   clear: both;
   margin-top: 3em;
-  min-height: 4em;
+  min-height: 5em;
 }
 
 .post-info {

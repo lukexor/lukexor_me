@@ -21,16 +21,23 @@
           <ol>
             {% for article in articles %}
             <li>
-              <p class="search-listing-title"><a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p>
-              <br>
+              <p><a class="search-listing-title" href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p>
+
               <div class="post-byline">
                 <ul class="horizontal-bullets">
-                  <li>{{ article.date_published|date:"F j, Y" }}</li>
+                  {% if article.date_published %}
+                    <li>{{ article.date_published|date:"l, M jS Y" }}</li>
+                  {% elif article.created %}
+                    <li>{{ article.created|date:"l, M jS Y" }}</li>
+                  {% endif %}
                   {% if article.minutes_to_read > 0 %}<li>{{ article.time_to_read }}</li>{% endif %}
                   {% if comments_enabled %}<li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}/#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a></li>{% endif %}
                   <li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
                 </li>
               </div>
+
+              <br>
+
               <hr class="green-border">
             </li>
             {% endfor %}
