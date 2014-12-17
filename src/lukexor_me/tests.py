@@ -11,10 +11,10 @@ class ArticleMethodTests(TestCase):
         author = model_factory.create_user_with_email("article_author@domain.com")
 
         prog_category = model_factory.create_category(name = "Programming")
-        tech_tag = model_factory.create_tag(name = "Tech")
-        career_tag = model_factory.create_tag(name = "Career")
+        model_factory.create_tag(name = "Tech")
+        model_factory.create_tag(name = "Career")
 
-        article = model_factory.create_article(
+        model_factory.create_article(
             title = "Test article",
             permalink_title = "test-article",
             defaults = {
@@ -181,7 +181,7 @@ class ArticleViewTests(TestCase):
 
 class CategoryMethodTests(TestCase):
     def setUp(self):
-        prog_category = model_factory.create_category(name = "Programming")
+        model_factory.create_category(name = "Programming")
 
     def test_unicode(self):
         category = models.Category.objects.get(name = "Programming")
@@ -210,7 +210,7 @@ class CommentMethodTests(TestCase):
             }
         )
 
-        comment = model_factory.create_comment(
+        model_factory.create_comment(
             user = author[0],
             article = article[0],
             body = "Test comment 1",
@@ -254,7 +254,7 @@ class CustomUserManagerMethodTests(TestCase):
 class CustomUserMethodTests(TestCase):
 
     def setUp(self):
-        user = model_factory.create_user(
+        model_factory.create_user(
             email = "test_user@domain.com",
             defaults = {
                 'full_name': "John Doe",
@@ -293,12 +293,12 @@ class ProjectMethodTests(TestCase):
     def setUp(self):
         client = model_factory.create_user_with_email("project_client@domain.com")
 
-        tech_tag = model_factory.create_tag(name = "Tech")
-        ios_tag = model_factory.create_tag(name = "iOS")
-        dev_role = model_factory.create_role(name = "Developer")
-        designer_role = model_factory.create_role(name = "Designer")
+        model_factory.create_tag(name = "Tech")
+        model_factory.create_tag(name = "iOS")
+        model_factory.create_role(name = "Developer")
+        model_factory.create_role(name = "Designer")
 
-        project = model_factory.create_project(
+        model_factory.create_project(
             title = "Test project",
             permalink_title = "test-project",
             defaults = {
@@ -449,7 +449,7 @@ class ProjectMethodTests(TestCase):
 
 class RoleMethodTests(TestCase):
     def setUp(self):
-        dev_role = model_factory.create_role(name = "Developer")
+        model_factory.create_role(name = "Developer")
 
     def test_unicode(self):
         dev_role = models.Role.objects.get(name = "Developer")
@@ -459,7 +459,7 @@ class RoleMethodTests(TestCase):
 
 class TagMethodTests(TestCase):
     def setUp(self):
-        tech_tag = model_factory.create_tag(name = "Tech")
+        model_factory.create_tag(name = "Tech")
 
     def test_unicode(self):
         tech_tag = models.Tag.objects.get(name = "Tech")
