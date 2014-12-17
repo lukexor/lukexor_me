@@ -1,13 +1,14 @@
-from django.db import models
-from django.utils import timezone
-from django.utils.html import strip_tags
-from django.utils.http import urlquote
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.contrib.auth.models import BaseUserManager
+from django.db import models
+from django.utils.html import strip_tags
+from django.utils.http import urlquote
+from django.utils import timezone
 from . import settings
-import re, markdown_deux
+import re, markdown_deux, logging
+
+logger = logging.getLogger(__name__)
 
 # Global helpers
 def summary_text(text, length=40):
@@ -73,7 +74,6 @@ class Category(models.Model):
 
     def __unicode__(self):
         return self.name
-
 
 class Comment(models.Model):
     comment_id = models.AutoField(primary_key=True)
