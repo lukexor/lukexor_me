@@ -11,19 +11,13 @@ from django.views.generic import View
 from honeypot.decorators import check_honeypot
 from . import forms, models
 from lib.site_search import SiteSearch
-import logging, datetime, hashlib, re
+import logging, datetime, hashlib, re, lib
 
 handler400 = 'lukexor_me.views.BadRequestView'
 handler403 = 'lukexor_me.views.PermissionDeniedView'
 handler404 = 'lukexor_me.views.PageNotFoundView'
 handler500 = 'lukexor_me.views.ServerErrorView'
 logger = logging.getLogger(__name__)
-
-def expire_page(request):
-    key = get_cache_key(request)
-
-    if cache.has_key(key):
-        cache.delete(key)
 
 def build_page_title(title):
     return '%s :: %s' % (title, settings.STRINGS['full_name'])
@@ -445,7 +439,7 @@ class PermalinkView(View):
                         )
 
                     if comment:
-                        expire_page(request)
+                        lib.cache.expire_view_cache("permalink", [found_post.permalink_title])
 
                         if remember_me:
                             request.session['comment_remember'] = {
