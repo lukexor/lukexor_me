@@ -182,7 +182,15 @@ class AboutView(View):
 class ArticlesView(View):
 
     def get(self, request, category=None, tag=None, year=None, month=None, page=0):
-        all_articles = models.Article.objects.filter(date_published__lte=timezone.now()).order_by('-date_published')
+        filter = { 'date_published__lte': timezone.now() }
+        order_by = '-date_published'
+
+        # Display unpublished articles to admin users
+        if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
+            filter = {}
+            order_by = [ '-created', '-date_published' ]
+
+        all_articles = models.Article.objects.filter(**filter).order_by(*order_by)
 
         articles_archive = datify_archive(all_articles)
 
@@ -307,7 +315,14 @@ class SearchArticlesView(View):
 
         if query:
             search_query = search.get_query(query, ['title', 'body', 'author__full_name', 'tags__name', 'category__name'])
-            search_results = models.Article.objects.filter(search_query).filter(date_published__lte=timezone.now()).order_by('-date_published').distinct()[offset:offset + limit]
+            filter = { 'date_published__lte': timezone.now() }
+            order_by = '-date_published'
+
+            if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
+                filter = {}
+                order_by = [ '-created', '-date_published' ]
+
+            search_results = models.Article.objects.filter(search_query).filter(**filter).order_by(*order_by).distinct()[offset:offset + limit]
 
             search_count = search_results.count()
             next_page = get_next_page(page, limit, search_count)
@@ -336,7 +351,14 @@ class HomeView(View):
 class ProjectsView(View):
 
     def get(self, request, page=0, tag=None):
-        all_projects = models.Project.objects.filter(date_published__lte=timezone.now()).order_by('-date_published')
+        filter = { 'date_published__lte': timezone.now() }
+        order_by = '-date_published'
+
+        if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
+            filter = {}
+            order_by = [ '-created', '-date_published' ]
+
+        all_projects = models.Project.objects.filter(**filter).order_by(*order_by)
 
         limit = settings.PAGE_LIMITS['projects']
         offset = get_page_offset(page, limit)
