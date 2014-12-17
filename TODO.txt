@@ -1,20 +1,12 @@
 - Create images/icons for mindtask
 
 - Complete unit test coverage
-- Look into twitter feed/GitHub/LinkedIn API for About page
+- Fix relative imports
+- Clear 'post' caches during updates
 - Add stylized portrait to About page
 - Link GitHub Repos into Projects (add github icon somewhere)
-- add http://smarterer.com/kaele7
 
 - Take picture programming on mac
 - Take a variety of head shots
 - http://www.woorank.com/en/www/lukexor.me
 - http://developers.google.com/speed/pagespeed/insights/
-
-January 1994 - Yahoo 8
-September 4, 1998 - Google
-1999 - Yahoo! GeoCities - Age 13 - 8th grade
-June, 2003 - Graduated - Age 17 - senior
-August 1, 2003 - MySpace
-February 4, 2004 - Facebook
-March 21, 2006 - Twitter
