@@ -1,71 +1,68 @@
 {% if show_comments %}
-
 {% load markdown_deux_tags %}
 {% load honeypot %}
 
 <div class="post-comments" id="comments">
-    <div class="comment-form row">
-        <form action="{% url 'permalink' post.permalink_title|lower|slugify %}" method="post">
-            {% csrf_token %}
+  <div class="comment-form row">
+    <form action="{% url 'permalink' post.permalink_title|lower|slugify %}" method="post">
+      {% csrf_token %}
 
-            {% if form.non_field_errors %}
-            <div class="col-md-12 form-group has-error has-feedback">
-                <label class="control-label">{{ form.non_field_errors.as_text }}</label>
-            </div>
-            {% endif %}
-
-            <div class="col-md-6">
-                <div class="form-group {% if form.name.errors %} has-error has-feedback{% endif %}">
-                    {% if form.name.errors %}<label class="control-label" for="id_name">{{ form.name.errors.as_text }}</label>{% endif %}
-                    {{ form.name }}
-                </div>
-
-                <div class="form-group{% if form.email.errors %} has-error has-feedback{% endif %}">
-                    {% if form.email.errors %}<label class="control-label" for="id_email">{{ form.email.errors.as_text }}</label>{% endif %}
-                    {{ form.email }}
-                    <p class="help-block">{{ form.email.help_text|safe }}</p>
-                </div>
-
-                <div class="form-group{% if form.website.errors %} has-error has-feedback{% endif %}">
-                    {% if form.website.errors %}<label class="control-label" for="id_website">{{ form.website.errors.as_text }}</label>{% endif %}
-                    {{ form.website }}
-                    <p class="help-block">{{ form.website.help_text }}</p>
-                </div>
-
-                {% render_honeypot_field %}
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group{% if form.message.errors %} has-error{% endif %}">
-                    {% if form.message.errors %}<label class="control-label" for="id_message">{{ form.message.errors.as_text }}</label>{% endif %}
-                    {{ form.message }}
-                    <p class="help-block">{{ form.message.help_text|safe }}</p>
-                </div>
-
-                <div class="form-group checkbox pull-right">
-                    <label for="id_remember_me">{{ form.remember_me }} {{ form.remember_me.label }}</label>
-                </div>
-
-                <button id="post-comment" type="submit" class="btn-send btn btn-primary pull-right clear">Post</button>
-            </div>
-        </form>
-    </div>
-
-    {% for comment in post.comment_set.all %}
-    <div id="comment_{{ forloop.counter }}" class="comment-wrapper">
-        <img class="comment-gravatar" src="{{ comment.user.gravatar }}">
-        <div class="comment-name">
-            {% if comment.user.website %}
-            <a href="{{ comment.user.website }}" title="{{ comment.user.get_full_name|title }}">
-                {{ comment.user.get_full_name|title }}
-            </a>
-            {% else %}
-            {{ comment.user.get_full_name|title }}
-            {% endif %}
+      {% if form.non_field_errors %}
+        <div class="col-md-12 form-group has-error has-feedback">
+          <label class="control-label">{{ form.non_field_errors.as_text }}</label>
         </div>
-        <div class="comment-date">{{ comment.created|date:'l, M jS Y H:i e' }}</div>
-        <div class="comment-body">{{ comment.body|markdown|removetags:"img" }}</div>
+      {% endif %}
+
+      <div class="col-md-6">
+        <div class="form-group {% if form.name.errors %} has-error has-feedback{% endif %}">
+          {% if form.name.errors %}<label class="control-label" for="field-name">{{ form.name.errors.as_text }}</label>{% endif %}
+          {{ form.name }}
+        </div>
+
+        <div class="form-group{% if form.email.errors %} has-error has-feedback{% endif %}">
+          {% if form.email.errors %}<label class="control-label" for="field-email">{{ form.email.errors.as_text }}</label>{% endif %}
+          {{ form.email }}
+          <p class="help-block">{{ form.email.help_text|safe }}</p>
+        </div>
+
+        <div class="form-group{% if form.website.errors %} has-error has-feedback{% endif %}">
+          {% if form.website.errors %}<label class="control-label" for="field-website">{{ form.website.errors.as_text }}</label>{% endif %}
+          {{ form.website }}
+          <p class="help-block">{{ form.website.help_text }}</p>
+        </div>
+
+        {% render_honeypot_field %}
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group{% if form.message.errors %} has-error{% endif %}">
+          {% if form.message.errors %}<label class="control-label" for="field-message">{{ form.message.errors.as_text }}</label>{% endif %}
+          {{ form.message }}
+          <p class="help-block">{{ form.message.help_text|safe }}</p>
+        </div>
+
+        <div class="form-group checkbox pull-right">
+          <label for="field-remember-me">{{ form.remember_me }} {{ form.remember_me.label }}</label>
+        </div>
+
+        <button id="post-comment" type="submit" class="btn-send btn btn-primary pull-right clear">Post</button>
+      </div>
+    </form>
+  </div>
+
+  {% for comment in post.comment_set.all %}
+  <div id="comment-{{ forloop.counter }}" class="comment-wrapper">
+    <img class="comment-gravatar" src="{{ comment.user.gravatar }}">
+    <div class="comment-name">
+      {% if comment.user.website %}
+        <a href="{{ comment.user.website }}" title="{{ comment.user.get_full_name|title }}">{{ comment.user.get_full_name|title }}</a>
+      {% else %}
+        {{ comment.user.get_full_name|title }}
+      {% endif %}
     </div>
-    {% endfor %}
+    <div class="comment-date">{{ comment.created|date:"l, M jS Y H:i e" }}</div>
+    <div class="comment-body">{{ comment.body|markdown|removetags:"img" }}</div>
+  </div>
+  {% endfor %}
 </div>
 {% endif %}

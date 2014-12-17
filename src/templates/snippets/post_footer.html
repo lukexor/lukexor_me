@@ -1,35 +1,22 @@
 {% load utilities %}
 
 <div class="post-footer">
-    <div class="row">
-        <div class="col-md-9 col-sm-8 col-xs-7">
-            <ul class="horizontal-bullets">
-                {% if comments_enabled %}
-                    <li><a href="{% url 'permalink' post.permalink_title|lower|slugify %}#comments" title="Comments for {{ post.title }}">Comments [{{ post.comment_set.count }}]</a></li>
-                {% endif %}
-                <li><a href="{% url 'permalink' post.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
-            </ul>
-        </div>
-        <div class="col-md-3 col-sm-4 col-xs-5">
-            <ul class="social-icons nav nav-pills">
-                <li>
-                    <a href="{% create_share_url 'twitter' BASE_URL post.permalink_title post.title %}" title="Share on Twitter" class="twitter text-hide">
-                        Twitter
-                    </a>
-                </li>
-                <li>
-                    <a href="{% create_share_url 'facebook' BASE_URL post.permalink_title post.title %}" title="Share on Facebook" class="facebook text-hide">
-                        Facebook
-                    </a>
-                </li>
-                <li>
-                    <a href="{% create_share_url 'google' BASE_URL post.permalink_title post.title %}" title="Share on Google+" class="googleplus text-hide">
-                        Google+
-                    </a>
-                </li>
-            </ul>
-        </div>
+  <div class="row">
+    <div class="col-md-9 col-sm-8 col-xs-7">
+      <ul class="horizontal-bullets">
+        {% if comments_enabled %}<li><a href="{% url 'permalink' post.permalink_title|lower|slugify %}#comments" title="Comments for {{ post.title }}">Comments [{{ post.comment_set.count }}]</a></li>{% endif %}
+        <li><a href="{% url 'permalink' post.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
+      </ul>
     </div>
+    <div class="col-md-3 col-sm-4 col-xs-5">
+      <ul class="social-icons nav nav-pills">
+        <!-- TODO: Add github icon for projects -->
+        <li><a href="{% create_share_url 'twitter' BASE_URL post.permalink_title post.title %}" title="Share on Twitter" class="twitter text-hide">Twitter</a></li>
+        <li><a href="{% create_share_url 'facebook' BASE_URL post.permalink_title post.title %}" title="Share on Facebook" class="facebook text-hide">Facebook</a></li>
+        <li><a href="{% create_share_url 'google' BASE_URL post.permalink_title post.title %}" title="Share on Google+" class="googleplus text-hide">Google+</a></li>
+      </ul>
+    </div>
+  </div>
 </div>
 
-<hr class="green">
+<hr class="green-border">

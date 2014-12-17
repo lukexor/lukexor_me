@@ -1,177 +1,126 @@
-{% load static from staticfiles %}
-{% load compress %}
+{% load static from staticfiles %} {% load compress %}
 
 <!DOCTYPE html>
-<!--[if lt IE 7]>	   <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>		   <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>		   <html class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>    <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>       <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>       <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang="en">
 <!--<![endif]-->
 
 <head>
-    <meta charset="utf-8">
+  <meta charset="utf-8">
 
-    <title>{{ page_title }}</title>
+  <title>{{ page_title }}</title>
 
-    {% if page_description %}<meta name="description" content="{{ page_description }}">{% endif %}
-    {% if page_keywords %}<meta name="keywords" content="{{ page_keywords }}">{% endif %}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Lucas Petherbridge">
+  {% if page_description %}<meta name="description" content="{{ page_description }}">{% endif %}
+  {% if page_keywords %}<meta name="keywords" content="{{ page_keywords }}">{% endif %}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Lucas Petherbridge">
 
-    <link rel="alternate" type="application/atom+xml" href="{% url 'feed' %}" title="Lucas Petherbridge Article Feed"/>
+  <link rel="alternate" type="application/atom+xml" href="{% url 'feed' %}" title="Lucas Petherbridge Article Feed">
 
-    <link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}">
-    <link rel="icon" sizes="16x16 32x32 64x64" href="{% static 'images/icons/favicon.ico' %}">
-    <link rel="icon" type="image/png" sizes="196x196" href="{% static 'images/icons/favicon-192.png' %}">
-    <link rel="icon" type="image/png" sizes="160x160" href="{% static 'images/icons/favicon-160.png' %}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/icons/favicon-96.png' %}">
-    <link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/icons/favicon-64.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/icons/favicon-32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/icons/favicon-16.png' %}">
-    <link rel="apple-touch-icon" href="{% static 'images/icons/favicon-57.png' %}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/icons/favicon-114.png' %}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/icons/favicon-72.png' %}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/icons/favicon-144.png' %}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/icons/favicon-60.png' %}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/icons/favicon-120.png' %}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/icons/favicon-76.png' %}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/icons/favicon-152.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/icons/favicon-180.png' %}">
+  <link rel="shortcut icon" href="{% static 'images/icons/favicon.ico' %}">
+  <link rel="icon" sizes="16x16 32x32 64x64" href="{% static 'images/icons/favicon.ico' %}">
+  <link rel="icon" type="image/png" sizes="196x196" href="{% static 'images/icons/favicon-192.png' %}">
+  <link rel="icon" type="image/png" sizes="160x160" href="{% static 'images/icons/favicon-160.png' %}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/icons/favicon-96.png' %}">
+  <link rel="icon" type="image/png" sizes="64x64" href="{% static 'images/icons/favicon-64.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/icons/favicon-32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/icons/favicon-16.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'images/icons/favicon-57.png' %}">
+  <link rel="apple-touch-icon" sizes="114x114" href="{% static 'images/icons/favicon-114.png' %}">
+  <link rel="apple-touch-icon" sizes="72x72" href="{% static 'images/icons/favicon-72.png' %}">
+  <link rel="apple-touch-icon" sizes="144x144" href="{% static 'images/icons/favicon-144.png' %}">
+  <link rel="apple-touch-icon" sizes="60x60" href="{% static 'images/icons/favicon-60.png' %}">
+  <link rel="apple-touch-icon" sizes="120x120" href="{% static 'images/icons/favicon-120.png' %}">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static 'images/icons/favicon-76.png' %}">
+  <link rel="apple-touch-icon" sizes="152x152" href="{% static 'images/icons/favicon-152.png' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/icons/favicon-180.png' %}">
 
-    <meta name="msapplication-TileColor" content="#FFFFFF">
-    <meta name="msapplication-TileImage" content="{% static 'images/icons/favicon-144.png' %}">
-    <meta name="msapplication-config" content="{% static 'xml/browserconfig.xml' %}">
-
-    {% compress css %}
-    <link rel="stylesheet" href="{% static 'styles/vendor/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/vendor/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/vendor/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
-    {% endcompress %}
-
-    {% compress js %}
-    <script async src="{% static 'scripts/vendor/jquery-1.10.2.min.js' %}"></script>
-    <script async src="{% static 'scripts/vendor/modernizr-2.6.2.min.js' %}"></script>
-    <script async src="{% static 'scripts/vendor/bootstrap.min.js' %}"></script>
-    <script async src="{% static 'scripts/vendor/plugins.js' %}"></script>
-    <script async src="{% static 'scripts/main.js' %}"></script>
-    {% endcompress %}
-
-    {{ GA_CODE|safe }}
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="{% static 'images/icons/favicon-144.png' %}">
+  <meta name="msapplication-config" content="{% static 'xml/browserconfig.xml' %}"> {% compress css %}
+  <link rel="stylesheet" href="{% static 'styles/vendor/normalize.css' %}">
+  <link rel="stylesheet" href="{% static 'styles/vendor/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'styles/vendor/font-awesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'styles/main.css' %}"> {% endcompress %} {% compress js %}
+  <script async src="{% static 'scripts/vendor/jquery-1.10.2.min.js' %}"></script>
+  <script async src="{% static 'scripts/vendor/modernizr-2.6.2.min.js' %}"></script>
+  <script async src="{% static 'scripts/vendor/bootstrap.min.js' %}"></script>
+  <script async src="{% static 'scripts/vendor/plugins.js' %}"></script>
+  <script async src="{% static 'scripts/main.js' %}"></script>
+  {% endcompress %} {{ GA_CODE|safe }}
 </head>
 
 <body>
-    <main>
-        <!--[if lt IE 7]>
-				<p class="browsehappy">This website was designed with a modern
-                browser in mind. You are currently using an <strong>outdated</strong>
-                browser. Please <a href="http://browsehappy.com/">use a modern
-                browser</a> to experience this website in its intended form.</p>
-			<![endif]-->
+  <main>
+    <!--[if lt IE 7]>
+    <p class="browsehappy">
+      This website was designed with a modern browser in mind. You are currently using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">use a modern browser</a> to experience this website in its intended form.
+    </p>
+    <![endif]-->
 
-        <div class="container site-header">
-            <div class="row">
-                <header>
-                    <div class="navbar-left col-md-7">
-                        <div class="site-title">
-							<a class="home" href="{% url 'home' %}">
-                                Lucas Petherbridge
-                            </a>
-						</div>
-                        <p class="site-subtitle">{{ STRINGS.site_subtitle }}</p>
-                    </div>
+    <div class="container site-header">
+      <div class="row">
+        <header>
+          <div class="navbar-left col-md-7">
+            <div class="site-title">
+              <a class="home" href="{% url 'home' %}">Lucas Petherbridge</a>
+            </div>
+            <p class="site-subtitle">{{ STRINGS.site_subtitle }}</p>
+          </div>
 
-                    <nav class="site-nav navbar-right col-md-5" role="navigation">
-                        <div class="main-nav">
-                            <ul class="nav nav-tabs nav-justified">
-                                <li class="articles">
-                                    <a href="{% url 'articles' %}">Articles</a>
-                                </li>
-                                <li class="projects">
-                                    <a href="{% url 'projects' %}">Projects</a>
-                                </li>
-                                <li class="about">
-                                    <a href="{% url 'about' %}">About</a>
-                                </li>
-                                <li class="contact">
-                                    <a href="{% url 'contact' %}">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
+          <nav class="site-nav navbar-right col-md-5" role="navigation">
+            <div class="main-nav">
+              <ul class="nav nav-tabs nav-justified">
+                <li class="articles"><a href="{% url 'articles' %}">Articles</a></li>
+                <li class="projects"><a href="{% url 'projects' %}">Projects</a></li>
+                <li class="about"><a href="{% url 'about' %}">About</a></li>
+                <li class="contact"><a href="{% url 'contact' %}">Contact</a></li>
+              </ul>
+            </div>
 
-                        <div class="sub-nav">
-                            <form action="{% url 'search' %}" method="get">
-                                <div class="search pull-right">
-                                    <span class="fa fa-search"></span>
-                                    <input type="search" name="q" class="form-control" placeholder="Search">
-                                </div>
-                            </form>
+            <div class="sub-nav">
+              <form action="{% url 'search' %}" method="get">
+                <div class="search pull-right">
+                  <span class="fa fa-search"></span>
+                  <input type="search" name="q" class="form-control" placeholder="Search">
+                </div>
+              </form>
 
-                            <ul class="social-icons nav nav-pills pull-right">
-                                <li>
-                                    <a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin text-hide">
-                                        LinkedIn
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ URLS.github }}" title="GitHub" class="github text-hide">
-                                        GitHub
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ URLS.facebook }}" title="Facebook" class="facebook text-hide">
-                                        Facebook
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ URLS.twitter }}" title="Twitter" class="twitter text-hide">
-                                        Twitter
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ URLS.googleplus }}" title="Google+" class="googleplus text-hide" rel="publisher">
-                                        Google+
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ URLS.feedburner }}" title="Subscribe" class="subscribe text-hide">
-                                        Subscribe
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </header>
-            </div><!-- end_row -->
-        </div><!-- end_container -->
+              <ul class="social-icons nav nav-pills pull-right">
+                <li><a href="{{ URLS.linkedin }}" title="LinkedIn" class="linkedin text-hide">LinkedIn</a></li>
+                <li><a href="{{ URLS.github }}" title="GitHub" class="github text-hide">GitHub</a></li>
+                <li><a href="{{ URLS.facebook }}" title="Facebook" class="facebook text-hide">Facebook</a></li>
+                <li><a href="{{ URLS.twitter }}" title="Twitter" class="twitter text-hide">Twitter</a></li>
+                <li><a href="{{ URLS.googleplus }}" title="Google+" class="googleplus text-hide" rel="publisher">Google+</a></li>
+                <li><a href="{{ URLS.feedburner }}" title="Subscribe" class="subscribe text-hide">Subscribe</a></li>
+              </ul>
+            </div>
+          </nav>
+        </header>
+      </div><!-- end_row -->
+    </div><!-- end_container -->
 
-        {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 
-        <div class="container">
-            <div class="row">
-                <footer>
-                    <p class="copyright col-md-5">
-                        Copyright &copy; 2014 -
-                        <a href="{{ URLS.linkedin }}" title="LinkedIn">
-                            Lucas Petherbridge
-                        </a>. All rights reserved.
-                    </p>
+    <div class="container">
+      <div class="row">
+        <footer>
+          <p class="copyright col-md-5">
+            Copyright © 2014 - <a href="{{ URLS.linkedin }}" title="LinkedIn">Lucas Petherbridge</a>. All rights reserved.
+          </p>
 
-                    <nav class="footer-nav site-nav col-md-3 col-md-offset-4" role="navigation">
-                        <ul class="nav-inline">
-                            <li>
-                                <a href="{% url 'contact' %}">Contact</a>
-                            </li>
-                            <li>
-                                <a href="{{ URLS.feedburner }}">Subscribe</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </footer>
-            </div><!-- end_row -->
-        </div><!-- end_container -->
-    </main>
+          <nav class="footer-nav site-nav col-md-3 col-md-offset-4" role="navigation">
+            <ul class="nav-inline">
+              <li><a href="{% url 'contact' %}">Contact</a></li>
+              <li><a href="{{ URLS.feedburner }}">Subscribe</a></li>
+            </ul>
+          </nav>
+        </footer>
+      </div><!-- end_row -->
+    </div><!-- end_container -->
+  </main>
 </body>
-
 </html>

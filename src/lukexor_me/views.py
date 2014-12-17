@@ -264,7 +264,7 @@ class ContactView(View):
 
     @method_decorator(check_honeypot)
     def post(self, request):
-        form = forms.ContactForm(request.POST)
+        form = forms.ContactForm(request.POST, auto_id = "field-%s")
 
         if form.is_valid():
             name = form.cleaned_data['name']
@@ -285,7 +285,7 @@ class ContactView(View):
 
     def get(self, request):
 
-        form = forms.ContactForm()
+        form = forms.ContactForm(auto_id = "field-%s")
 
         return render(request, "contact.html", {'form': form, 'page_title': build_page_title('Contact')})
 
@@ -396,7 +396,7 @@ class PermalinkView(View):
 
     @method_decorator(check_honeypot)
     def post(self, request, permalink_title=None):
-        form = forms.CommentForm(request.POST)
+        form = forms.CommentForm(request.POST, auto_id = "field-%s")
 
         found_post = models.Project.objects.filter(date_published__lte=timezone.now(), permalink_title=permalink_title).first()
         post_type = 'project'
@@ -463,7 +463,7 @@ class PermalinkView(View):
                         comment_count = found_post.comment_set.count()
                         url = reverse_lazy('permalink', args=[found_post.permalink_title])
 
-                        return HttpResponseRedirect("%s#comment_%d" % (url, comment_count))
+                        return HttpResponseRedirect("%s#comment-%d" % (url, comment_count))
                     else:
                         form.add_error(None, "An error occurred posting your comment.")
                 else:
@@ -482,7 +482,7 @@ class PermalinkView(View):
             raise Http404
 
     def get(self, request, permalink_title=None):
-        form = forms.CommentForm()
+        form = forms.CommentForm(auto_id = "field-%s")
 
         session_data = request.session.get('comment_remember', None)
         if session_data:

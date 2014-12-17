@@ -84,6 +84,8 @@ class CommentForm(forms.Form):
     """A simple message form
     """
 
+    auto_id = "field-%s"
+
     name = forms.CharField(
         max_length = 45,
         widget = forms.TextInput(
@@ -95,7 +97,7 @@ class CommentForm(forms.Form):
     )
     email = forms.EmailField(
         max_length = 254,
-        help_text = 'Uses <a href="http://gravatar.com/" title="Gravatar">gravatar</a>',
+        help_text = 'Uses <a href="https://gravatar.com/" title="Gravatar">gravatar</a>',
         widget = forms.TextInput(
             attrs = {
                 'class': 'comment_form_email form-control required',
@@ -124,7 +126,7 @@ class CommentForm(forms.Form):
         ),
     )
     message = forms.CharField(
-        help_text = 'Supports <a href="http://daringfireball.net/projects/markdown/syntax" title="Markdown">Markdown</a>',
+        help_text = 'Supports <a href="https://daringfireball.net/projects/markdown/syntax" title="Markdown">Markdown</a>',
         widget = forms.Textarea(
             attrs = {
                 'class': 'comment_form_message form-control required',

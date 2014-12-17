@@ -41,7 +41,7 @@ author = model_factory.create_user(
     defaults = {
         'full_name': "Lucas Petherbridge",
         'website': "http://lukexor.me/",
-        'gravatar': "http://gravatar.com/avatar/e42eb8d925b249e73c1ca53154e38b14?s=100&r=pg&d=mm",
+        'gravatar': "https://gravatar.com/avatar/e42eb8d925b249e73c1ca53154e38b14?s=100&r=pg&d=mm",
         'phone': "3104863143",
     }
 )

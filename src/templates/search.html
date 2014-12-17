@@ -2,47 +2,42 @@
 
 {% block content %}
 <section class="main-section">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h2>
-					{% if query %}
-						Search Results for <u>{{ query }}</u>
-					{% else %}
-						No articles found.
-					{% endif %}
-				</h2>
-			</div>
-		</div><!-- end_row -->
-		<div class="row">
-			<div class="col-md-8">
-				<p class="search_results_string">{{ results_string }}</p>
-				<div>
-					<ol>
-					{% for article in articles %}
-						<li>
-							<p class="search_listing_title">
-								<a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}
-							</p><br>
-							<div class="post-byline">
-								<ul class="horizontal-bullets">
-									<li>{{ article.date_published|date:'F j, Y' }}</li>
-									{% if article.minutes_to_read > 0 %}
-									<li>{{ article.time_to_read }}</li>
-									{% endif %}
-									{% if comments_enabled %}
-									<li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}/#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a></li>
-									{% endif %}
-									<li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
-								</li>
-							</div>
-							<hr class="green">
-						</li>
-					{% endfor %}
-					</ol>
-				</div>
-			</div>
-		</div>
-	</div><!-- end_container -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="post-title">
+          {% if query %}
+            Search Results for <u>{{ query }}</u>
+          {% else %}
+            No articles found.
+          {% endif %}
+        </h2>
+      </div>
+    </div><!-- end_row -->
+    <div class="row">
+      <div class="col-md-8">
+        <p class="search-results-string">{{ results_string }}</p>
+        <div>
+          <ol>
+            {% for article in articles %}
+            <li>
+              <p class="search-listing-title"><a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p>
+              <br>
+              <div class="post-byline">
+                <ul class="horizontal-bullets">
+                  <li>{{ article.date_published|date:"F j, Y" }}</li>
+                  {% if article.minutes_to_read > 0 %}<li>{{ article.time_to_read }}</li>{% endif %}
+                  {% if comments_enabled %}<li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}/#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a></li>{% endif %}
+                  <li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
+                </li>
+              </div>
+              <hr class="green-border">
+            </li>
+            {% endfor %}
+          </ol>
+        </div>
+      </div>
+    </div><!-- end_row -->
+  </div><!-- end_container -->
 </section>
 {% endblock %}

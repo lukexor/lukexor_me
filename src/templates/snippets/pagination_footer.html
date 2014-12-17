@@ -1,8 +1,4 @@
 <div class="col-md-8">
-{% if next_page_url %}
-    <div class="next_page"><a href="{{ next_page_url }}"><< Older {{ post_type }}</a></div>
-{% endif %}
-{% if prev_page_url %}
-    <div class="prev_page"><a href="{{ prev_page_url }}">Newer {{ post_type }} >></a></div>
-{% endif %}
+  {% if next_page_url %}<div class="next-page"><a href="{{ next_page_url }}"><< Older {{ post_type }}</a></div>{% endif %}
+  {% if prev_page_url %}<div class="prev-page"><a href="{{ prev_page_url }}">Newer {{ post_type }} >></a></div>{% endif %}
 </div>

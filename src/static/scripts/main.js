@@ -11,7 +11,7 @@ $(document).ready(function ()
 
 
     // form validation
-    $('#send_message').addClass('disabled'); // Set default to disabled
+    $('#send-message').addClass('disabled'); // Set default to disabled
     $('#post-comment').addClass('disabled'); // Set default to disabled
 
     $('input').on('keyup blur change', function() { validate_form() });
