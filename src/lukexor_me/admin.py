@@ -119,8 +119,8 @@ class ArticleAdmin(admin.ModelAdmin):
 
         obj.minutes_to_read = math.ceil(len(words) / settings.AVG_WPM_READING_SPEED)
 
-        cache.expire_view_cache("articles")
-        cache.expire_view_cache("permalink", obj.permalink_title)
+        # cache.expire_view_cache("articles")
+        # cache.expire_view_cache("permalink", obj.permalink_title)
 
         obj.save()
 
@@ -153,8 +153,8 @@ class ProjectAdmin(admin.ModelAdmin):
     # date_hierarchy = 'date_started'
 
     def save_model(self, request, obj, form, change):
-        cache.expire_view_cache("projects")
-        cache.expire_view_cache("permalink", obj.permalink_title)
+        # cache.expire_view_cache("projects")
+        # cache.expire_view_cache("permalink", obj.permalink_title)
 
         obj.save()
 
