@@ -4,6 +4,7 @@ from django.db import models as db_models
 from django.conf import settings
 from django.forms import Textarea
 from . import models, forms
+from lib import cache
 import re, math
 
 
@@ -119,6 +120,9 @@ class ArticleAdmin(admin.ModelAdmin):
 
         obj.minutes_to_read = math.ceil(len(words) / settings.AVG_WPM_READING_SPEED)
 
+        cache.expire_view_cache("articles")
+        cache.expire_view_cache("permalink", obj.permalink_title)
+
         obj.save()
 
 
@@ -148,6 +152,12 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ('title', 'website', 'description', 'client__full_name')
     ordering = ('title',)
     # date_hierarchy = 'date_started'
+
+    def save_model(self, request, obj, form, change):
+        cache.expire_view_cache("projects")
+        cache.expire_view_cache("permalink", obj.permalink_title)
+
+        obj.save()
 
 
 @admin.register(models.Role)
