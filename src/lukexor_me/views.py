@@ -93,7 +93,15 @@ def project_view(request, project, form):
     })
 
 def article_view(request, article, form):
-    all_articles = models.Article.objects.filter(date_published__lte=timezone.now()).order_by('-date_published')
+    filter = { 'date_published__lte': timezone.now() }
+    order_by = [ '-date_published' ]
+
+    # Display unpublished articles to admin users
+    if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
+        filter = {}
+        order_by = [ '-created', '-date_published' ]
+
+    all_articles = models.Article.objects.filter(**filter).order_by(*order_by)
 
     return render(request, "articles.html", {
         'articles': [article],
@@ -183,7 +191,7 @@ class ArticlesView(View):
 
     def get(self, request, category=None, tag=None, year=None, month=None, page=0):
         filter = { 'date_published__lte': timezone.now() }
-        order_by = '-date_published'
+        order_by = [ '-date_published' ]
 
         # Display unpublished articles to admin users
         if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
@@ -316,7 +324,7 @@ class SearchArticlesView(View):
         if query:
             search_query = search.get_query(query, ['title', 'body', 'author__full_name', 'tags__name', 'category__name'])
             filter = { 'date_published__lte': timezone.now() }
-            order_by = '-date_published'
+            order_by = [ '-date_published' ]
 
             if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
                 filter = {}
@@ -352,7 +360,7 @@ class ProjectsView(View):
 
     def get(self, request, page=0, tag=None):
         filter = { 'date_published__lte': timezone.now() }
-        order_by = '-date_published'
+        order_by = [ '-date_published' ]
 
         if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
             filter = {}
