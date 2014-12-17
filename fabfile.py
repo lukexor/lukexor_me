@@ -15,5 +15,6 @@ def deploy():
     local('python src/manage.py test lukexor_me')
     local('python src/manage.py collectstatic --noinput --clear --link')
     local('echo -e "select 3\nflushdb" | redis-cli')
+    local('echo -e "select 4\nflushdb" | redis-cli')
     local('sudo service apache2 graceful')
     local('python src/manage.py ping_google "/sitemap.xml"')
