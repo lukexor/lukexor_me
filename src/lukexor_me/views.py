@@ -2,16 +2,15 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse_lazy
-from django.http import HttpResponseRedirect, Http404, HttpRequest
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
-from django.utils.cache import get_cache_key
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.views.generic import View
 from honeypot.decorators import check_honeypot
-from . import forms, models
+from lukexor_me import forms, models
 from lib.site_search import SiteSearch
-import logging, datetime, hashlib, re, lib
+import logging, datetime, hashlib, lib
 
 handler400 = 'lukexor_me.views.BadRequestView'
 handler403 = 'lukexor_me.views.PermissionDeniedView'

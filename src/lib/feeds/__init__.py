@@ -1,12 +1,13 @@
 from django.contrib.syndication.views import Feed
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.urlresolvers import reverse_lazy
 from django.utils.feedgenerator import Atom1Feed
-from django.conf import settings
-from lukexor_me import models
+from django.utils import timezone
+from lukexor_me import models, settings
 import markdown_deux
 
 class CustomAtom1Feed(Atom1Feed):
+    mime_type = 'application/xml'
+    
     def add_item_elements(self, handler, item):
         super(CustomAtom1Feed, self).add_item_elements(handler, item)
         handler.addQuickElement(u"content", item['content'], {"type": "html"})
@@ -29,7 +30,7 @@ class Feed(Feed):
 
 
     def items(self):
-        return models.Article.objects.filter(is_published=True).order_by('-created')[:10]
+        return models.Article.objects.filter(date_published__lte=timezone.now()).order_by('-created')[:10]
 
     def item_title(self, item):
         return item.title

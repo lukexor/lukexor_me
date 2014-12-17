@@ -5,7 +5,7 @@ from django.db import models
 from django.utils.html import strip_tags
 from django.utils.http import urlquote
 from django.utils import timezone
-from . import settings
+from lukexor_me import settings
 import re, markdown_deux, logging
 
 logger = logging.getLogger(__name__)

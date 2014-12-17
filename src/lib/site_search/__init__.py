@@ -1,6 +1,6 @@
+from django.db.models import Q
 import re
 
-from django.db.models import Q
 
 class SiteSearch:
     def normalize_query(self, query_string,

@@ -1,9 +1,8 @@
-from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.views.decorators.cache import cache_page
-from . import views
+from lukexor_me import views, settings
 from lib import feeds, site_maps
 
 sitemaps = {

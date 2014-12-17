@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.db import models as db_models
-from django.conf import settings
 from django.forms import Textarea
-from . import models, forms
+from lukexor_me import models, forms, settings
 from lib import cache
 import re, math
 

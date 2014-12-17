@@ -1,4 +1,4 @@
-from . import settings
+from lukexor_me import settings
 
 
 def GlobalVars(request):

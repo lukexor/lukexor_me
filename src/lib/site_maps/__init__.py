@@ -1,14 +1,16 @@
 from django.contrib.sitemaps import Sitemap
 from django.core.urlresolvers import reverse
 from django.utils.text import slugify
+from django.utils import timezone
 from lukexor_me import models
+
 
 class ArticleSitemap(Sitemap):
     changefreq = 'never'
     priority = 0.5
 
     def items(self):
-        return models.Article.objects.filter(is_published=True)
+        return models.Article.objects.filter(date_published__lte=timezone.now())
 
     def lastmod(self, item):
         return item.updated
@@ -40,7 +42,7 @@ class ProjectSitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return models.Project.objects.filter(is_published=True)
+        return models.Project.objects.filter(date_published__lte=timezone.now())
 
     def lastmod(self, item):
         return item.updated

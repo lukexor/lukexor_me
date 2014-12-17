@@ -1,6 +1,7 @@
 from django import template
-from django.conf import settings
 from django.utils.http import urlquote
+from lukexor_me import settings
+
 
 register = template.Library()
 

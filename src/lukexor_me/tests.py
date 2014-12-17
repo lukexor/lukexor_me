@@ -1,9 +1,8 @@
 from django.test import TestCase
-from django.utils import timezone
 from django.utils.http import urlquote
 from django.core.urlresolvers import reverse
 from lib import model_factory
-from . import models
+from lukexor_me import models
 
 class ArticleMethodTests(TestCase):
 
