@@ -39,10 +39,10 @@ class Feed(Feed):
         return markdown_deux.markdown(item.summary(), "trusted")
 
     def item_pubdate(self, item):
-        return item.created
+        return item.date_published
 
     def item_updateddate(self, item):
-        return item.created
+        return item.date_published
 
     def item_extra_kwargs(self, item):
         return {
