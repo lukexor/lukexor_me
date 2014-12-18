@@ -42,7 +42,7 @@ class Feed(Feed):
         return item.created
 
     def item_updateddate(self, item):
-        return item.updated
+        return item.created
 
     def item_extra_kwargs(self, item):
         return {
