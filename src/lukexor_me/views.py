@@ -512,6 +512,13 @@ class PermalinkView(View):
 
     def get(self, request, permalink_title=None):
         form = forms.CommentForm(auto_id = "field-%s")
+        filter = {
+            'date_published__lte': timezone.now(),
+            'permalink_title': permalink_title,
+        }
+
+        if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
+            filter = { 'permalink_title': permalink_title }
 
         session_data = request.session.get('comment_remember', None)
         if session_data:
@@ -520,11 +527,11 @@ class PermalinkView(View):
             form.fields['website'].initial = session_data['website']
             form.fields['remember_me'].initial = session_data['remember_me']
 
-        found_project = models.Project.objects.filter(date_published__lte=timezone.now(), permalink_title=permalink_title).first()
+        found_project = models.Project.objects.filter(**filter).first()
         if found_project:
             return project_view(request, found_project, form)
 
-        found_article = models.Article.objects.filter(date_published__lte=timezone.now(), permalink_title=permalink_title).first()
+        found_article = models.Article.objects.filter(**filter).first()
         if found_article:
             return article_view(request, found_article, form)
         else:
