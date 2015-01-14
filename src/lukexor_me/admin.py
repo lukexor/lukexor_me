@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.db import models as db_models
-from django.forms import Textarea
+from django.forms import Textarea, TextInput, SelectMultiple
+from django.utils.html import strip_tags
 from lukexor_me import models, forms, settings
-from lib import cache
+# TODO
+# from lukexor_me.lib import cache
 import re, math
 
 
@@ -18,6 +20,10 @@ class CommentsInline(admin.TabularInline):
             'fields': ('user', 'body')
         }),
     )
+
+    formfield_overrides = {
+        db_models.TextField: {'widget': Textarea(attrs={'cols': 120, 'rows': 20})},
+    }
 
 
 @admin.register(models.Category)
@@ -46,7 +52,6 @@ class Comment(admin.ModelAdmin):
     list_filter = ('project', 'created',)
     search_fields = ('user', 'article', 'project', 'body')
     ordering = ('user','created')
-    # date_hierarchy = 'created'
 
 @admin.register(models.CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -81,7 +86,6 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('email', 'get_full_name', 'website', 'phone', 'is_staff', 'is_superuser', 'is_active')
     search_fields = ('email', 'full_name', 'preferred_name', 'website')
     ordering = ('email',)
-    # date_hierarchy = 'created'
 
 @admin.register(models.Article)
 class ArticleAdmin(admin.ModelAdmin):
@@ -102,23 +106,27 @@ class ArticleAdmin(admin.ModelAdmin):
     ]
     readonly_fields = ('updated', 'minutes_to_read')
     formfield_overrides = {
+        db_models.ManyToManyField: { 'widget': SelectMultiple(attrs={'size':'20'})},
+        db_models.CharField: {'widget': TextInput(attrs={'size':'100'})},
         db_models.TextField: {'widget': Textarea(attrs={'cols': 180, 'rows': 60})},
     }
     list_display = ('title', 'author', 'minutes_to_read', 'category', 'comment_count', 'created')
     list_filter = ('author', 'date_published', 'category', 'tags', 'minutes_to_read')
     search_fields = ('title', 'author__full_name', 'category__name', 'tags__name')
     ordering = ('-created',)
-    # date_hierarchy = 'created'
 
     def save_model(self, request, obj, form, change):
         if not change:
             obj.author = request.user
 
+        stripped_text = strip_tags(obj.body).strip()
+
         word_separator = re.compile('[ ]')
-        words = word_separator.split(obj.body)
+        words = word_separator.split(stripped_text)
 
         obj.minutes_to_read = math.ceil(len(words) / settings.AVG_WPM_READING_SPEED)
 
+        # TODO
         # cache.expire_view_cache("articles")
         # cache.expire_view_cache("permalink", obj.permalink_title)
 
@@ -144,13 +152,14 @@ class ProjectAdmin(admin.ModelAdmin):
     )
     readonly_fields = ('updated',)
     formfield_overrides = {
+        db_models.ManyToManyField: { 'widget': SelectMultiple(attrs={'size':'20'})},
+        db_models.CharField: {'widget': TextInput(attrs={'size':'100'})},
         db_models.TextField: {'widget': Textarea(attrs={'cols': 180, 'rows': 60})},
     }
     list_display = ('title', 'website', 'get_roles', 'client', 'date_started', 'date_completed')
     list_filter = ('roles', 'client', 'date_published', 'date_completed')
     search_fields = ('title', 'website', 'description', 'client__full_name')
     ordering = ('title',)
-    # date_hierarchy = 'date_started'
 
     def save_model(self, request, obj, form, change):
         # cache.expire_view_cache("projects")
@@ -165,7 +174,6 @@ class Role(admin.ModelAdmin):
     list_display = ('name', 'created')
     search_fields = ('name',)
     ordering = ('name',)
-    # date_hierarchy = 'created'
 
 @admin.register(models.Tag)
 class Tag(admin.ModelAdmin):
@@ -173,4 +181,3 @@ class Tag(admin.ModelAdmin):
     list_display = ('name', 'created')
     search_fields = ('name',)
     ordering = ('name',)
-    # date_hierarchy = 'created'
