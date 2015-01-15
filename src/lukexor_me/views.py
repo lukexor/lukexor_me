@@ -65,11 +65,14 @@ def get_page_offset(page, limit):
 
 def create_results_string(count, offset, limit):
     count_string = ""
+    page_starting_number = offset + 1
+    page_ending_number = limit + offset
 
-    if (count > (limit)):
-        count_string += "%d" % (offset + 1)
-
-        count_string += " - %d of %d" % (2 * (limit + offset), count)
+    if (page_starting_number >= count):
+        count_string += "%d of %d" % (page_starting_number, count)
+    elif (count > limit):
+        count_string += "%d" % (page_starting_number)
+        count_string += " - %d of %d" % (page_ending_number, count)
     else:
         count_string += "%d" % (count)
 
@@ -128,7 +131,7 @@ def datify_archive(entries):
 
             entry_data = {
                 "title": entry.title,
-                "permalink": reverse_lazy('permalink', args=[entry.permalink_title]),
+                "permalink": reverse_lazy('articles_permalink', args=[entry.permalink_title]),
             }
 
             year_match = next((entry for entry in archive if entry['year'] == year), None)
@@ -199,7 +202,6 @@ class ArticlesView(View):
             order_by = [ '-created', '-date_published' ]
 
         all_articles = models.Article.objects.filter(**filter).order_by(*order_by)
-
         articles_archive = datify_archive(all_articles)
 
         limit = settings.PAGE_LIMITS['articles']
@@ -217,12 +219,12 @@ class ArticlesView(View):
             next_page = get_next_page(page, limit, filtered_articles.count())
 
             if next_page:
-                next_page_url = reverse_lazy('category_search_by_page', args=[category, next_page])
+                next_page_url = reverse_lazy('article_category_page', args=[category, next_page])
 
             if prev_page > 0:
-                prev_page_url = reverse_lazy('category_search_by_page', args=[category, prev_page])
+                prev_page_url = reverse_lazy('article_category_page', args=[category, prev_page])
             elif prev_page == 0:
-                prev_page_url = reverse_lazy('category_search', args=[category])
+                prev_page_url = reverse_lazy('article_category', args=[category])
         elif tag:
             unslugified_tag = tag.replace('-', ' ')
             filtered_articles = all_articles.filter(tags__name=unslugified_tag)
@@ -230,37 +232,57 @@ class ArticlesView(View):
             next_page = get_next_page(page, limit, filtered_articles.count())
 
             if next_page:
-                next_page_url = reverse_lazy('tag_search_by_page', args=[tag, next_page])
+                next_page_url = reverse_lazy('article_tag_page', args=[tag, next_page])
 
             if prev_page > 0:
-                prev_page_url = reverse_lazy('tag_search_by_page', args=[tag, prev_page])
+                prev_page_url = reverse_lazy('article_tag_page', args=[tag, prev_page])
             elif prev_page == 0:
-                prev_page_url = reverse_lazy('tag_search', args=[tag])
+                prev_page_url = reverse_lazy('article_tag', args=[tag])
         elif year:
             if month:
                 min_date = datetime.datetime(int(year), int(month), 01)
-                max_date = datetime.datetime(int(year), int(month) + 1, 01) - datetime.timedelta(days = 1)
+                if int(month) == 12:
+                    max_date = datetime.datetime(int(year) + 1, 01, 01) - datetime.timedelta(days = 1)
+                else:
+                    max_date = datetime.datetime(int(year), int(month) + 1, 01) - datetime.timedelta(days = 1)
+
                 filtered_articles = all_articles.filter(created__gte=min_date).filter(created__lte=max_date)
+
+                next_page = get_next_page(page, limit, filtered_articles.count())
+
+                if next_page:
+                    next_page_url = reverse_lazy('articles_date_page', args=[year, month, next_page])
+
+                if prev_page > 0:
+                    prev_page_url = reverse_lazy('articles_date_page', args=[year, month, prev_page])
+                elif prev_page == 0:
+                    prev_page_url = reverse_lazy('articles_date', args=[year, month])
             else:
                 filtered_articles = all_articles.filter(created__year=int(year))
+
+                next_page = get_next_page(page, limit, filtered_articles.count())
+
+                if next_page:
+                    next_page_url = reverse_lazy('articles_year_page', args=[year, next_page])
+
+                if prev_page > 0:
+                    prev_page_url = reverse_lazy('articles_year_page', args=[year, prev_page])
+                elif prev_page == 0:
+                    prev_page_url = reverse_lazy('articles_year', args=[year])
         else:
             filtered_articles = all_articles
 
             next_page = get_next_page(page, limit, filtered_articles.count())
 
             if next_page:
-                next_page_url = reverse_lazy('articles_by_page', args=[next_page])
+                next_page_url = reverse_lazy('articles_page', args=[next_page])
 
             if prev_page > 0:
-                prev_page_url = reverse_lazy('articles_by_page', args=[prev_page])
+                prev_page_url = reverse_lazy('articles_page', args=[prev_page])
             elif prev_page == 0:
                 prev_page_url = reverse_lazy('articles')
 
-        # No pagination for year/month pages
-        if year:
-            articles = filtered_articles
-        else:
-            articles = filtered_articles[offset:offset + limit]
+        articles = filtered_articles[offset:offset + limit]
 
         return render(request, "articles.html", {
             'articles': articles,
@@ -307,43 +329,65 @@ class ContactView(View):
 
 class SearchArticlesView(View):
 
-    def get(self, request, page=0, query=None):
-        if ('q' in request.GET) and request.GET['q'].strip():
-            query_string = request.GET['q'].strip()
-            return HttpResponseRedirect("%s" % (query_string))
+    @method_decorator(check_honeypot)
+    def post(self, request):
+        search_term = None
 
+        if ('search_term' in request.POST) and request.POST['search_term'].strip():
+            search_term = request.POST['search_term'].strip()
+            search_url = reverse_lazy('article_search', args=[search_term])
+
+            return HttpResponseRedirect('%s' % (search_url))
+
+    def get(self, request, page=0, query=None):
         limit = settings.PAGE_LIMITS['search']
         offset = get_page_offset(page, limit)
+
+        next_page_url = None
+        prev_page_url = None
         prev_page = get_prev_page(page)
-        next_page = None
         search = SiteSearch()
-        search_query = None
         search_results = None
+        filtered_results = None
         results_string = ''
+
+        filter = { 'date_published__lte': timezone.now() }
+        order_by = [ '-date_published' ]
+
+        # Display unpublished articles to admin users
+        if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
+            filter = {}
+            order_by = [ '-created', '-date_published' ]
+
+        all_articles = models.Article.objects.filter(**filter).order_by(*order_by)
 
         if query:
             search_query = search.get_query(query, ['title', 'body', 'author__full_name', 'tags__name', 'category__name'])
-            filter = { 'date_published__lte': timezone.now() }
-            order_by = [ '-date_published' ]
 
-            if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
-                filter = {}
-                order_by = [ '-created', '-date_published' ]
+            search_results = models.Article.objects.filter(search_query).filter(**filter).order_by(*order_by).distinct()
 
-            search_results = models.Article.objects.filter(search_query).filter(**filter).order_by(*order_by).distinct()[offset:offset + limit]
+            next_page = get_next_page(page, limit, search_results.count())
 
-            search_count = search_results.count()
-            next_page = get_next_page(page, limit, search_count)
+            if next_page:
+                next_page_url = reverse_lazy('article_search_page', args=[query, next_page])
 
-            results_string = create_results_string(search_count, offset, limit)
+            if prev_page > 0:
+                prev_page_url = reverse_lazy('article_search_page', args=[query, prev_page])
+            elif prev_page == 0:
+                prev_page_url = reverse_lazy('article_search', args=[query])
+
+            filtered_results = search_results[offset:offset + limit]
+
+        results_string = create_results_string(search_results.count(), offset, limit)
 
         return render(request, "search.html", {
+            'archive': datify_archive(all_articles),
+            'articles': filtered_results,
             'comments_enabled': settings.COMMENTS_ENABLED,
+            'next_page_url': next_page_url,
+            'prev_page_url': prev_page_url,
             'query': query,
-            'articles': search_results,
             'results_string': results_string,
-            'prev_page': prev_page,
-            'next_page': next_page,
         })
 
 class HomeView(View):
@@ -383,22 +427,22 @@ class ProjectsView(View):
             next_page = get_next_page(page, limit, filtered_projects.count())
 
             if next_page:
-                next_page_url = reverse_lazy('project_tag_search_by_page', args=[tag, next_page])
+                next_page_url = reverse_lazy('project_tag_page', args=[tag, next_page])
 
             if prev_page > 0:
-                prev_page_url = reverse_lazy('project_tag_search_by_page', args=[tag, prev_page])
+                prev_page_url = reverse_lazy('project_tag_page', args=[tag, prev_page])
             elif prev_page == 0:
-                prev_page_url = reverse_lazy('project_tag_search', args=[tag])
+                prev_page_url = reverse_lazy('projtect_tag', args=[tag])
         else:
             filtered_projects = all_projects
 
             next_page = get_next_page(page, limit, filtered_projects.count())
 
             if next_page:
-                next_page_url = reverse_lazy('projects_by_page', args=[next_page])
+                next_page_url = reverse_lazy('projects_page', args=[next_page])
 
             if prev_page > 0:
-                prev_page_url = reverse_lazy('projects_by_page', args=[prev_page])
+                prev_page_url = reverse_lazy('projects_page', args=[prev_page])
             elif prev_page == 0:
                 prev_page_url = reverse_lazy('projects')
 
@@ -429,10 +473,12 @@ class PermalinkView(View):
 
         found_post = models.Project.objects.filter(date_published__lte=timezone.now(), permalink_title=permalink_title).first()
         post_type = 'project'
+        permalink_url = 'project_permalink'
 
         if not found_post:
             found_post = models.Article.objects.filter(date_published__lte=timezone.now(), permalink_title=permalink_title).first()
             post_type = 'article'
+            permalink_url = 'articles_permalink'
 
         if found_post:
             if form.is_valid():
@@ -468,7 +514,7 @@ class PermalinkView(View):
                         )
 
                     if comment:
-                        lib.cache.expire_view_cache("permalink", [found_post.permalink_title])
+                        lib.cache.expire_view_cache(permalink_url, [found_post.permalink_title])
 
                         if remember_me:
                             request.session['comment_remember'] = {
@@ -490,7 +536,7 @@ class PermalinkView(View):
                         email.send()
 
                         comment_count = found_post.comment_set.count()
-                        url = reverse_lazy('permalink', args=[found_post.permalink_title])
+                        url = reverse_lazy(permalink_url, args=[found_post.permalink_title])
 
                         return HttpResponseRedirect("%s#comment-%d" % (url, comment_count))
                     else:

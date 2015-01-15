@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <h2 class="post-title">
           {% if query %}
-            Search Results for <u>{{ query }}</u>
+            Articles that match <u>{{ query }}</u>
           {% else %}
             No articles found.
           {% endif %}
@@ -18,32 +18,31 @@
       <div class="col-md-8">
         <p class="search-results-string">{{ results_string }}</p>
         <div>
-          <ol>
-            {% for article in articles %}
-            <li>
-              <p><a class="search-listing-title" href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p>
+        {% for article in articles %}
+          <p><a class="search-listing-title" href="{% url 'articles_permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p>
 
-              <div class="post-byline">
-                <ul class="horizontal-bullets">
-                  {% if article.date_published %}
-                    <li>{{ article.date_published|date:"l, M jS Y" }}</li>
-                  {% elif article.created %}
-                    <li>{{ article.created|date:"l, M jS Y" }}</li>
-                  {% endif %}
-                  {% if article.minutes_to_read > 0 %}<li>{{ article.time_to_read }}</li>{% endif %}
-                  {% if comments_enabled %}<li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}/#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a></li>{% endif %}
-                  <li><a href="{% url 'permalink' article.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
-                </li>
-              </div>
-
-              <br>
-
-              <hr class="green-border">
+          <div class="post-byline">
+            <ul class="horizontal-bullets">
+              {% if article.date_published %}
+                <li>{{ article.date_published|date:"l, M jS Y" }}</li>
+              {% elif article.created %}
+                <li>{{ article.created|date:"l, M jS Y" }}</li>
+              {% endif %}
+              {% if article.minutes_to_read > 0 %}<li>{{ article.time_to_read }}</li>{% endif %}
+              {% if comments_enabled %}<li><a href="{% url 'articles_permalink' article.permalink_title|lower|slugify %}/#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a></li>{% endif %}
+              <li><a href="{% url 'articles_permalink' article.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
             </li>
-            {% endfor %}
-          </ol>
+          </div>
+
+          <br>
+
+          <hr class="green-border">
+        {% endfor %}
         </div>
       </div>
+
+      {% include "snippets/post_sidebar.html" with tag_url="article_tag" %}
+      {% include "snippets/pagination_footer.html" with post_type="results" %}
     </div><!-- end_row -->
   </div><!-- end_container -->
 </section>

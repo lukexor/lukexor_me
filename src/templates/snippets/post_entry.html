@@ -4,7 +4,7 @@
   <header>
     <h2 class="post-title">
       {% if post.website %}<a href="{{ post.website }}" title="{{ post.title }}">{{ post.title }}</a>
-      {% else %}<a href="{% url 'permalink' post.permalink_title|lower|slugify %}" title="{{ post.title }}">{{ post.title }}</a>
+      {% else %}<a href="{% url permalink_url post.permalink_title|lower|slugify %}" title="{{ post.title }}">{{ post.title }}</a>
       {% endif %}
     </h2>
 
@@ -24,7 +24,7 @@
     {{ post.body|markdown:"trusted" }}
   </div>
 
-  {% include "snippets/post_info.html" with post=post tag_search=tag_search %}
+  {% include "snippets/post_info.html" with post=post %}
   {% include "snippets/post_footer.html" with post=post %}
   {% include "snippets/post_comments.html" with post=post %}
 </article>

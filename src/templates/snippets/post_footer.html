@@ -4,8 +4,8 @@
   <div class="row">
     <div class="col-md-9 col-sm-8 col-xs-7">
       <ul class="horizontal-bullets">
-        {% if comments_enabled %}<li><a href="{% url 'permalink' post.permalink_title|lower|slugify %}#comments" title="Comments for {{ post.title }}">Comments [{{ post.comment_set.count }}]</a></li>{% endif %}
-        <li><a href="{% url 'permalink' post.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
+        {% if comments_enabled %}<li><a href="{% url permalink_url post.permalink_title|lower|slugify %}#comments" title="Comments for {{ post.title }}">Comments [{{ post.comment_set.count }}]</a></li>{% endif %}
+        <li><a href="{% url permalink_url post.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
       </ul>
     </div>
     <div class="col-md-3 col-sm-4 col-xs-5">

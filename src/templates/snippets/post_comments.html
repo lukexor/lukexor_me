@@ -4,7 +4,7 @@
 
 <div class="post-comments" id="comments">
   <div class="comment-form row">
-    <form action="{% url 'permalink' post.permalink_title|lower|slugify %}" method="post">
+    <form action="{% url permalink_url post.permalink_title|lower|slugify %}" method="post">
       {% csrf_token %}
 
       {% if form.non_field_errors %}

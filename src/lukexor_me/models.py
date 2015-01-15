@@ -43,7 +43,7 @@ class Article(models.Model):
     comment_count.short_description = 'Comments'
 
     def get_absolute_url(self):
-        return reverse('permalink', args=[self.permalink_title])
+        return reverse('article_permalink', args=[self.permalink_title])
 
     def get_tags(self):
         tags = []
@@ -187,7 +187,7 @@ class Project(models.Model):
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
     def get_absolute_url(self):
-        return reverse('permalink', args=[self.permalink_title])
+        return reverse('project_permalink', args=[self.permalink_title])
 
     def comment_count(self):
         return self.comment_set.all().count()
