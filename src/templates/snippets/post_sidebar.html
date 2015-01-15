@@ -6,15 +6,15 @@
     <ul class="arrow-collapse-list">
       {% for entry in archive %}
       <li>
-        <a class="arrow-collapse{% if not forloop.first %} collapsed{% endif %}" id="{{ entry.year }}-menu" data-toggle="collapse" href="#{{ entry.year }}-months" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="{{ entry.year }}-months" title="{{ entry.year }}">{{ entry.year }}</a>
+        <a class="arrow-collapse{% if not forloop.first %} collapsed{% endif %}" id="{{ entry.year }}-menu" data-toggle="collapse" href="#menu-{{ entry.year }}-months" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="{{ entry.year }}-months" title="{{ entry.year }}">{{ entry.year }}</a>
 
-        <div id="{{ entry.year }}-months" class="panel-collapse collapse{% if forloop.first %} in{% endif %}">
+        <div id="menu-{{ entry.year }}-months" class="panel-collapse collapse{% if forloop.first %} in{% endif %}">
           <ul class="arrow-collapse-list">
               {% for month in entry.months %}
               <li>
-                <a class="arrow-collapse{% if not forloop.first or not forloop.parentloop.first %} collapsed{% endif %}" data-toggle="collapse" data-parent="#{{ entry.year }}-menu" href="#{{ entry.year }}-{{ month.name }}-posts" aria-expanded="{% if forloop.first and forloop.parentloop.first %}true{% else %}false{% endif %}" aria-controls="{{ entry.year }}-{{ month.name }}-posts" title="{{ month.name }} {{ entry.year }}">{{ month.name }}</a>
+                <a class="arrow-collapse{% if not forloop.first or not forloop.parentloop.first %} collapsed{% endif %}" data-toggle="collapse" data-parent="#{{ entry.year }}-menu" href="#menu-{{ entry.year }}-{{ month.name }}-posts" aria-expanded="{% if forloop.first and forloop.parentloop.first %}true{% else %}false{% endif %}" aria-controls="{{ entry.year }}-{{ month.name }}-posts" title="{{ month.name }} {{ entry.year }}">{{ month.name }}</a>
 
-                <div id="{{ entry.year }}-{{ month.name }}-posts" class="panel-collapse collapse{% if forloop.first and forloop.parentloop.first %} in{% endif %}">
+                <div id="menu-{{ entry.year }}-{{ month.name }}-posts" class="panel-collapse collapse{% if forloop.first and forloop.parentloop.first %} in{% endif %}">
                   <ul class="arrow-collapse-list">
                     {% for post in month.posts %}
                       <li><a href="{{ post.permalink }}" title="{{ post.title }}">{{ post.title }}</a></li>
@@ -35,7 +35,7 @@
     <h3>Categories</h3>
     <ul>
       {% for category in categories %}
-        <li><a href="{% url 'category_search' category|lower|slugify %}" title="{{ category }}">{{ category }}</a></li>
+        <li><a href="{% url 'article_category' category|lower|slugify %}" title="{{ category }}">{{ category }}</a></li>
       {% endfor %}
     </ul>
     <hr>
@@ -44,7 +44,7 @@
   {% if tags %}
     <h3>Tags</h3>
     {% for tag in tags %}
-      <a href="{% url tag_search tag|lower|slugify %}" title="{{ tag }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
+      <a href="{% url tag_url tag|lower|slugify %}" title="{{ tag }}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}
     {% endfor %}
     <hr>
   {% endif %}
