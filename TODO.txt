@@ -1,10 +1,9 @@
-- Create images/icons for mindtask
-
-- Complete unit test coverage
-- Fix relative imports
+- Complete unit test coverage (focus on views and urls)
+- Update article URIs to: articles/YYYY/NAME
 - Clear 'post' caches during updates
 - Add stylized portrait to About page
 - Link GitHub Repos into Projects (add github icon somewhere)
+- Re-factor pagination code
 
 - Take picture programming on mac
 - Take a variety of head shots
