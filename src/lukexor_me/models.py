@@ -43,13 +43,17 @@ class Article(models.Model):
     comment_count.short_description = 'Comments'
 
     def get_absolute_url(self):
-        year = self.date_published.strftime('%Y')
-        month = self.date_published.strftime('%m')
+        year = None
+        month = None
+
+        if self.date_published:
+            year = self.date_published.strftime('%Y')
+            month = self.date_published.strftime('%m')
 
         if year and month:
             return reverse('article_permalink', args=[year, month, self.permalink_title])
         else:
-            return reverse('')
+            return ''
 
     def get_tags(self):
         tags = []
@@ -193,13 +197,17 @@ class Project(models.Model):
     updated = models.DateTimeField(default=timezone.now, auto_now=True)
 
     def get_absolute_url(self):
-        year = self.date_published.strftime('%Y')
-        month = self.date_published.strftime('%m')
+        year = None
+        month = None
+
+        if self.date_published:
+            year = self.date_published.strftime('%Y')
+            month = self.date_published.strftime('%m')
 
         if year and month:
             return reverse('project_permalink', args=[year, month, self.permalink_title])
         else:
-            return reverse('')
+            return ''
 
     def comment_count(self):
         return self.comment_set.all().count()

@@ -50,4 +50,4 @@ def create_permalink_url(post, permalink_url):
     if year and month:
         return reverse_lazy(permalink_url, args=[year, month, post.permalink_title])
     else:
-        return reverse_lazy('')
+        return ''

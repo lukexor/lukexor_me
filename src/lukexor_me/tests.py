@@ -21,6 +21,7 @@ class ArticleMethodTests(TestCase):
                 'body': "Test content",
                 'category': prog_category[0],
                 'minutes_to_read': 5,
+                'date_published': '2015-01-01',
             }
         )
 
@@ -48,8 +49,10 @@ class ArticleMethodTests(TestCase):
 
     def test_get_absolute_url(self):
         article = models.Article.objects.get(title = "Test article")
+        year = article.created.strftime('%Y')
+        month = article.created.strftime('%m')
 
-        self.assertEqual(article.get_absolute_url(), reverse('article_permalink', args=[article.permalink_title]))
+        self.assertEqual(article.get_absolute_url(), reverse('article_permalink', args=[year, month, article.permalink_title]))
 
     def test_get_tags_with_none(self):
         article = models.Article.objects.get(title = "Test article")
@@ -206,6 +209,7 @@ class CommentMethodTests(TestCase):
                 'body': "Test content",
                 'category': prog_category[0],
                 'minutes_to_read': 5,
+                'date_published': '2015-01-01',
             }
         )
 
@@ -304,6 +308,7 @@ class ProjectMethodTests(TestCase):
                 'client': client[0],
                 'body': "Test content",
                 'website': 'http://website.com/',
+                'date_published': '2015-01-01',
             }
         )
 
@@ -331,8 +336,10 @@ class ProjectMethodTests(TestCase):
 
     def test_get_absolute_url(self):
         project = models.Project.objects.get(title = "Test project")
+        year = project.created.strftime('%Y')
+        month = project.created.strftime('%m')
 
-        self.assertEqual(project.get_absolute_url(), reverse('project_permalink', args=[project.permalink_title]))
+        self.assertEqual(project.get_absolute_url(), reverse('project_permalink', args=[year, month, project.permalink_title]))
 
     def test_get_tags_with_none(self):
         project = models.Project.objects.get(title = "Test project")
