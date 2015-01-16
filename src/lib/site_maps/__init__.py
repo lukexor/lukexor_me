@@ -24,7 +24,7 @@ class ArticleTagSiteMap(Sitemap):
 
     def location(self, item):
         name = slugify(item.name.lower())
-        return reverse('tag_search', args=[name])
+        return reverse('article_tag', args=[name])
 
 class ArticleCategorySiteMap(Sitemap):
     changefreq = 'daily'
@@ -35,7 +35,7 @@ class ArticleCategorySiteMap(Sitemap):
 
     def location(self, item):
         name = slugify(item.name.lower())
-        return reverse('category_search', args=[name])
+        return reverse('article_category', args=[name])
 
 class ProjectSitemap(Sitemap):
     changefreq = 'monthly'
@@ -56,7 +56,7 @@ class ProjectTagSiteMap(Sitemap):
 
     def location(self, item):
         name = slugify(item.name.lower())
-        return reverse('project_tag_search', args=[name])
+        return reverse('project_tag', args=[name])
 
 class StaticSitemap(Sitemap):
     changefreq = 'daily'

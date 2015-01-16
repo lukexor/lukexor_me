@@ -49,7 +49,7 @@ class ArticleMethodTests(TestCase):
     def test_get_absolute_url(self):
         article = models.Article.objects.get(title = "Test article")
 
-        self.assertEqual(article.get_absolute_url(), reverse('permalink', args=[article.permalink_title]))
+        self.assertEqual(article.get_absolute_url(), reverse('article_permalink', args=[article.permalink_title]))
 
     def test_get_tags_with_none(self):
         article = models.Article.objects.get(title = "Test article")
@@ -332,7 +332,7 @@ class ProjectMethodTests(TestCase):
     def test_get_absolute_url(self):
         project = models.Project.objects.get(title = "Test project")
 
-        self.assertEqual(project.get_absolute_url(), reverse('permalink', args=[project.permalink_title]))
+        self.assertEqual(project.get_absolute_url(), reverse('project_permalink', args=[project.permalink_title]))
 
     def test_get_tags_with_none(self):
         project = models.Project.objects.get(title = "Test project")

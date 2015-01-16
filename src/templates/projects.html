@@ -8,13 +8,13 @@
     <div class="row">
       <div class="col-md-8 col-sm-8">
         {% for post in projects %}
-          {% include "snippets/post_entry.html" with tag_search="project_tag_search" %}
+          {% include "snippets/post_entry.html" with tag_url="project_tag" permalink_url="project_permalink" %}
         {% empty %}
           <h2>No projects found.</h2>
         {% endfor %}
       </div>
 
-      {% include "snippets/post_sidebar.html" with tag_search="project_tag_search" %}
+      {% include "snippets/post_sidebar.html" with tag_url="project_tag" %}
       {% include "snippets/pagination_footer.html" with post_type="projects" %}
     </div><!-- end_row -->
   </div><!-- end_container -->

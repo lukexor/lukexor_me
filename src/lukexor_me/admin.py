@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.db import models as db_models
 from django.forms import Textarea, TextInput, SelectMultiple
 from django.utils.html import strip_tags
+from django.utils.text import slugify
 from lukexor_me import models, forms, settings
 # TODO
 # from lukexor_me.lib import cache
@@ -126,6 +127,8 @@ class ArticleAdmin(admin.ModelAdmin):
 
         obj.minutes_to_read = math.ceil(len(words) / settings.AVG_WPM_READING_SPEED)
 
+        obj.permalink_title = slugify(obj.permalink_title.lower())
+
         # TODO
         # cache.expire_view_cache("articles")
         # cache.expire_view_cache("permalink", obj.permalink_title)
@@ -162,6 +165,8 @@ class ProjectAdmin(admin.ModelAdmin):
     ordering = ('title',)
 
     def save_model(self, request, obj, form, change):
+        obj.permalink_title = slugify(obj.permalink_title.lower())
+        
         # cache.expire_view_cache("projects")
         # cache.expire_view_cache("permalink", obj.permalink_title)
 

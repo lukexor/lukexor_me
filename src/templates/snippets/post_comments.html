@@ -1,10 +1,11 @@
 {% if show_comments %}
+{% load utilities %}
 {% load markdown_deux_tags %}
 {% load honeypot %}
 
 <div class="post-comments" id="comments">
   <div class="comment-form row">
-    <form action="{% url 'permalink' post.permalink_title|lower|slugify %}" method="post">
+    <form action="{% create_permalink_url post permalink_url %}" method="post">
       {% csrf_token %}
 
       {% if form.non_field_errors %}

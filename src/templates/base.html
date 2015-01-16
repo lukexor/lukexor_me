@@ -1,4 +1,6 @@
-{% load static from staticfiles %} {% load compress %}
+{% load static from staticfiles %}
+{% load compress %}
+{% load honeypot %}
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>    <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -82,10 +84,13 @@
             </div>
 
             <div class="sub-nav">
-              <form action="{% url 'search' %}" method="get">
+              <form action="{% url 'article_search_post' %}" method="post">
+                {% csrf_token %}
                 <div class="search pull-right">
                   <span class="fa fa-search"></span>
-                  <input type="search" name="q" class="form-control" placeholder="Search">
+                  {% render_honeypot_field %}
+                  <input type="search" name="search_term" class="form-control" placeholder="Search">
+                  <button class="hidden" id="search-button" type="submit">Search</button>
                 </div>
               </form>
 
