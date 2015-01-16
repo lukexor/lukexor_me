@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load utilities %}
 
 {% block content %}
 <section class="main-section">
@@ -19,18 +20,18 @@
         <p class="search-results-string">{{ results_string }}</p>
         <div>
         {% for article in articles %}
-          <p><a class="search-listing-title" href="{% url 'articles_permalink' article.permalink_title|lower|slugify %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p>
+          <p><a class="search-listing-title" href="{% create_permalink_url article 'article_permalink' %}" title="{{ article.title }}">{{ article.title }}</a> - {{ article.summary }}</p>
 
           <div class="post-byline">
             <ul class="horizontal-bullets">
               {% if article.date_published %}
                 <li>{{ article.date_published|date:"l, M jS Y" }}</li>
-              {% elif article.created %}
-                <li>{{ article.created|date:"l, M jS Y" }}</li>
+              {% else %}
+                <li>Not published</li>
               {% endif %}
               {% if article.minutes_to_read > 0 %}<li>{{ article.time_to_read }}</li>{% endif %}
-              {% if comments_enabled %}<li><a href="{% url 'articles_permalink' article.permalink_title|lower|slugify %}/#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a></li>{% endif %}
-              <li><a href="{% url 'articles_permalink' article.permalink_title|lower|slugify %}" title="permalink">Permalink</a></li>
+              {% if comments_enabled %}<li><a href="{% create_permalink_url article 'article_permalink' %}/#comments" title="Comments for {{ article.title }}">Comments [{{ article.comment_count }}]</a></li>{% endif %}
+              <li><a href="{% create_permalink_url article 'article_permalink' %}" title="permalink">Permalink</a></li>
             </li>
           </div>
 

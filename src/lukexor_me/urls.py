@@ -33,7 +33,8 @@ urlpatterns = patterns(
     url(r'^articles/(?P<year>[\d]{4})/page/(?P<page>[\d]{1,})$', cache_page(settings.CACHE_TIMES['post'])(views.ArticlesView.as_view()), name='articles_year_page'),
     url(r'^articles/(?P<year>[\d]{4})/(?P<month>[\d]{2})/$', cache_page(settings.CACHE_TIMES['post'])(views.ArticlesView.as_view()), name='articles_date'),
     url(r'^articles/(?P<year>[\d]{4})/(?P<month>[\d]{2})/page/(?P<page>[\d]{1,})/$', cache_page(settings.CACHE_TIMES['post'])(views.ArticlesView.as_view()), name='articles_date_page'),
-    url(r'^articles/(?P<permalink_title>[\w-]+)/$', cache_page(settings.CACHE_TIMES['post'])(views.PermalinkView.as_view()), name='articles_permalink'),
+    url(r'^articles/(?P<year>[\d]{4})/(?P<month>[\d]{2})/(?P<permalink_title>[\w-]+)/$', cache_page(settings.CACHE_TIMES['post'])(views.PermalinkView.as_view()), name='article_permalink'),
+    url(r'^articles/(?P<permalink_title>[\w-]+)/$', cache_page(settings.CACHE_TIMES['post'])(views.PermalinkView.as_view()), name='DEPRECATED_article_permalink'),
 
     url(r'^projects/$', cache_page(settings.CACHE_TIMES['post'])(views.ProjectsView.as_view()), name='projects'),
     url(r'^projects/page/(?P<page>[\d]{1,})/$', cache_page(settings.CACHE_TIMES['post'])(views.ProjectsView.as_view()), name='projects_page'),
@@ -41,7 +42,7 @@ urlpatterns = patterns(
     url(r'^projects/tag/(?P<tag>[\w-]+)/page/(?P<page>[\d]{1,})/$', cache_page(settings.CACHE_TIMES['post'])(views.ProjectsView.as_view()), name='project_tag_page'),
     url(r'^projects/(?P<year>[\d]{4})/(?P<month>[\d]{2})/$', cache_page(settings.CACHE_TIMES['post'])(views.ProjectsView.as_view()), name='projects_date'),
     url(r'^projects/(?P<year>[\d]{4})/(?P<month>[\d]{2})/page/(?P<page>[\d]{1,})/$', cache_page(settings.CACHE_TIMES['post'])(views.ProjectsView.as_view()), name='projects_date_page'),
-    url(r'^projects/(?P<permalink_title>[\w-]+)/$', cache_page(settings.CACHE_TIMES['post'])(views.PermalinkView.as_view()), name='projects_permalink'),
+    url(r'^projects/(?P<year>[\d]{4})/(?P<month>[\d]{2})/(?P<permalink_title>[\w-]+)/$', cache_page(settings.CACHE_TIMES['post'])(views.PermalinkView.as_view()), name='project_permalink'),
 
     url(r'^about/$', cache_page(settings.CACHE_TIMES['static'])(views.AboutView.as_view()), name='about'),
     url(r'^contact/$', cache_page(settings.CACHE_TIMES['static'])(views.ContactView.as_view()), name='contact'),

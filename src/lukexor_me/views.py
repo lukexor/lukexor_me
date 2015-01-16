@@ -126,34 +126,44 @@ def datify_archive(entries):
         archive = []
 
         for entry in entries:
-            year = entry.created.year
-            month = entry.created.strftime('%b')
+            year = None
+            month = None
 
-            entry_data = {
-                "title": entry.title,
-                "permalink": reverse_lazy('articles_permalink', args=[entry.permalink_title]),
-            }
+            if entry.date_published:
+                year = entry.date_published.strftime('%Y')
+                month = entry.date_published.strftime('%m')
+                month_name = entry.date_published.strftime('%b')
+            elif entry.created:
+                year = entry.created.strftime('%Y')
+                month = entry.created.strftime('%m')
+                month_name = entry.created.strftime('%b')
 
-            year_match = next((entry for entry in archive if entry['year'] == year), None)
-            if year_match:
-                month_match = next((entry for entry in year_match['months'] if entry['name'] == month), None)
-                if month_match:
-                    month_match['posts'].append(entry_data)
-                else:
-                    month_data = {
-                        "name": month,
-                        "posts": [entry_data],
-                    }
-                    year_match['months'].append(month_data)
-            else:
-                year_data = {
-                    "year": year,
-                    "months": [{
-                        "name": month,
-                        "posts": [entry_data]
-                    }],
+            if year and month:
+                entry_data = {
+                    "title": entry.title,
+                    "permalink": reverse_lazy('article_permalink', args=[year, month, entry.permalink_title]),
                 }
-                archive.append(year_data)
+
+                year_match = next((entry for entry in archive if entry['year'] == year), None)
+                if year_match:
+                    month_match = next((entry for entry in year_match['months'] if entry['name'] == month_name), None)
+                    if month_match:
+                        month_match['posts'].append(entry_data)
+                    else:
+                        month_data = {
+                            "name": month_name,
+                            "posts": [entry_data],
+                        }
+                        year_match['months'].append(month_data)
+                else:
+                    year_data = {
+                        "year": year,
+                        "months": [{
+                            "name": month_name,
+                            "posts": [entry_data]
+                        }],
+                    }
+                    archive.append(year_data)
 
         cache.set('datified_archive', archive, settings.CACHE_TIMES['post'])
 
@@ -402,7 +412,7 @@ class HomeView(View):
 
 class ProjectsView(View):
 
-    def get(self, request, page=0, tag=None):
+    def get(self, request, page=0, tag=None, year=None, month=None):
         filter = { 'date_published__lte': timezone.now() }
         order_by = [ '-date_published' ]
 
@@ -468,7 +478,7 @@ class ThanksView(View):
 class PermalinkView(View):
 
     @method_decorator(check_honeypot)
-    def post(self, request, permalink_title=None):
+    def post(self, request, year=None, month=None, permalink_title=None):
         form = forms.CommentForm(request.POST, auto_id = "field-%s")
 
         found_post = models.Project.objects.filter(date_published__lte=timezone.now(), permalink_title=permalink_title).first()
@@ -478,7 +488,7 @@ class PermalinkView(View):
         if not found_post:
             found_post = models.Article.objects.filter(date_published__lte=timezone.now(), permalink_title=permalink_title).first()
             post_type = 'article'
-            permalink_url = 'articles_permalink'
+            permalink_url = 'article_permalink'
 
         if found_post:
             if form.is_valid():
@@ -514,7 +524,8 @@ class PermalinkView(View):
                         )
 
                     if comment:
-                        lib.cache.expire_view_cache(permalink_url, [found_post.permalink_title])
+                        # TODO
+                        # lib.cache.expire_view_cache(permalink_url, [found_post.permalink_title])
 
                         if remember_me:
                             request.session['comment_remember'] = {
@@ -536,7 +547,9 @@ class PermalinkView(View):
                         email.send()
 
                         comment_count = found_post.comment_set.count()
-                        url = reverse_lazy(permalink_url, args=[found_post.permalink_title])
+                        year = found_post.date_published.strftime('%Y')
+                        month = found_post.date_published.strftime('%m')
+                        url = reverse_lazy(permalink_url, args=[year, month, found_post.permalink_title])
 
                         return HttpResponseRedirect("%s#comment-%d" % (url, comment_count))
                     else:
@@ -556,7 +569,7 @@ class PermalinkView(View):
         else:
             raise Http404
 
-    def get(self, request, permalink_title=None):
+    def get(self, request, year=None, month=None, permalink_title=None):
         form = forms.CommentForm(auto_id = "field-%s")
         filter = {
             'date_published__lte': timezone.now(),

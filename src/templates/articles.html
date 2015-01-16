@@ -8,7 +8,7 @@
   <div class="row">
     <div class="col-md-8 col-sm-8">
       {% for post in articles %}
-        {% include "snippets/post_entry.html" with tag_url="article_tag" category_url="article_category" permalink_url="articles_permalink" %}
+        {% include "snippets/post_entry.html" with tag_url="article_tag" category_url="article_category" permalink_url="article_permalink" %}
       {% empty %}
         <h2>No articles found.</h2>
       {% endfor %}

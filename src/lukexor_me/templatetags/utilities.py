@@ -1,7 +1,7 @@
 from django import template
 from django.utils.http import urlquote
+from django.core.urlresolvers import reverse_lazy
 from lukexor_me import settings
-
 
 register = template.Library()
 
@@ -33,3 +33,21 @@ def create_share_url(type, base_url, url, text="Good read"):
         share_url = share_url + settings.URLS['share_google'] % (url)
 
     return share_url
+
+@register.simple_tag
+def create_permalink_url(post, permalink_url):
+    """
+    Returns a dated permalink string
+    """
+
+    year = None
+    month = None
+
+    if post.date_published:
+        year = post.date_published.strftime('%Y')
+        month = post.date_published.strftime('%m')
+
+    if year and month:
+        return reverse_lazy(permalink_url, args=[year, month, post.permalink_title])
+    else:
+        return reverse_lazy('')

@@ -1,10 +1,11 @@
+{% load utilities %}
 {% load markdown_deux_tags %}
 
 <article>
   <header>
     <h2 class="post-title">
       {% if post.website %}<a href="{{ post.website }}" title="{{ post.title }}">{{ post.title }}</a>
-      {% else %}<a href="{% url permalink_url post.permalink_title|lower|slugify %}" title="{{ post.title }}">{{ post.title }}</a>
+      {% else %}<a href="{% create_permalink_url post permalink_url %}" title="{{ post.title }}">{{ post.title }}</a>
       {% endif %}
     </h2>
 
@@ -13,7 +14,7 @@
         {% if post.date_published %}
           <li>{{ post.date_published|date:"l, M jS Y" }}</li>
         {% elif post.created %}
-          <li>{{ post.created|date:"l, M jS Y" }}</li>
+          <li>Not Published</li>
         {% endif %}
         {% if post.minutes_to_read > 0 %}<li>{{ post.time_to_read }}</li>{% endif %}
       </ul>
