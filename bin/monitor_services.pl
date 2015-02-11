@@ -15,24 +15,29 @@ SERVICE: foreach my $service (@services) {
 
     if (!$status) {
         push (@downservice, $service);
-        print "$service is down\n";
     }
 }
 
-open my $MAIL, "|/usr/sbin/sendmail -t"
-    or die "Failed to open sendmail: $!";
+if ( scalar @downservice > 1 )
+{
+    print "The following services are down: @downservice\n";
+    print "Sending email alert...\n";
 
-    print $MAIL "To: lukexor\@gmail.com\n";
-    print $MAIL "From: noreply\@lukexor.me\n";
-    print $MAIL "Subject: lukexor.me Service Alert\n";
-    print $MAIL "The following services are down:\n";
-    SERVICE: foreach my $service (@downservice)
-    {
-        print $MAIL "- $service\n";
-    }
+    open my $MAIL, "|/usr/sbin/sendmail -t"
+        or die "Failed to open sendmail: $!";
 
-close $MAIL
-    or die "Failed to close sendmail: $!";
+        print $MAIL "To: lukexor\@gmail.com\n";
+        print $MAIL "From: noreply\@lukexor.me\n";
+        print $MAIL "Subject: lukexor.me Service Alert\n";
+        print $MAIL "The following services are down:\n";
+        SERVICE: foreach my $service (@downservice)
+        {
+            print $MAIL "- $service\n";
+        }
+
+    close $MAIL
+        or die "Failed to close sendmail: $!";
+}
 
 print "Done\n\n";
 exit 0;
