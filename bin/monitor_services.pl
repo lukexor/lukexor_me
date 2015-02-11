@@ -9,6 +9,7 @@ my @downservice = ();
 my @services = ( 'redis-server', 'apache2', 'mysql' );
 
 print "Checking status of services: @services\n";
+my $timestamp = time;
 
 SERVICE: foreach my $service (@services) {
     my $status = `/bin/ps cax | /bin/grep $service`;
@@ -28,7 +29,7 @@ if ( scalar @downservice > 1 )
 
         print $MAIL "To: lukexor\@gmail.com\n";
         print $MAIL "From: noreply\@lukexor.me\n";
-        print $MAIL "Subject: lukexor.me Service Alert\n";
+        print $MAIL "Subject: lukexor.me Service Alert at $timestamp\n";
         print $MAIL "The following services are down:\n";
         SERVICE: foreach my $service (@downservice)
         {
