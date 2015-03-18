@@ -49,8 +49,8 @@ class ArticleMethodTests(TestCase):
 
     def test_get_absolute_url(self):
         article = models.Article.objects.get(title = "Test article")
-        year = article.created.strftime('%Y')
-        month = article.created.strftime('%m')
+        year = article.date_published.strftime('%Y')
+        month = article.date_published.strftime('%m')
 
         self.assertEqual(article.get_absolute_url(), reverse('article_permalink', args=[year, month, article.permalink_title]))
 
@@ -336,8 +336,8 @@ class ProjectMethodTests(TestCase):
 
     def test_get_absolute_url(self):
         project = models.Project.objects.get(title = "Test project")
-        year = project.created.strftime('%Y')
-        month = project.created.strftime('%m')
+        year = project.date_published.strftime('%Y')
+        month = project.date_published.strftime('%m')
 
         self.assertEqual(project.get_absolute_url(), reverse('project_permalink', args=[year, month, project.permalink_title]))
 
