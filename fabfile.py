@@ -8,11 +8,15 @@ def prepare():
     local('git merge origin/develop')
     local('git push origin master')
 
-def deploy():
+def update():
     local('git pull')
     local('pip install --upgrade -r src/requirements.txt')
     local('python src/manage.py migrate')
+
+def test():
     local('python src/manage.py test lukexor_me')
+
+def deploy():
     local('python src/manage.py collectstatic --noinput --clear --link')
     local('echo "select 3\nflushdb" | redis-cli')
     local('echo "select 4\nflushdb" | redis-cli')
