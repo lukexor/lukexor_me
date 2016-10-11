@@ -22,3 +22,7 @@ def deploy():
     local('echo "select 4\nflushdb" | redis-cli')
     local('sudo service apache2 graceful')
     local('python src/manage.py ping_google "/sitemap.xml"')
+
+def clear_cache():
+    local('echo "select 3\nflushdb" | redis-cli')
+    local('echo "select 4\nflushdb" | redis-cli')
