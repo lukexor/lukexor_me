@@ -8,7 +8,10 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os
+import sys
 from django.core.wsgi import get_wsgi_application
 
+sys.path.append('/var/www/lukexor.me/public_html/src/')
+sys.path.append('/var/www/lukexor.me/public_html/src/lukexor_me')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lukexor_me.settings")
 application = get_wsgi_application()
