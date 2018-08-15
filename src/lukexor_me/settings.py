@@ -187,8 +187,8 @@ PAGE_LIMITS = {
 }
 AVG_WPM_READING_SPEED = 120.0
 
-HONEYPOT_FIELD_NAME = 'homepage'
-HONEYPOT_VALUE = 'https://'
+HONEYPOT_FIELD_NAME = 'last_name'
+HONEYPOT_VALUE = ''
 
 # Global vars
 GA_CODE = '''
