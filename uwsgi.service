@@ -3,12 +3,11 @@ Description=uWSGI Emperor
 After=syslog.target
 
 [Service]
-ExecStart=/usr/bin/uwsgi --emperor /etc/uwsgi/vassals --uid www --gid www --master --pidfile /var/run/uwsgi.pid
+ExecStart=/usr/bin/uwsgi --emperor /etc/uwsgi/vassals --uid caeledh --gid caeledh --master --pidfile /var/run/uwsgi.pid --logto /home/caeledh/www/log/uwsgi.log
 Type=notify
 PIDFile=/var/run/uwsgi.pid
 Restart=always
 KillSignal=SIGQUIT
-StandardError=syslog
 NotifyAccess=all
 
 [Install]
