@@ -320,7 +320,7 @@ class ContactView(View):
             recipients = [settings.STRINGS['admin_email']]
 
             date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            subject = "New message from %s on lukexor.me at: %s" % (name, date)
+            subject = "New message from %s on lukeworks.tech at: %s" % (name, date)
             message = message + "\n\nAt: " + date
 
             email = EmailMessage(subject, message, sender, recipients, headers={'Reply-To': sender})

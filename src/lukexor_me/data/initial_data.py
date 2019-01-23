@@ -40,7 +40,7 @@ author = model_factory.create_user(
     email = "lukexor@gmail.com",
     defaults = {
         'full_name': "Lucas Petherbridge",
-        'website': "http://lukexor.me/",
+        'website': "https://lukeworks.tech/",
         'gravatar': "https://gravatar.com/avatar/e42eb8d925b249e73c1ca53154e38b14?s=100&r=pg&d=mm",
         'phone': "3104863143",
     }
@@ -74,7 +74,7 @@ project = model_factory.create_project(
     permalink_title = "mindyou",
     defaults = {
         'description': "<p><strong>MindYou</strong>&nbsp;is a feature-packed task management system for Mac, iPhone and iPad.</p>\n<p>MindYou takes the most useful ideas from top productivity methodologies and&nbsp;combines them together into a single digital platform that can keep up with you wherever you are, with whatever you're doing. You'll get more done in less time than you ever thought possible by keeping your mind on your tasks to keep your tasks off your mind.</p>\n<p>Still under development.</p>\n<p>Based on&nbsp;<a title=\"Getting Things Done\" href=\"http://gettingthingsdone.com/\">Getting Things Done</a>&nbsp;by David Allen,&nbsp;<a title=\"Bullet Journal\" href=\"http://bulletjournal.com/\">Bullet Journal</a>&nbsp;by Ryder Carroll, and Kanban methodologies.</p>",
-        'website': "http://mindyou.me/",
+        'website': "https://mindyou.me/",
         'date_started': "2014-11-18 21:24:18",
         'date_published': "2014-11-18 21:24:20",
     }

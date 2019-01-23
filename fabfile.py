@@ -4,8 +4,8 @@ import sys
 from fabric.api import local
 from fabric.api import lcd
 
-sys.path.append('/home/caeledh/www/lukexor.me/public_html/src/')
-sys.path.append('/home/caeledh/www/lukexor.me/public_html/src/lukexor_me')
+sys.path.append('/home/caeledh/www/lukeworks.tech/public_html/src/')
+sys.path.append('/home/caeledh/www/lukeworks.tech/public_html/src/lukexor_me')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lukexor_me.settings")
 
 def read_env():

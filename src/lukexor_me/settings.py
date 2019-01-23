@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
     u'lukexor.me',
     u'lucaspetherbridge.com',
     u'mindyou.me',
+    u'lukeworks.tech',
 ]
 
 AUTH_USER_MODEL = 'lukexor_me.CustomUser'
@@ -224,7 +225,7 @@ STRINGS = {
     'homepage_keywords': "lucas petherbridge, petherbridge, programming, software development, code",
     'no_reply_email': 'lukexor.me <noreply@lukexor.me>',
     'reverse_email': 'moc.liamg@roxekul',
-    'site_subtitle': 'Developer. Technology Enthusiast.',
+    'site_subtitle': 'Software Engineer. Technology Enthusiast.',
     'twitter': 'lukexor',
 }
 LOGGING = {

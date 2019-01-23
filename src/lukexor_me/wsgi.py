@@ -18,7 +18,7 @@ def read_env():
     directory.
     """
     try:
-        with open('/home/caeledh/www/lukexor.me/public_html/.env') as f:
+        with open('/home/caeledh/www/lukeworks.tech/public_html/.env') as f:
             content = f.read()
     except IOError:
         content = ''
@@ -35,8 +35,8 @@ def read_env():
                 val = re.sub(r'\\(.)', r'\1', m3.group(1))
             os.environ.setdefault(key, val)
 
-sys.path.append('/home/caeledh/www/lukexor.me/public_html/src/')
-sys.path.append('/home/caeledh/www/lukexor.me/public_html/src/lukexor_me')
+sys.path.append('/home/caeledh/www/lukeworks.tech/public_html/src/')
+sys.path.append('/home/caeledh/www/lukeworks.tech/public_html/src/lukexor_me')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lukexor_me.settings")
 read_env()
 application = get_wsgi_application()
