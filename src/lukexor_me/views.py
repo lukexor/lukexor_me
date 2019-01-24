@@ -93,6 +93,7 @@ def project_view(request, project, form):
         'projects': [project],
         'show_comments': True,
         'tags': get_project_tags(),
+        'website': '',
     })
 
 def article_view(request, article, form):
@@ -117,6 +118,7 @@ def article_view(request, article, form):
         'page_title': build_page_title(article.title),
         'show_comments': True,
         'tags': get_article_tags(),
+        'website': '',
     })
 
 def datify_archive(entries):
@@ -173,31 +175,31 @@ def datify_archive(entries):
 class BadRequestView(View):
 
     def get(self, request):
-        return render(request, "400.html", {'page_title': build_page_title('400 FLAGRANT SYSTEM ERROR')})
+        return render(request, "400.html", {'page_title': build_page_title('400 FLAGRANT SYSTEM ERROR'), 'page_keywords': '', 'website': ''})
 
 
 class PermissionDeniedView(View):
 
     def get(self, request):
-        return render(request, "403.html", {'page_title': build_page_title('403 FLAGRANT SYSTEM ERROR')})
+        return render(request, "403.html", {'page_title': build_page_title('403 FLAGRANT SYSTEM ERROR'), 'page_keywords': '', 'website': ''})
 
 
 class PageNotFoundView(View):
 
     def get(self, request):
-        return render(request, "404.html", {'page_title': build_page_title('404 FLAGRANT SYSTEM ERROR')})
+        return render(request, "404.html", {'page_title': build_page_title('404 FLAGRANT SYSTEM ERROR'), 'page_keywords': '', 'website': ''})
 
 
 class ServerErrorView(View):
 
     def get(self, request):
-        return render(request, "500.html", {'page_title': build_page_title('500 FLAGRANT SYSTEM ERROR')})
+        return render(request, "500.html", {'page_title': build_page_title('500 FLAGRANT SYSTEM ERROR'), 'page_keywords': '', 'website': ''})
 
 
 class AboutView(View):
 
     def get(self, request):
-        return render(request, "about.html", {'page_title': build_page_title('About')})
+        return render(request, "about.html", {'page_title': build_page_title('About'), 'page_keywords': '', 'website': ''})
 
 
 class ArticlesView(View):
@@ -304,6 +306,8 @@ class ArticlesView(View):
             'page_description': "Articles :: " + settings.STRINGS['full_name'],
             'prev_page_url': prev_page_url,
             'tags': get_article_tags(),
+            'page_keywords': '',
+            'website': '',
         })
 
 
@@ -328,13 +332,13 @@ class ContactView(View):
 
             return HttpResponseRedirect('%s' % (reverse_lazy('thanks')))
         else:
-            return render(request, "contact.html", {'form': form, 'page_title': build_page_title('Contact')})
+            return render(request, "contact.html", {'form': form, 'page_title': build_page_title('Contact'), 'page_keywords': '', 'website': ''})
 
     def get(self, request):
 
         form = forms.ContactForm(auto_id = "field-%s")
 
-        return render(request, "contact.html", {'form': form, 'page_title': build_page_title('Contact')})
+        return render(request, "contact.html", {'form': form, 'page_title': build_page_title('Contact'), 'page_keywords': '', 'website': ''})
 
 
 class SearchArticlesView(View):
@@ -398,6 +402,8 @@ class SearchArticlesView(View):
             'prev_page_url': prev_page_url,
             'query': query,
             'results_string': results_string,
+            'page_keywords': '',
+            'website': '',
         })
 
 class HomeView(View):
@@ -407,6 +413,7 @@ class HomeView(View):
             'page_title': build_page_title(settings.STRINGS['site_subtitle']),
             'page_description': settings.STRINGS['homepage_description'],
             'page_keywords': settings.STRINGS['homepage_keywords'],
+            'website': '',
         })
 
 
@@ -466,13 +473,15 @@ class ProjectsView(View):
             'prev_page_url': prev_page_url,
             'projects': projects,
             'tags': get_project_tags(),
+            'page_keywords': '',
+            'website': '',
         })
 
 
 class ThanksView(View):
 
     def get(self, request):
-        return render(request, "thanks.html", {'page_title': build_page_title('Thanks')})
+        return render(request, "thanks.html", {'page_title': build_page_title('Thanks'), 'page_keywords': '', 'website': ''})
 
 
 class PermalinkView(View):

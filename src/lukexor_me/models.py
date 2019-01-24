@@ -36,7 +36,7 @@ class Article(models.Model):
     minutes_to_read = models.PositiveIntegerField(default=0)
     date_published = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now, auto_now=True)
+    updated = models.DateTimeField(default=timezone.now)
 
     def comment_count(self):
         return self.comment_set.all().count()
@@ -77,7 +77,7 @@ class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45, unique=True)
     created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now, auto_now=True)
+    updated = models.DateTimeField(default=timezone.now)
 
     class Meta:
         verbose_name_plural = 'categories'
@@ -92,7 +92,7 @@ class Comment(models.Model):
     project = models.ForeignKey('Project', blank=True, null=True)
     body = models.TextField()
     created = models.DateTimeField('date posted', default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now, auto_now=True)
+    updated = models.DateTimeField(default=timezone.now)
 
     def __unicode__(self):
         return "%s - %s" % (strip_tags(self.body), self.user.get_full_name())
@@ -150,7 +150,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
                                     help_text='Designates whether this user should be treated as '
                                     'active. Unselect this instead of deleting accounts.')
     created = models.DateTimeField('date added', default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now, auto_now=True)
+    updated = models.DateTimeField(default=timezone.now)
 
     objects = CustomUserManager()
 
@@ -194,7 +194,7 @@ class Project(models.Model):
     date_completed = models.DateTimeField(blank=True, null=True)
     date_published = models.DateTimeField(blank=True, null=True)
     created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now, auto_now=True)
+    updated = models.DateTimeField(default=timezone.now)
 
     def get_absolute_url(self):
         year = None
@@ -240,7 +240,7 @@ class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45, unique=True)
     created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now, auto_now=True)
+    updated = models.DateTimeField(default=timezone.now)
 
     def __unicode__(self):
         return self.name
@@ -250,7 +250,7 @@ class Tag(models.Model):
     tag_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45, unique=True)
     created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now, auto_now=True)
+    updated = models.DateTimeField(default=timezone.now)
 
     def __unicode__(self):
         return self.name

@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.utils.http import urlquote
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 from lib import model_factory
 from lukexor_me import models
@@ -21,7 +22,7 @@ class ArticleMethodTests(TestCase):
                 'body': "Test content",
                 'category': prog_category[0],
                 'minutes_to_read': 5,
-                'date_published': '2015-01-01',
+                'date_published': timezone.now(),
             }
         )
 
@@ -209,7 +210,7 @@ class CommentMethodTests(TestCase):
                 'body': "Test content",
                 'category': prog_category[0],
                 'minutes_to_read': 5,
-                'date_published': '2015-01-01',
+                'date_published': timezone.now(),
             }
         )
 
@@ -308,7 +309,7 @@ class ProjectMethodTests(TestCase):
                 'client': client[0],
                 'body': "Test content",
                 'website': 'http://website.com/',
-                'date_published': '2015-01-01',
+                'date_published': timezone.now(),
             }
         )
 

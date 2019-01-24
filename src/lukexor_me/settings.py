@@ -23,7 +23,6 @@ SECRET_KEY = os.environ['P_SECRET']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-TEMPLATE_DEBUG = False
 
 SITE_ID = 1
 DOMAIN_NAME = 'lukexor.me'
@@ -58,7 +57,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware', # This must be first on the list
-    'htmlmin.middleware.HtmlMinifyMiddleware', # After UpdateCacheMiddleware'
+#    'htmlmin.middleware.HtmlMinifyMiddleware', # After UpdateCacheMiddleware'
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -66,7 +65,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware', # This must be last
-    'htmlmin.middleware.MarkRequestMiddleware', # Actually this comes after FetchFromCacheMiddleware
+#    'htmlmin.middleware.MarkRequestMiddleware', # Actually this comes after FetchFromCacheMiddleware
 )
 
 ROOT_URLCONF = 'lukexor_me.urls'
@@ -107,9 +106,9 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesSto
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),  # This is where static files will be collected from
 )
-STATICFILES_FINDERS = global_settings.STATICFILES_FINDERS + (
+STATICFILES_FINDERS = global_settings.STATICFILES_FINDERS + [
     'compressor.finders.CompressorFinder',
-)
+]
 
 COMPRESS_PARSER = 'compressor.parser.BeautifulSoupParser'
 COMPRESS_CSS_FILTERS = [
@@ -147,13 +146,28 @@ CACHE_TIMES = {
     'static': 60 * 60 * 24 * 30, # 1 month
 }
 
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, "templates"),
-)
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'lukexor_me.context_processor.GlobalVars',
-    'lukexor_me.context_processor.BaseURL',
-)
+TEMPLATES = [
+  {
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS' : [
+       os.path.join(BASE_DIR, "templates")
+    ],
+    'APP_DIRS': True,
+    'OPTIONS': {
+      'context_processors': [
+        'django.contrib.auth.context_processors.auth',
+        'django.template.context_processors.debug',
+        'django.template.context_processors.i18n',
+        'django.template.context_processors.media',
+        'django.template.context_processors.static',
+        'django.template.context_processors.tz',
+        'django.contrib.messages.context_processors.messages',
+        'lukexor_me.context_processor.GlobalVars',
+        'lukexor_me.context_processor.BaseURL',
+      ],
+    },
+  }
+]
 
 MARKDOWN_DEUX_STYLES = {
     "default": {
@@ -199,11 +213,11 @@ GA_CODE = '''
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', os.environ['GA_CODE'], 'lukexor.me');
+  ga('create', '%s', 'lukexor.me');
   ga('require', 'linkid', 'linkid.js');
   ga('send', 'pageview');
 </script>
-'''
+''' % (os.environ['GA_CODE'])
 URLS = {
     'linkedin': 'https://linkedin.com/in/lucaspetherbridge',
     'github': 'https://github.com/lukexor',
@@ -217,14 +231,14 @@ URLS = {
     'feedburner': 'https://feeds.feedburner.com/LucasPetherbridge',
 }
 STRINGS = {
-    'admin_email': 'Lucas Petherbridge <lukexor@gmail.com>',
-    'plain_email': 'lukexor@gmail.com',
+    'admin_email': 'Lucas Petherbridge <me@lukeworks.tech>',
+    'plain_email': 'me@lukeworks.tech',
     'copyright': 'Copyright (c) - Lucas Petherbridge',
     'full_name': 'Lucas Petherbridge',
     'homepage_description': "My name is Lucas Petherbridge. I'm a programmer and technology enthusiast. I love to code and write articles about topics that intrigue and inspire me.",
     'homepage_keywords': "lucas petherbridge, petherbridge, programming, software development, code",
     'no_reply_email': 'lukexor.me <noreply@lukexor.me>',
-    'reverse_email': 'moc.liamg@roxekul',
+    'reverse_email': 'hcet.skrowekul@em',
     'site_subtitle': 'Software Engineer. Technology Enthusiast.',
     'twitter': 'lukexor',
 }

@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.views.decorators.cache import cache_page
@@ -14,8 +14,7 @@ sitemaps = {
     'project_tags': site_maps.ProjectTagSiteMap,
 }
 
-urlpatterns = patterns(
-    '',
+urlpatterns = [
     url(r'^$', cache_page(settings.CACHE_TIMES['static'])(views.HomeView.as_view()), name='home'),
 
     url(r'^sitemap\.xml$', cache_page(settings.CACHE_TIMES['post'])(sitemap), {'sitemaps': sitemaps}, name='sitemap'),
@@ -51,4 +50,4 @@ urlpatterns = patterns(
 
     url(r'^siteadmin/doc/', include('django.contrib.admindocs.urls'), name='admin_doc'),
     url(r'^siteadmin/', include(admin.site.urls), name='admin')
-)
+]

@@ -53,12 +53,12 @@ def test():
 def deploy():
     read_env()
     local('python src/manage.py collectstatic --noinput --clear --link')
-    local('echo "select 3\nflushdb" | redis-cli')
-    local('echo "select 4\nflushdb" | redis-cli')
-    local('sudo systemctl restart nginx')
+    clear_cache()
+    local('sudo systemctl restart nginx uwsgi')
+
+def update_sitemap():
     local('python src/manage.py ping_google "/sitemap.xml"')
 
 def clear_cache():
-    read_env()
     local('echo "select 3\nflushdb" | redis-cli')
     local('echo "select 4\nflushdb" | redis-cli')
