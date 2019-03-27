@@ -1,2 +1,4 @@
 * text=auto
 static/* linguist-vendored
+src/static/* linguist-vendored
+src/templates/* linguist-vendored
