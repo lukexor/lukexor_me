@@ -25,10 +25,13 @@ SECRET_KEY = os.environ['P_SECRET']
 DEBUG = False
 
 SITE_ID = 1
-DOMAIN_NAME = 'lukexor.me'
-SITE_NAME = 'lukexor.me'
+DOMAIN_NAME = 'lukeworks.tech'
+SITE_NAME = 'lukeworks.tech'
 
 ALLOWED_HOSTS = [
+    u'localhost',
+    u'127.0.0.1',
+    u'dev.lukeworks.tech',
     u'lukexor.me',
     u'lucaspetherbridge.com',
     u'mindyou.me',
@@ -141,8 +144,7 @@ CACHES = {
 }
 CACHE_TIMES = {
     'labels': 60 * 60 * 24, # 1 day
-    # 'post': 60 * 60 * 24 * 7, # 1 week
-    'post': 0, # TODO Temp set as 0 until I can figure out how to clear it reliably
+    'post': 60 * 60 * 24 * 7, # 1 week
     'static': 60 * 60 * 24 * 30, # 1 month
 }
 
@@ -213,7 +215,7 @@ GA_CODE = '''
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', '%s', 'lukexor.me');
+  ga('create', '%s', 'lukeworks.tech');
   ga('require', 'linkid', 'linkid.js');
   ga('send', 'pageview');
 </script>
@@ -237,7 +239,7 @@ STRINGS = {
     'full_name': 'Lucas Petherbridge',
     'homepage_description': "My name is Lucas Petherbridge. I'm a programmer and technology enthusiast. I love to code and write articles about topics that intrigue and inspire me.",
     'homepage_keywords': "lucas petherbridge, petherbridge, programming, software development, code",
-    'no_reply_email': 'lukexor.me <noreply@lukexor.me>',
+    'no_reply_email': 'noreply <noreply@lukeworks.tech>',
     'reverse_email': 'hcet.skrowekul@em',
     'site_subtitle': 'Software Engineer. Technology Enthusiast.',
     'twitter': 'lukexor',

@@ -549,7 +549,7 @@ class PermalinkView(View):
                         date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
                         sender = "%s <%s>" %(name, email)
                         recipients = [settings.STRINGS['admin_email']]
-                        subject = "New comment from %s on lukexor.me for %s at: %s" % (name, found_post.title, date)
+                        subject = "New comment from %s on lukeworks.tech for %s at: %s" % (name, found_post.title, date)
                         message = message + "\n\nAt: " + date
 
                         email = EmailMessage(subject, message, sender, recipients, headers={'Reply-To': sender})

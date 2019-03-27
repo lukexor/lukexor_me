@@ -10,7 +10,9 @@ TEMPLATE_DEBUG = True
 WSGI_APPLICATION = 'lukexor_me.wsgi_dev.application'
 
 ALLOWED_HOSTS = [
-    'localhost',
+    u'127.0.0.1',
+    u'localhost',
+    u'dev.lukeworks.tech',
 ]
 
 CACHES = {
