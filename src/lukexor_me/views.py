@@ -25,7 +25,11 @@ def get_article_tags():
     tags = cache.get('article_tags')
 
     if not tags:
-        tags = models.Tag.objects.filter(article__isnull=False).distinct()
+        filter = {
+            'article__isnull': False,
+            'article__date_published__lte': timezone.now(),
+        }
+        tags = models.Tag.objects.filter(**filter).distinct()
         cache.set('article_tags', tags, settings.CACHE_TIMES['labels'])
 
     return tags
@@ -34,7 +38,11 @@ def get_project_tags():
     tags = cache.get('project_tags')
 
     if not tags:
-        tags = models.Tag.objects.filter(project__isnull=False).distinct()
+        filter = {
+            'project__isnull': False,
+            'project__date_published__lte': timezone.now(),
+        }
+        tags = models.Tag.objects.filter(**filter).distinct()
         cache.set('project_tags', tags, settings.CACHE_TIMES['labels'])
 
     return tags
