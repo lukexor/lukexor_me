@@ -15,7 +15,7 @@ django-htmlmin==0.10.0
 django-markdown-deux==1.0.5
 django-redis==4.10.0
 docutils==0.14
-ecdsa==0.13
+ecdsa==0.13.3
 enum34==1.1.6
 fabric==2.4.0
 html5lib==1.0.1
