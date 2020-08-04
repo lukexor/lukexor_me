@@ -153,7 +153,7 @@ class ProjectAdmin(admin.ModelAdmin):
             'fields': ('created', 'updated'),
         })
     )
-    readonly_fields = ('updated',)
+    # readonly_fields = ('updated',)
     formfield_overrides = {
         db_models.ManyToManyField: { 'widget': SelectMultiple(attrs={'size':'20'})},
         db_models.CharField: {'widget': TextInput(attrs={'size':'100'})},

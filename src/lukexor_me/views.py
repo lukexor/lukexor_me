@@ -216,10 +216,10 @@ class ArticlesView(View):
         filter = { 'date_published__lte': timezone.now() }
         order_by = [ '-date_published' ]
 
-        # Display unpublished articles to admin users
-        if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
-            filter = {}
-            order_by = [ '-created', '-date_published' ]
+        # # Display unpublished articles to admin users
+        # if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
+        #     filter = {}
+        #     order_by = [ '-created', '-date_published' ]
 
         all_articles = models.Article.objects.filter(**filter).order_by(*order_by)
         articles_archive = datify_archive(all_articles)
@@ -431,9 +431,9 @@ class ProjectsView(View):
         filter = { 'date_published__lte': timezone.now() }
         order_by = [ '-date_published' ]
 
-        if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
-            filter = {}
-            order_by = [ '-created', '-date_published' ]
+        # if request.user.is_authenticated() and request.user.has_perm('lukexor_me.change_article'):
+        #     filter = {}
+        #     order_by = [ '-created', '-date_published' ]
 
         all_projects = models.Project.objects.filter(**filter).order_by(*order_by)
 

@@ -24,6 +24,9 @@ SECRET_KEY = os.environ['P_SECRET']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'SameSite'
+
 SITE_ID = 1
 DOMAIN_NAME = 'lukeworks.tech'
 SITE_NAME = 'lukeworks.tech'
@@ -132,7 +135,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'localhost:6379:3',
+        'LOCATION': 'redis://localhost:6379:3',
         'KEY_PREFIX': SITE_NAME,
         'OPTIONS': {
             'DB': 3,
@@ -144,7 +147,7 @@ CACHES = {
 }
 CACHE_TIMES = {
     'labels': 60 * 60 * 24, # 1 day
-    'post': 60 * 60 * 24 * 7, # 1 week
+    'post': 0, # 60 * 60 * 24 * 7, # 1 week
     'static': 60 * 60 * 24 * 30, # 1 month
 }
 
