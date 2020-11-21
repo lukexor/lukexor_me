@@ -5,7 +5,7 @@ BeautifulSoup==3.2.1
 beautifulsoup4==4.7.1
 cffi==1.11.5
 Click==7.0
-cryptography==2.5
+cryptography==3.2
 cssmin==0.2.0
 Django==1.11.29
 django-appconf==1.0.2
