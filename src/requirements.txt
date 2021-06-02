@@ -21,7 +21,7 @@ fabric==2.4.0
 html5lib==1.0.1
 invoke==1.2.0
 ipaddress==1.0.22
-markdown2==2.3.7
+markdown2==2.4.0
 MySQL-python==1.2.5
 paramiko==2.4.2
 pip-tools==3.2.0
